@@ -11,6 +11,7 @@ const Navbar = () => {
 			<NavLink className="logo" to="/">
 				App name
 			</NavLink>
+			<NavLink to="/markets">All Markets</NavLink>
 			{isLoggedIn && (
 				<>
 					<NavLink to="/profile">{currentUser.email}</NavLink>
