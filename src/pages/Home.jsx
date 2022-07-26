@@ -1,9 +1,10 @@
 import React from "react";
+import Markets from "./Markets/Markets"
 
 const Home = () => {
 	return (
 		<div>
-			<h1>Welcome 🏡</h1>
+			<Markets />
 		</div>
 	);
 };
