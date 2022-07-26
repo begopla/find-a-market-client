@@ -33,7 +33,7 @@ const UserWrapper = ({ children }) => {
 		authenticateUser()
 	}, [])
 
-	// the useCallback hook allow us to save (memoize) those functions so that they don't need to be created everytime we rerender
+	// the useCallback hook allow us to save (memorize) those functions so that they don't need to be created everytime we rerender
 	const removeUser = useCallback(() => {
 		removeToken()
 		authenticateUser()
