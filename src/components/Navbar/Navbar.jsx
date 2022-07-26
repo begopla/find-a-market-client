@@ -97,6 +97,7 @@ export default function Navbar() {
 											<br />
 											<Center>
 												<Avatar
+													//bg='teal.500'
 													size={'2xl'}
 													src={currentUser.imgUrl}
 												/>

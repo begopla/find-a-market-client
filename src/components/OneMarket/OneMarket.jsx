@@ -2,8 +2,8 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { Center, Box, Image, Badge } from '@chakra-ui/react';
 
-function OneMarket({ name, _id, type }) {
-    const imageUrl = 'https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png';
+function OneMarket({ name, _id, type, imageUrl }) {
+    //const imageUrl = 'https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png';
 
     return (
         <Center>

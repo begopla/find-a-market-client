@@ -7,7 +7,7 @@ const API_URL = process.env.REACT_APP_API_URL
 const Markets = () => {
 	const [markets, setMarkets] = useState([])
 	const getAllMarkets = async () => {
-		const response = await axios.get(`${API_URL}/markets`)
+		const response = await axios.get(`${API_URL}/`)
 		// console.log(response)
 		setMarkets(response.data)
 	}
@@ -17,7 +17,7 @@ const Markets = () => {
 
 	return (
 		<div className="ListMarkets">
-			<h2>Markets display !</h2>
+			
 			<div className="container">
 				{markets.map((market) => {
 					//console.log(market)
