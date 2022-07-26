@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom"
-import { ChakraProvider } from '@chakra-ui/react'
 import Navbar from "./components/Navbar/Navbar"
 import Home from "./pages/Home"
 import Signin from "./pages/Signin"
@@ -11,7 +10,6 @@ import Markets from "./pages/Markets/Markets"
 
 function App() {
 	return (
-		<ChakraProvider>
 			<div className="App">
 				<Navbar />
 				<Routes>
@@ -25,7 +23,6 @@ function App() {
 					<Route path="*" element={<Oops />} />
 				</Routes>
 			</div>
-		</ChakraProvider>
 	)
 }
 
