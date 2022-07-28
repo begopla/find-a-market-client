@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import "./Markets.css"
 import OneMarket from "../../components/OneMarket/OneMarket"
+import { SimpleGrid, Box } from '@chakra-ui/react';
 const API_URL = process.env.REACT_APP_API_URL
 
 const Markets = () => {
@@ -16,22 +17,18 @@ const Markets = () => {
 	}, [])
 
 	return (
-		<div className="ListMarkets">
-			
-			<div className="container">
-				{markets.map((market) => {
-					//console.log(market)
-					return (
-						<OneMarket
-							{...market}
-							key={market._id}
-							id={market._id}
-							name={market.name}
-						/>
-					)
-				})}
-			</div>
-		</div>
+		<SimpleGrid minChildWidth='sm' spacing='0' className="listMarkets" marginBottom={'4rem'}>
+			{markets.map((market) => {
+				return (
+					<OneMarket
+						{...market}
+						key={market._id}
+						id={market._id}
+						name={market.name}
+					/>
+				)
+			})}
+		</SimpleGrid>
 	)
 }
 

@@ -30,12 +30,11 @@ import "./Navbar.css"
 
 export default Navbar*/
 
-import { ReactNode } from 'react';
+//import { ReactNode } from 'react';
 import {
 	Box,
 	Flex,
 	Avatar,
-	Link,
 	Button,
 	Menu,
 	MenuButton,
@@ -67,13 +66,12 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 export default function Navbar() {
 	const { isLoggedIn, currentUser, removeUser } = useAuth()
 	const { colorMode, toggleColorMode } = useColorMode();
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	//const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<>
-			<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+			<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} pos={'fixed'} width={'100%'}>
 				<Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
 					<NavLink to='/'>Logo</NavLink>
-					<NavLink to="/markets">All Markets</NavLink>
 					<Flex alignItems={'center'}>
 						<Stack direction={'row'} spacing={7}>
 							<Button onClick={toggleColorMode}>
@@ -90,27 +88,26 @@ export default function Navbar() {
 											minW={0}>
 											<Avatar
 												size={'sm'}
-												src={currentUser.imgUrl}
+												src={currentUser.profilePicture}
 											/>
 										</MenuButton>
 										<MenuList alignItems={'center'}>
 											<br />
 											<Center>
 												<Avatar
-													//bg='teal.500'
 													size={'2xl'}
-													src={currentUser.imgUrl}
+													src={currentUser.profilePicture}
 												/>
 											</Center>
 											<br />
 											<Center>
-												<p>{currentUser.email}</p>
+												<p>{currentUser.name}</p>
 											</Center>
 											<br />
 											<MenuDivider />
 											<MenuItem><NavLink to='/profile'>Your Profile</NavLink></MenuItem>
 											<MenuItem>Account Settings</MenuItem>
-											<MenuItem  onClick={removeUser}>Logout</MenuItem>
+											<MenuItem onClick={removeUser}>Logout</MenuItem>
 										</MenuList>
 									</Menu>
 								</>
