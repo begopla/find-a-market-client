@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import "./Markets.css"
 import OneMarket from "../../components/OneMarket/OneMarket"
-import { SimpleGrid, Box } from '@chakra-ui/react';
+import { SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 const API_URL = process.env.REACT_APP_API_URL
 
 const Markets = () => {
@@ -17,7 +17,12 @@ const Markets = () => {
 	}, [])
 
 	return (
-		<SimpleGrid minChildWidth='sm' spacing='0' className="listMarkets" marginBottom={'4rem'}>
+		<SimpleGrid
+			minChildWidth='sm'
+			spacing='0'
+			className="listMarkets"
+			marginBottom={'4rem'}
+			bg={useColorModeValue('gray.200', 'gray.700')}>
 			{markets.map((market) => {
 				return (
 					<OneMarket
