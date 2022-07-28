@@ -61,7 +61,7 @@ export default function Navbar() {
 											minW={0}>
 											<Avatar
 												size={'sm'}
-												src={currentUser.imgUrl}
+												src={currentUser.profilePicture}
 											/>
 										</MenuButton>
 										<MenuList alignItems={'center'}>
@@ -70,7 +70,7 @@ export default function Navbar() {
 												<Avatar
 													//bg='teal.500'
 													size={'2xl'}
-													src={currentUser.imgUrl}
+													src={currentUser.profilePicture}
 												/>
 											</Center>
 											<br />
