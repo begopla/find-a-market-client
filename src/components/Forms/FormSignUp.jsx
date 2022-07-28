@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 import service from "../../services/apiHandler"
 import './Form.css' 
-import { Flex, Stack, Center, Heading, Box, InputGroup, InputLeftElement, Input, chakra, InputRightElement, Button} from '@chakra-ui/react'
+import { Flex, Stack, Center, Heading, Box, InputGroup, Input, InputRightElement, Button, useColorModeValue} from '@chakra-ui/react'
 
 
 
@@ -28,7 +28,7 @@ const FormSignUp = () => {
 		<Flex flexDirection="column"
 		width="100wh"
 		height="95vh"
-		backgroundColor="gray.200"
+		backgroundColor={useColorModeValue("gray.200",'gray.700')}
 		justifyContent="center"
 		alignItems="center">
 		<Stack
@@ -43,7 +43,7 @@ const FormSignUp = () => {
 			<Stack
               spacing={4}
               p="1rem"
-              backgroundColor="whiteAlpha.900"
+              backgroundColor={useColorModeValue("whiteAlpha.900",'gray.900')}
               boxShadow="md"
             >
 			<Center>

@@ -1,35 +1,6 @@
 import { NavLink } from "react-router-dom"
 import useAuth from "../../context/auth/useAuth"
 import "./Navbar.css"
-
-/*const Navbar = () => {
-	// We are getting the user and some functions from the context
-	const { isLoggedIn, currentUser, removeUser } = useAuth()
-	// console.log(currentUser)
-	return (
-		<nav className="Navbar">
-			<NavLink className="logo" to="/">
-				App name
-			</NavLink>
-			<NavLink to="/markets">All Markets</NavLink>
-			{isLoggedIn && (
-				<>
-					<NavLink to="/profile">{currentUser.email}</NavLink>
-					<button onClick={removeUser}>Log-Out</button>
-				</>
-			)}
-			{!isLoggedIn && (
-				<>
-					<NavLink to="/signin">Log in</NavLink>
-					<NavLink to="/signup">Sign Up</NavLink>
-				</>
-			)}
-		</nav>
-	)
-}
-
-export default Navbar*/
-
 import { ReactNode } from 'react';
 import {
 	Box,
@@ -90,7 +61,7 @@ export default function Navbar() {
 											minW={0}>
 											<Avatar
 												size={'sm'}
-												src={currentUser.imgUrl}
+												src={currentUser.profilePicture}
 											/>
 										</MenuButton>
 										<MenuList alignItems={'center'}>
@@ -99,7 +70,7 @@ export default function Navbar() {
 												<Avatar
 													//bg='teal.500'
 													size={'2xl'}
-													src={currentUser.imgUrl}
+													src={currentUser.profilePicture}
 												/>
 											</Center>
 											<br />

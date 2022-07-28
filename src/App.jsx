@@ -7,6 +7,7 @@ import Profile from "./pages/Profile"
 import Oops from "./pages/Oops"
 import PrivateRoute from "./components/ProtectedRoute/PrivateRoute"
 import Markets from "./pages/Markets/Markets"
+import EditProfile from "./pages/EditProfile"
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 					<Route path="/markets" element={<Markets />} />
 					<Route element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
+						<Route path="/profile/edit" element={<EditProfile />} />
 					</Route>
 					<Route path="*" element={<Oops />} />
 				</Routes>

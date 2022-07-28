@@ -1,5 +1,4 @@
 import axios from "axios"
-
 // We can create an instance of axios and set it with some base values like the URL to our API.
 
 const service = axios.create({
@@ -25,6 +24,15 @@ service.signup = async (user) => {
 	} catch (error) {
 		errorHandler(error)
 	}
+}
+
+service.fileUpload =async (picture)=>{
+   try {
+	const {data} = await service.put('/profile',picture)
+	return data
+   } catch (error) {
+	errorHandler(error)
+   }
 }
 
 service.signin = async (user) => {
