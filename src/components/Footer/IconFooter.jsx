@@ -30,21 +30,20 @@ export default function IconFooter() {
         justify={'space-around'}
         align={'center'}>
         <Box as={'a'} href={'/search'}>
-          <VscSearch size={22}/>
+          <VscSearch size={22} />
         </Box>
         <Box as={'a'} href={'/favourites'} >
-          <VscHeart size={24}/>
+          <VscHeart size={24} />
         </Box>
         <Box as={'a'} href={'/signin'}>
-          <CgProfile size={24}/>
+          <CgProfile size={24} />
         </Box>
-        <Box as={'a'} href={'/discover'}>
-          <IoEarthOutline size={25}/>
+        <Box as={'a'} href={'/markets/discover'}>
+          <IoEarthOutline size={25} />
         </Box>
         <Box as={'a'} href={'#'}>
-          <BsThreeDots size={25}/>
+          <BsThreeDots size={25} />
         </Box>
-
       </Container>
     </Box>
   );

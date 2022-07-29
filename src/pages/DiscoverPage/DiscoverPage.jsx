@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
 import axios from "axios"
 import MarketInfo from "../../components/MarketInfo/MarketInfo"
 import { Box, Center, Image, Avatar, Text, Stack, Link, Flex, Badge } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons';
 const API_URL = process.env.REACT_APP_API_URL
 
-const MarketDetails = () => {
-    const [detailMarket, setDetailMarket] = useState({})
+const DiscoverPage = () => {
+    const [discoverMarket, setDiscoverMarket] = useState({})
     const [authorInfo, setAuthorInfo] = useState({})
-    const { marketId } = useParams()
 
-    const getOneMarket = async () => {
-        const { data } = await axios.get(`${API_URL}/markets/${marketId}`)
-        setDetailMarket(data)
+    const getRandomMarket = async () => {
+        const { data } = await axios.get(`${API_URL}/markets/discover`)
+        console.log(data);
+        setDiscoverMarket(data)
         setAuthorInfo(data.author)
     }
     useEffect(() => {
-        getOneMarket()
+        getRandomMarket()
     }, [])
 
     return (
@@ -28,11 +27,11 @@ const MarketDetails = () => {
                         boxSize='18rem'
                         w='100%'
                         objectFit='cover'
-                        src={detailMarket.imageUrl}
-                        alt={detailMarket.name} />
+                        src={discoverMarket.imageUrl}
+                        alt={discoverMarket.name} />
                 </Center>
                 <Stack spacing={2} px={'2rem'}>
-                    <Text fontSize='3xl'>{detailMarket.name}</Text>
+                    <Text fontSize='3xl'>{discoverMarket.name}</Text>
                     <Flex alignItems='baseline' justifyContent='space-between'>
                         <Box as='span' color='gray.600' fontSize='sm'>City &bull; Country</Box>
                         <Box display='flex' mt='2' alignItems='center' gap='3px'>
@@ -47,12 +46,12 @@ const MarketDetails = () => {
                             <Badge borderRadius='full' px='2' colorScheme='teal' textAlign='center'>Follow</Badge>
                         </Flex>
                     </Flex>
-                    <Text fontSize='md'>{detailMarket.description}</Text>
-                    <Text fontSize='sm'>Website: <Link href={detailMarket.website} isExternal>{detailMarket.website}</Link></Text>
+                    <Text fontSize='md'>{discoverMarket.description}</Text>
+                    <Text fontSize='sm'>Website: <Link href={discoverMarket.website} isExternal>{discoverMarket.website}</Link></Text>
                 </Stack>
             </Stack>
         </>
     )
 };
 
-export default MarketDetails;
+export default DiscoverPage;

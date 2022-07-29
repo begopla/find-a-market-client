@@ -9,24 +9,26 @@ import Oops from "./pages/Oops"
 import PrivateRoute from "./components/ProtectedRoute/PrivateRoute"
 import Markets from "./pages/Markets/Markets"
 import IconFooter from "./components/Footer/IconFooter"
+import DiscoverPage from "./pages/DiscoverPage/DiscoverPage"
 
 function App() {
 	return (
-			<div className="App">
-				<Navbar />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/signin" element={<Signin />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/markets" element={<Markets />} />
-					<Route path="/markets/:marketId" element={<MarketDetails />} />					
-					<Route element={<PrivateRoute />}>
-						<Route path="/profile" element={<Profile />} />
-					</Route>
-					<Route path="*" element={<Oops />} />
-				</Routes>
-				<IconFooter />
-			</div>
+		<div className="App">
+			<Navbar />
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/signin" element={<Signin />} />
+				<Route path="/signup" element={<Signup />} />
+				<Route path="/markets" element={<Markets />} />
+				<Route path="/markets/:marketId" element={<MarketDetails />} />
+				<Route path="/markets/discover" element={<DiscoverPage />} />
+				<Route element={<PrivateRoute />}>
+					<Route path="/profile" element={<Profile />} />
+				</Route>
+				<Route path="*" element={<Oops />} />
+			</Routes>
+			<IconFooter />
+		</div>
 	)
 }
 
