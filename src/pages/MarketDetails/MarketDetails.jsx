@@ -1,124 +1,60 @@
 import React, { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
+import MarketInfo from "../../components/MarketInfo/MarketInfo"
+import { Box, Center, Image, Avatar, Text, Stack, Link, Flex, Badge } from '@chakra-ui/react'
+import { StarIcon } from '@chakra-ui/icons';
 const API_URL = process.env.REACT_APP_API_URL
 
 const MarketDetails = () => {
     const [detailMarket, setDetailMarket] = useState({})
- 
-    const [editMode, setEditMode] = useState(false)
-    const [editMarket, setEditMarket] = useState({})
+    const [authorInfo, setAuthorInfo] = useState({})
     const { marketId } = useParams()
-    const navigate = useNavigate()
-
-    const handleDelete = async () => {
-        const { data } = await axios.delete(`${API_URL}/markets/${marketId}`)
-        
-        setTimeout(() => navigate("/profile"), 1000)
-    }
-
-    const handleEditMarket = async (e) => {
-        e.preventDefault()
-        console.log(editMarket)
-        const { data } = await axios.put(`${API_URL}/markets/${marketId}`, editMarket)
-        console.log(data)
-        setDetailMarket(data)
-        setEditMode(false)
-    }
+    //const navigate = useNavigate()
 
     const getOneMarket = async () => {
-        const { data } = await axios.get(`${API_URL}/markets/${marketId}`)
-        // console.log(data)
-        setEditMarket(data)
+
+        const{ data }= await axios.get(`${API_URL}/markets/${marketId}`)
+        //console.log(data);
         setDetailMarket(data)
+        setAuthorInfo(data.author)
     }
     useEffect(() => {
         getOneMarket()
     }, [])
 
     return (
-        <></>
-      /*  <div>
-            <div className="DetailsMarket">
-				<img src={detailMarket.umgUrl}></img>
-				<h4>{detailMarket.name}</h4>
-				<p>{detailMarket.description}</p>
-				<p>{detailMarket.website}</p>
-				<button onClick={handleDelete}>Delete market</button>
-				<button onClick={() => setEditMode(!editMode)}>Edit market</button>
-			</div>
-        
-        {editMode && (
-            <form onSubmit={handleEditTodo}>
-                <div>
-                    <label htmlFor="name">Name: </label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={editTodo.name}
-                        onChange={(e) =>
-                            setEditTodo({
-                                ...editTodo,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description: </label>
-                    <textarea
-                        type="text"
-                        id="description"
-                        name="description"
-                        value={editTodo.description}
-                        rows={4}
-                        cols={25}
-                        onChange={(e) =>
-                            setEditTodo({
-                                ...editTodo,
-                                [e.target.name]: e.target.value,
-                            })
-                        }></textarea>
-                </div>
-
-                <div>
-                    <label htmlFor="dueDate">Due date: </label>
-                    <input
-                        type="date"
-                        id="dueDate"
-                        name="dueDate"
-                        value={editTodo.dueDate}
-                        onChange={(e) =>
-                            setEditTodo({
-                                ...editTodo,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="priority">Important ?</label>
-                    <input
-                        type="checkbox"
-                        name="priority"
-                        id="priority"
-                        checked={editTodo.priority}
-                        onChange={(e) =>
-                            setEditTodo({
-                                ...editTodo,
-                                [e.target.name]: e.target.checked,
-                            })
-                        }
-                    />
-                </div>
-
-                <button>Edit the Todo</button>
-            </form>
-        )}
-        
-    </div>*/
+        <>
+            <Stack className="DetailsMarket" py={'4rem'} spacing={4}>
+                <Center>
+                    <Image
+                        boxSize='18rem'
+                        w='100%'
+                        objectFit='cover'
+                        src={detailMarket.imageUrl}
+                        alt={detailMarket.name} />
+                </Center>
+                <Stack spacing={2} px={'2rem'}>
+                    <Text fontSize='3xl'>{detailMarket.name}</Text>
+                    <Flex alignItems='baseline' justifyContent='space-between'>
+                        <Box as='span' color='gray.600' fontSize='sm'>City &bull; Country</Box>
+                        <Box display='flex' mt='2' alignItems='center' gap='3px'>
+                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>10</Box>
+                            <StarIcon color={'teal.500'} />
+                        </Box>
+                    </Flex>
+                    <Flex gap='10px' alignItems='center'>
+                        <Avatar size='md' mt='3px' src={authorInfo.profilePicture} />
+                        <Flex flexDirection='column' gap='2px'>
+                            <Text>{authorInfo.name}</Text>
+                            <Badge borderRadius='full' px='2' colorScheme='teal' textAlign='center'>Follow</Badge>
+                        </Flex>
+                    </Flex>
+                    <Text fontSize='md'>{detailMarket.description}</Text>
+                    <Text fontSize='sm'>Website: <Link href={detailMarket.website} isExternal>{detailMarket.website}</Link></Text>
+                </Stack>
+            </Stack>
+        </>
     )
 };
 

@@ -22,7 +22,7 @@ const Markets = () => {
 			spacing='0'
 			className="listMarkets"
 			marginBottom={'4rem'}
-			bg={useColorModeValue('gray.200', 'gray.700')}>
+			bg={useColorModeValue('white', 'gray.700')}>
 			{markets.map((market) => {
 				return (
 					<OneMarket
