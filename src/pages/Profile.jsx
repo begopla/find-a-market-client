@@ -1,14 +1,20 @@
 import { useState, useEffect} from "react";
-import {Stack,Flex,Center,Image,Text} from '@chakra-ui/react';
+import {Flex,Image,Text, Input, Button} from '@chakra-ui/react';
 import useAuth from "../context/auth/useAuth";
 import {EditIcon, StarIcon} from '@chakra-ui/icons';
 import '../styles/profile.css';
 import { API_URL } from "../constants";
+import service from '../services/apiHandler'
 import axios from 'axios'
-import { NavLink } from "react-router-dom";
+
 const Profile = () => {
-	const {currentUser, isLoading, removeUser } = useAuth()
-	const [myMarkets, setMyMarkets] = useState([])
+	const {currentUser,  authenticateUser, storeToken } = useAuth();
+	const [myMarkets, setMyMarkets] = useState([]);
+	const [editPhoto, setEditPhoto] = useState(false);
+	const [profilePicture, setProfilePicture] = useState([]);
+	
+
+	const toggleEditPhoto = () => setEditPhoto(!editPhoto);
 
 	const getRandomMarket = async () => {
 		const response = await axios.get(`${API_URL}/markets/discover`)
@@ -18,6 +24,23 @@ const Profile = () => {
 	useEffect(() => {
 		getRandomMarket()
 	}, [])
+
+	const submitPhoto = async (e) => {
+		e.preventDefault();
+		const fd = new FormData()
+		console.log(profilePicture)
+		if (profilePicture) {
+		  fd.append("profilePicture", profilePicture)
+		  try {
+			const data = await service.fileUpload(fd);
+			storeToken(data.token)
+			await authenticateUser()
+	
+		  } catch (error) {
+			console.error(error)
+		  }
+		}
+	  }
 	//console.log(currentUser)
 	return (
 		<>
@@ -31,9 +54,32 @@ const Profile = () => {
 				src={currentUser.profilePicture} 
 				alt={currentUser.name}>
 			</Image>
-			<NavLink to='/profile/edit'><EditIcon mt='2vh' ml='20vw' w={5} h={5} /></NavLink>
+			{/* <NavLink to='/profile/edit'> */}
+			<div onClick={toggleEditPhoto}>	
+			<EditIcon mt='2vh' ml='20vw' w={5} h={5} />
+			</div>
 			</Flex>
+			{editPhoto && (
+
+			<form onSubmit={submitPhoto}>
+        		<Input 
+         		 height='8vh'
+         		 ml='25vw'
+         		 pt='2vh'
+         		 mt='2vh'
+         		 width='50vw'
+         		 type="file"
+         		 name="profilePicture"
+         		 accept="image/png, image/jpeg, image/jpg"
+         		 onChange={(e) => setProfilePicture(e.target.files[0])}
+        		/>
+        	<Button type='submit' colorScheme='yellow' ml='27vw' mt='2vh' mb='2vh'>Upload a new photo</Button>
+      		</form>
+
+			) }
+			{/* </NavLink> */}
 			<Text fontSize='2xl' ml='40vw' mb='2vh'>{currentUser.name}</Text>
+			
 			<hr style={{fontWeight: 'bold'}}/>
 			<Text fontSize='3xl' mt='3vh' ml='30vw' mb='5vh'>My Markets</Text>
 				
@@ -47,8 +93,7 @@ const Profile = () => {
 				<StarIcon ml='3vw' mt='.35vh'/>
 			</Flex>
 				<hr style={{width: '80%', marginLeft:'10%'}}/>
-			
-			
+
 		</>
 	)
 }

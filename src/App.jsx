@@ -7,7 +7,8 @@ import Profile from "./pages/Profile"
 import Oops from "./pages/Oops"
 import PrivateRoute from "./components/ProtectedRoute/PrivateRoute"
 import Markets from "./pages/Markets/Markets"
-import EditProfile from "./pages/EditProfile"
+import Settings from "./pages/Settings"
+import UserData from "./pages/UserData"
 
 function App() {
 	return (
@@ -20,7 +21,8 @@ function App() {
 					<Route path="/markets" element={<Markets />} />
 					<Route element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
-						<Route path="/profile/edit" element={<EditProfile />} />
+						<Route path="/profile/settings" element={<Settings />} />
+						<Route path="/profile/user" element={<UserData />} />
 					</Route>
 					<Route path="*" element={<Oops />} />
 				</Routes>
