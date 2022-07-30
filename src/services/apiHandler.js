@@ -53,14 +53,15 @@ service.isLoggedIn = async () => {
 		errorHandler(error)
 	}
 }
-// ? Example of a function created to...  getAllTheCats
-// service.getAllTheCats = () {
-// 	return service
-// 		.get("/api/cats")
-// 		.then((res) => res.data)
-// 		.catch(errorHandler);
-// },
-// }
+
+service.myMarkets = async () =>{
+	try {
+		const { data } = await service.get("/markets/my-markets")
+		return data
+	} catch (error) {
+		errorHandler(error)
+	}
+}
 
 //! Error handling to use in the catch
 function errorHandler(error) {
