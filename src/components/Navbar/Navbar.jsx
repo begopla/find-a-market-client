@@ -1,19 +1,17 @@
 import { NavLink } from "react-router-dom"
 import useAuth from "../../context/auth/useAuth"
 import "./Navbar.css"
-import { ReactNode } from 'react';
+
 import {
 	Box,
 	Flex,
 	Avatar,
-	Link,
 	Button,
 	Menu,
 	MenuButton,
 	MenuList,
 	MenuItem,
 	MenuDivider,
-	useDisclosure,
 	useColorModeValue,
 	Stack,
 	useColorMode,
@@ -38,7 +36,7 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 export default function Navbar() {
 	const { isLoggedIn, currentUser, removeUser } = useAuth()
 	const { colorMode, toggleColorMode } = useColorMode();
-	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	return (
 		<>
 			<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -80,7 +78,8 @@ export default function Navbar() {
 											<br />
 											<MenuDivider />
 											<MenuItem><NavLink to='/profile'>Your Profile</NavLink></MenuItem>
-											<MenuItem>Account Settings</MenuItem>
+											<MenuItem><NavLink to='/profile/User'>Personal Data</NavLink></MenuItem>
+											<MenuItem><NavLink to='/profile/settings'> Settings</NavLink></MenuItem>
 											<MenuItem  onClick={removeUser}>Logout</MenuItem>
 										</MenuList>
 									</Menu>
