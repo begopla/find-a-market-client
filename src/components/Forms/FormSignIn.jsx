@@ -3,7 +3,7 @@ import service from "../../services/apiHandler"
 import useAuth from "../../context/auth/useAuth"
 import { useNavigate } from "react-router-dom"
 import './Form.css'
-import { Flex, Center,Stack, Avatar, Heading, Box, InputGroup, InputLeftElement, Input, chakra, InputRightElement, Button} from '@chakra-ui/react'
+import { Flex, Center,Stack, Avatar, Heading, Box, InputGroup, InputLeftElement, Input, chakra, InputRightElement, Button, useColorModeValue} from '@chakra-ui/react'
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
 const CFaUserAlt = chakra(FaUserAlt);
@@ -37,7 +37,7 @@ const FormSignIn = () => {
 		<Flex flexDirection="column"
 		width="100wh"
 		height="95vh"
-		backgroundColor="gray.200"
+		backgroundColor={useColorModeValue("gray.200",'gray.700')}
 		justifyContent="center"
 		alignItems="center"
 		>
@@ -54,14 +54,14 @@ const FormSignIn = () => {
 			<Stack
               spacing={4}
               p="1rem"
-              backgroundColor="whiteAlpha.900"
+              backgroundColor={useColorModeValue("whiteAlpha.900",'gray.900')}
               boxShadow="md"
             >
 			<Center>
-				<Avatar bg="teal.900" />
+				<Avatar bg={useColorModeValue("teal.900","gray.300")} />
 			</Center>
 			<Center>
-				<Heading color="teal.900">Log in </Heading>
+				<Heading color={useColorModeValue("teal.900", "gray.300")}>Log in </Heading>
 			</Center>
 				<InputGroup>
 				<InputLeftElement pointerEvents="none"
