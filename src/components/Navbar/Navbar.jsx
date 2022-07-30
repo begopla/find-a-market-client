@@ -39,10 +39,9 @@ export default function Navbar() {
 
 	return (
 		<>
-			<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+			<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} pos={'fixed'} width={'100%'}>
 				<Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
 					<NavLink to='/'>Logo</NavLink>
-					<NavLink to="/markets">All Markets</NavLink>
 					<Flex alignItems={'center'}>
 						<Stack direction={'row'} spacing={7}>
 							<Button onClick={toggleColorMode}>
@@ -66,14 +65,13 @@ export default function Navbar() {
 											<br />
 											<Center>
 												<Avatar
-													//bg='teal.500'
 													size={'2xl'}
 													src={currentUser.profilePicture}
 												/>
 											</Center>
 											<br />
 											<Center>
-												<p>{currentUser.email}</p>
+												<p>{currentUser.name}</p>
 											</Center>
 											<br />
 											<MenuDivider />
@@ -81,6 +79,7 @@ export default function Navbar() {
 											<MenuItem><NavLink to='/profile/User'>Personal Data</NavLink></MenuItem>
 											<MenuItem><NavLink to='/profile/settings'> Settings</NavLink></MenuItem>
 											<MenuItem  onClick={removeUser}>Logout</MenuItem>
+
 										</MenuList>
 									</Menu>
 								</>
