@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import MarketInfo from "../../components/MarketInfo/MarketInfo"
-import { Box, Center, Image, Avatar, Text, Stack, Link, Flex, Badge } from '@chakra-ui/react'
+import { Box, Spinner, Center, Image, Avatar, Text, Stack, Link, Flex, Badge } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons';
 const API_URL = process.env.REACT_APP_API_URL
 
 const MarketDetails = () => {
     const [detailMarket, setDetailMarket] = useState({})
-    const [authorInfo, setAuthorInfo] = useState({})
+    const [isLoading, setIsLoading] = useState(true)
     const { marketId } = useParams()
 
     const getOneMarket = async () => {
         const { data } = await axios.get(`${API_URL}/markets/${marketId}`)
         setDetailMarket(data)
-        setAuthorInfo(data.author)
+        setIsLoading(false)
+        console.log('end of fetch');
     }
     useEffect(() => {
         getOneMarket()
@@ -22,7 +23,8 @@ const MarketDetails = () => {
 
     return (
         <>
-            <Stack className="DetailsMarket" py={'4rem'} spacing={4}>
+       { isLoading && <Center direction='row' position='absolute' mt='30vh' ml='40vw' thickness='4px' spacing={20}> <Spinner size='xl'/></Center> }
+         { !isLoading &&  <Stack className="DetailsMarket" py={'4rem'} spacing={4}>
                 <Center>
                     <Image
                         boxSize='18rem'
@@ -41,16 +43,16 @@ const MarketDetails = () => {
                         </Box>
                     </Flex>
                     <Flex gap='10px' alignItems='center'>
-                        <Avatar size='md' mt='3px' src={authorInfo.profilePicture} />
+                        <Avatar size='md' mt='3px' src={detailMarket.author?.profilePicture} />
                         <Flex flexDirection='column' gap='2px'>
-                            <Text>{authorInfo.name}</Text>
+                            <Text>{detailMarket.author?.name}</Text>
                             <Badge borderRadius='full' px='2' colorScheme='teal' textAlign='center'>Follow</Badge>
                         </Flex>
                     </Flex>
                     <Text fontSize='md'>{detailMarket.description}</Text>
                     <Text fontSize='sm'>Website: <Link href={detailMarket.website} isExternal>{detailMarket.website}</Link></Text>
                 </Stack>
-            </Stack>
+            </Stack>}
         </>
     )
 };
