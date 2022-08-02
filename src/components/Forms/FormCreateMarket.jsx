@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import axios from "axios"
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+//import axios from "axios"
+import service from "../../services/apiHandler"
 import {
-    Box,
     Button,
     Drawer,
     DrawerOverlay,
@@ -16,25 +16,33 @@ import {
     Input,
     Select,
     Textarea,
-    useColorModeValue,
     useDisclosure,
     FormControl
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons';
-const API_URL = process.env.REACT_APP_API_URL
+//const API_URL = process.env.REACT_APP_API_URL
 
 export default function FormCreateMarket() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
-    const [newMarket, setNewMarket] = useState({})
+    const [name, setName] = useState("")
+    const [type, setType] = useState("")
+    const [description, setDescription] = useState("")
+    const [website, setWebsite] = useState("")
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
 
-    const handleCreateMarket = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        const { data } = await axios.post(`${API_URL}/markets}`, newMarket)
-        console.log(data)
-        setNewMarket(data)
-        navigate('/markets')
+        try {
+        const newMarket = {name, type, description, website}
+        const res = await service.post("/markets", newMarket)
+        console.log(res)
+        console.log("New market created: ", newMarket);
+        navigate("/markets")    
+        } catch (error) {
+            setError(e.message)
+        }
     }
 
     return (
@@ -54,7 +62,7 @@ export default function FormCreateMarket() {
                     <DrawerHeader borderBottomWidth='1px'>
                         Add a new market
                     </DrawerHeader>
-                    <form onSubmit={handleCreateMarket}>
+                    <form onSubmit={handleSubmit}>
                         <DrawerBody>
 
                             <Stack spacing='24px'>
@@ -64,12 +72,7 @@ export default function FormCreateMarket() {
                                         ref={firstField}
                                         id='name'
                                         name="name"
-                                        onChange={(e) =>
-                                            setNewMarket({
-                                                ...newMarket,
-                                                [e.target.name]: e.target.value,
-                                            })
-                                        }
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </FormControl>
 
@@ -78,12 +81,7 @@ export default function FormCreateMarket() {
                                     <Select
                                         id='type'
                                         name='type'
-                                        onChange={(e) =>
-                                            setNewMarket({
-                                                ...newMarket,
-                                                [e.target.type]: e.target.value,
-                                            })
-                                        }>
+                                        onChange={(e) => setType(e.target.value)}>
                                         <option value='Fresh Food market'>Fresh Food market</option>
                                         <option value='Farmers market'>Farmers market</option>
                                         <option value='Flea market'>Flea market</option>
@@ -100,12 +98,7 @@ export default function FormCreateMarket() {
                                     <Textarea
                                         id='description'
                                         name='description'
-                                        onChange={(e) =>
-                                            setNewMarket({
-                                                ...newMarket,
-                                                [e.target.description]: e.target.value,
-                                            })
-                                        } />
+                                        onChange={(e) => setDescription(e.target.value)} />
                                 </FormControl>
 
                                 <FormControl>
@@ -114,12 +107,7 @@ export default function FormCreateMarket() {
                                         type='url'
                                         id='website'
                                         name='website'
-                                        onChange={(e) =>
-                                            setNewMarket({
-                                                ...newMarket,
-                                                [e.target.website]: e.target.value,
-                                            })
-                                        }
+                                        onChange={(e) => setWebsite(e.target.value)}
                                     />
                                 </FormControl>
 
