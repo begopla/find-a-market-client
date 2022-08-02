@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, Outlet } from "react-router-dom"
 import useAuth from "../../context/auth/useAuth"
 import "./Navbar.css"
 
@@ -94,6 +94,7 @@ export default function Navbar() {
 					</Flex>
 				</Flex>
 			</Box>
+			<Outlet/>
 		</>
 	);
 }

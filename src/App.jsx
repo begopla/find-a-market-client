@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import {BrowserRouter, Switch, Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
 import Home from "./pages/Home"
 import Signin from "./pages/Signin"
@@ -14,27 +14,40 @@ import Settings from "./pages/Settings"
 import UserData from "./pages/UserData"
 
 function App() {
-	return (
-			<div className="App">
-				<Navbar />
+	
+	
+
+			return (
+				
+				<>
+			
+
 				<Routes>
+				<Route element={<Navbar/>}>
 					<Route path="/" element={<Home />} />
 					<Route path="/signin" element={<Signin />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/markets" element={<Markets />} />
-          <Route path="/markets/:marketId" element={<MarketDetails />} />
-				  <Route path="/markets/discover" element={<DiscoverPage />} />
-					<Route element={<PrivateRoute />}>
+          			<Route path="/markets/:marketId" element={<MarketDetails />} />
+				 	<Route path="/markets/discover" element={<DiscoverPage />} />
+					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
+					</Route> 
+					<Route path="*" element={<Oops />} />
+			
+				</Route>
+				<Route element={<PrivateRoute />}>	
 						<Route path="/profile/settings" element={<Settings />} />
 						<Route path="/profile/user" element={<UserData />} />
-					</Route>
-					<Route path="*" element={<Oops />} />
-				</Routes>
-        <IconFooter />
-			</div>
+				</Route>
+				
 
-	)
+				</Routes>
+        		<IconFooter />
+				</>
+			);
+		
+	
 }
 
 export default App
