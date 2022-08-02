@@ -23,36 +23,24 @@ import {
 import { EditIcon } from '@chakra-ui/icons';
 const API_URL = process.env.REACT_APP_API_URL
 
-export default function FormEditMarket() {
+export default function FormCreateMarket() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
-    const [detailMarket, setDetailMarket] = useState({})
-    const [editMarket, setEditMarket] = useState({})
+    const [newMarket, setNewMarket] = useState({})
     const navigate = useNavigate()
-    const { marketId } = useParams()
 
-    const handleEditMarket = async (e) => {
+    const handleCreateMarket = async (e) => {
         e.preventDefault()
-        //console.log(editMarket)
-        const { data } = await axios.put(`${API_URL}/markets/${marketId}`, editMarket)
+        const { data } = await axios.post(`${API_URL}/markets}`, newMarket)
         console.log(data)
-        setDetailMarket(data)
-        navigate(`/markets/${marketId}`)
+        setNewMarket(data)
+        navigate('/markets')
     }
-
-    const getOneMarket = async () => {
-        const { data } = await axios.get(`${API_URL}/markets/${marketId}`)
-        setDetailMarket(data)
-    }
-
-    useEffect(() => {
-        getOneMarket()
-    }, [])
 
     return (
         <>
             <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={onOpen}>
-                Edit market
+                Add a market
             </Button>
             <Drawer
                 isOpen={isOpen}
@@ -64,36 +52,35 @@ export default function FormEditMarket() {
                 <DrawerContent>
                     <DrawerCloseButton />
                     <DrawerHeader borderBottomWidth='1px'>
-                        Edit market
+                        Add a new market
                     </DrawerHeader>
-                    <form onSubmit={handleEditMarket}>
+                    <form onSubmit={handleCreateMarket}>
                         <DrawerBody>
 
                             <Stack spacing='24px'>
-                                <FormControl isRequired defaultValue={detailMarket.name}>
+                                <FormControl isRequired>
                                     <FormLabel htmlFor='name'>Name</FormLabel>
                                     <Input
                                         ref={firstField}
                                         id='name'
                                         name="name"
                                         onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
+                                            setNewMarket({
+                                                ...newMarket,
                                                 [e.target.name]: e.target.value,
                                             })
                                         }
                                     />
                                 </FormControl>
 
-                                <FormControl defaultValue={detailMarket.type}>
+                                <FormControl>
                                     <FormLabel htmlFor='type'>Type of market</FormLabel>
                                     <Select
                                         id='type'
                                         name='type'
-                                        
                                         onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
+                                            setNewMarket({
+                                                ...newMarket,
                                                 [e.target.type]: e.target.value,
                                             })
                                         }>
@@ -108,29 +95,28 @@ export default function FormEditMarket() {
                                     </Select>
                                 </FormControl>
 
-                                <FormControl defaultValue={detailMarket.description}>
+                                <FormControl>
                                     <FormLabel htmlFor='description'>Description</FormLabel>
                                     <Textarea
                                         id='description'
                                         name='description'
                                         onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
+                                            setNewMarket({
+                                                ...newMarket,
                                                 [e.target.description]: e.target.value,
                                             })
                                         } />
                                 </FormControl>
 
-                                <FormControl defaultValue={detailMarket.website}>
+                                <FormControl>
                                     <FormLabel htmlFor='website'>Website</FormLabel>
                                     <Input
                                         type='url'
                                         id='website'
                                         name='website'
-                                        value={detailMarket.website}
                                         onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
+                                            setNewMarket({
+                                                ...newMarket,
                                                 [e.target.website]: e.target.value,
                                             })
                                         }
