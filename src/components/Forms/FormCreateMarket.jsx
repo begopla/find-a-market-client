@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-//import axios from "axios"
 import service from "../../services/apiHandler"
 import {
     Button,
@@ -20,7 +19,6 @@ import {
     FormControl
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons';
-//const API_URL = process.env.REACT_APP_API_URL
 
 export default function FormCreateMarket() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -37,8 +35,8 @@ export default function FormCreateMarket() {
         try {
         const newMarket = {name, type, description, website}
         const res = await service.post("/markets", newMarket)
-        console.log(res)
-        console.log("New market created: ", newMarket);
+        //console.log(res)
+        //console.log("New market created: ", newMarket);
         navigate("/markets")    
         } catch (error) {
             setError(e.message)
@@ -79,6 +77,7 @@ export default function FormCreateMarket() {
                                 <FormControl>
                                     <FormLabel htmlFor='type'>Type of market</FormLabel>
                                     <Select
+                                        placeholder='Select one'
                                         id='type'
                                         name='type'
                                         onChange={(e) => setType(e.target.value)}>
@@ -118,7 +117,7 @@ export default function FormCreateMarket() {
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button type='submit' colorScheme='blue'>Submit</Button>
+                            <Button type='submit' colorScheme='blue' onClick={onClose}>Submit</Button>
                         </DrawerFooter>
                     </form>
                 </DrawerContent>
