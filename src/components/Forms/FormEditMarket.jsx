@@ -30,6 +30,13 @@ export default function FormEditMarket() {
     const navigate = useNavigate()
     const { marketId } = useParams()
 
+    const handleDeleteMarket = async () => {
+		const { data } = await service.delete(`/markets/${marketId}`)
+        console.log(data);
+		console.log("Market deleted: ", marketId);
+		setTimeout(() => navigate("/markets"), 1000)
+	}
+
     const handleEditMarket = async (e) => {
         e.preventDefault()
         try {
@@ -149,8 +156,11 @@ export default function FormEditMarket() {
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button type='submit' colorScheme='blue' onClick={onClose}>
+                            <Button type='submit' colorScheme='blue' mr={3} onClick={onClose}>
                                 Submit
+                            </Button>
+                            <Button colorScheme='red' onClick={handleDeleteMarket}>
+                                Delete
                             </Button>
                         </DrawerFooter>
                     </form>
