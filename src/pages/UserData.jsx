@@ -6,7 +6,10 @@ import {Flex, Image, Input, Button, Text, Center, Box, color} from '@chakra-ui/r
 import Select from 'react-select';
 import axios from 'axios';
 import {API_URL} from '../constants';
+import { useNavigate } from "react-router-dom"
+
 const UserData = () => {
+  const navigate = useNavigate();
   const {currentUser,  authenticateUser, storeToken } = useAuth();
 	const [editPhoto, setEditPhoto] = useState(false);
   const [editInfo, setEditInfo] = useState(false)
@@ -88,6 +91,7 @@ const UserData = () => {
             Authorization: `Bearer ${token}`,
           },
         })
+        navigate('/profile')
         
       } catch (error) {
         console.error(error)
