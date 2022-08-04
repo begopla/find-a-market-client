@@ -14,14 +14,10 @@ import Settings from "./pages/Settings"
 import UserData from "./pages/UserData"
 
 function App() {
-	
-	
 
 			return (
 				
 				<>
-			
-
 				<Routes>
 				<Route element={<Navbar/>}>
 					<Route path="/" element={<Home />} />
@@ -34,7 +30,6 @@ function App() {
 						<Route path="/profile" element={<Profile />} />
 					</Route> 
 					<Route path="*" element={<Oops />} />
-			
 				</Route>
 				<Route element={<PrivateRoute />}>	
 						<Route path="/profile/settings" element={<Settings />} />
