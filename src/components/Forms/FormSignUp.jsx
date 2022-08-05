@@ -57,7 +57,7 @@ const FormSignUp = () => {
 					value={user.name}
 					type="text"
 					id="name"
-					placeholder="username"
+					placeholder="name"
 					name="name"
 				/>
 				<Input
