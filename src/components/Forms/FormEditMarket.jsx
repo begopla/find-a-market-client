@@ -25,7 +25,7 @@ export default function FormEditMarket() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
     const [detailMarket, setDetailMarket] = useState({})
-    const [editMarket, setEditMarket] = useState({})
+    const [editMarket, setEditMarket] = useState({name: "",type:"", description:"", website:""})
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const { marketId } = useParams()
@@ -76,7 +76,7 @@ export default function FormEditMarket() {
                     <DrawerHeader borderBottomWidth='1px'>
                         Edit market
                     </DrawerHeader>
-                    <form onSubmit={handleEditMarket}>
+                    
                         <DrawerBody>
 
                             <Stack spacing='24px'>
@@ -86,7 +86,7 @@ export default function FormEditMarket() {
                                         ref={firstField}
                                         id='name'
                                         name="name"
-                                        value={editMarket.name}
+                                        placeholder={editMarket.name}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -101,7 +101,7 @@ export default function FormEditMarket() {
                                     <Select
                                         id='type'
                                         name='type'
-                                        //value={editMarket.type}
+                                        placeholder={editMarket.type}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -124,7 +124,7 @@ export default function FormEditMarket() {
                                     <Textarea
                                         id='description'
                                         name='description'
-                                        //value={editMarket.description}
+                                        placeholder={editMarket.description}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -139,7 +139,7 @@ export default function FormEditMarket() {
                                         type='url'
                                         id='website'
                                         name='website'
-                                        //value={editMarket.website}
+                                        placeholder={editMarket.website}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -156,14 +156,14 @@ export default function FormEditMarket() {
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button type='submit' colorScheme='blue' mr={3} onClick={onClose}>
+                            <Button type='submit' colorScheme='blue' mr={3} onClick={handleEditMarket}>
                                 Submit
                             </Button>
                             <Button colorScheme='red' onClick={handleDeleteMarket}>
                                 Delete
                             </Button>
                         </DrawerFooter>
-                    </form>
+                    
                 </DrawerContent>
             </Drawer>
         </>

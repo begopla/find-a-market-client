@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import service from "../../services/apiHandler"
+import axios from 'axios';
+import {API_URL} from '../../constants';
 import {
     Button,
     Drawer,
@@ -29,12 +31,21 @@ export default function FormCreateMarket() {
     const [website, setWebsite] = useState("")
     const [error, setError] = useState(null)
     const navigate = useNavigate()
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+        const token = localStorage.getItem("authToken")
         const newMarket = {name, type, description, website}
+        console.log(name,type, description, website  )
         const res = await service.post("/markets", newMarket)
+        await axios.post(`${API_URL}/markets`, newMarket,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+
         //console.log(res)
         //console.log("New market created: ", newMarket);
         navigate("/markets")    
@@ -80,7 +91,8 @@ export default function FormCreateMarket() {
                                         placeholder='Select one'
                                         id='type'
                                         name='type'
-                                        onChange={(e) => setType(e.target.value)}>
+                                        onChange={(e) => {setType(e.target.value)
+                                        console.log(e.target.value)}}>
                                         <option value='Fresh Food market'>Fresh Food market</option>
                                         <option value='Farmers market'>Farmers market</option>
                                         <option value='Flea market'>Flea market</option>
@@ -97,7 +109,8 @@ export default function FormCreateMarket() {
                                     <Textarea
                                         id='description'
                                         name='description'
-                                        onChange={(e) => setDescription(e.target.value)} />
+                                        onChange={(e) => setDescription(e.target.value)}
+                                         />
                                 </FormControl>
 
                                 <FormControl>
