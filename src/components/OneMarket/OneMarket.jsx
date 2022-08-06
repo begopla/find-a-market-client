@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Center, Box, Image, Badge } from '@chakra-ui/react';
+import { Center, Box, Image, Badge, Skeleton } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
 function OneMarket({ name, _id, type, imageUrl }) {

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import service from "../../services/apiHandler"
+import axios from 'axios';
+import {API_URL} from '../../constants';
 import {
     Button,
     Drawer,
@@ -19,50 +21,43 @@ import {
     FormControl
 } from '@chakra-ui/react'
 import { EditIcon } from '@chakra-ui/icons';
-//const API_URL = process.env.REACT_APP_API_URL
 
-export default function FormEditMarket() {
+export default function FormCreateMarket() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
-    const [detailMarket, setDetailMarket] = useState({})
-    const [editMarket, setEditMarket] = useState({name: "",type:"", description:"", website:""})
+    const [name, setName] = useState("")
+    const [type, setType] = useState("")
+    const [description, setDescription] = useState("")
+    const [website, setWebsite] = useState("")
     const [error, setError] = useState(null)
     const navigate = useNavigate()
-    const { marketId } = useParams()
+    
 
-    const handleDeleteMarket = async () => {
-		const { data } = await service.delete(`/markets/${marketId}`)
-        console.log(data);
-		console.log("Market deleted: ", marketId);
-		setTimeout(() => navigate("/markets"), 1000)
-	}
-
-    const handleEditMarket = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await service.put(`/markets/${marketId}`, editMarket)
-            setDetailMarket(data)
-            navigate(`/markets/${marketId}`)
-            console.log(data)
-            console.log("Market updated: ", editMarket);
+        const token = localStorage.getItem("authToken")
+        const newMarket = {name, type, description, website}
+        console.log(name,type, description, website  )
+        const res = await service.post("/markets", newMarket)
+        await axios.post(`${API_URL}/markets`, newMarket,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+
+        //console.log(res)
+        //console.log("New market created: ", newMarket);
+        navigate("/markets")    
         } catch (error) {
             setError(e.message)
         }
     }
 
-    const getOneMarket = async () => {
-        const { data } = await service.get(`/markets/${marketId}`)
-        setEditMarket(data)
-    }
-
-    useEffect(() => {
-        getOneMarket()
-    }, [])
-
     return (
         <>
             <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={onOpen}>
-                Edit market
+                Add a market
             </Button>
             <Drawer
                 isOpen={isOpen}
@@ -74,9 +69,9 @@ export default function FormEditMarket() {
                 <DrawerContent>
                     <DrawerCloseButton />
                     <DrawerHeader borderBottomWidth='1px'>
-                        Edit market
+                        Add a new market
                     </DrawerHeader>
-                    
+                    <form onSubmit={handleSubmit}>
                         <DrawerBody>
 
                             <Stack spacing='24px'>
@@ -86,28 +81,18 @@ export default function FormEditMarket() {
                                         ref={firstField}
                                         id='name'
                                         name="name"
-                                        placeholder={editMarket.name}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.name]: e.target.value,
-                                            })
-                                        }
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </FormControl>
 
                                 <FormControl>
                                     <FormLabel htmlFor='type'>Type of market</FormLabel>
                                     <Select
+                                        placeholder='Select one'
                                         id='type'
                                         name='type'
-                                        placeholder={editMarket.type}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.type]: e.target.value,
-                                            })
-                                        }>
+                                        onChange={(e) => {setType(e.target.value)
+                                        console.log(e.target.value)}}>
                                         <option value='Fresh Food market'>Fresh Food market</option>
                                         <option value='Farmers market'>Farmers market</option>
                                         <option value='Flea market'>Flea market</option>
@@ -124,13 +109,8 @@ export default function FormEditMarket() {
                                     <Textarea
                                         id='description'
                                         name='description'
-                                        placeholder={editMarket.description}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.description]: e.target.value,
-                                            })
-                                        } />
+                                        onChange={(e) => setDescription(e.target.value)}
+                                         />
                                 </FormControl>
 
                                 <FormControl>
@@ -139,13 +119,7 @@ export default function FormEditMarket() {
                                         type='url'
                                         id='website'
                                         name='website'
-                                        placeholder={editMarket.website}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.website]: e.target.value,
-                                            })
-                                        }
+                                        onChange={(e) => setWebsite(e.target.value)}
                                     />
                                 </FormControl>
 
@@ -156,14 +130,9 @@ export default function FormEditMarket() {
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button type='submit' colorScheme='blue' mr={3} onClick={handleEditMarket}>
-                                Submit
-                            </Button>
-                            <Button colorScheme='red' onClick={handleDeleteMarket}>
-                                Delete
-                            </Button>
+                            <Button type='submit' colorScheme='blue' onClick={onClose}>Submit</Button>
                         </DrawerFooter>
-                    
+                    </form>
                 </DrawerContent>
             </Drawer>
         </>
