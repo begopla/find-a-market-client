@@ -6,7 +6,7 @@ import service from "../services/apiHandler"
 const SearchResults = () => {
 	const [markets, setMarkets] = useState([])
 	const getAllMarkets = async () => {
-		const response = await service.get("/search")
+		const response = await service.get("/markets/search")
 		 console.log(response)
 		setMarkets(response.data)
 	}

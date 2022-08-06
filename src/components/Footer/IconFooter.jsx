@@ -29,7 +29,7 @@ export default function IconFooter() {
         spacing={4}
         justify={'space-around'}
         align={'center'}>
-        <Box as={'a'} href={'/search'}>
+        <Box as={'a'} href={'/'}>
           <VscSearch size={22} />
         </Box>
         <Box as={'a'} href={'/favourites'} >

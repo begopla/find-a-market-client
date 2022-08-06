@@ -25,7 +25,6 @@ function App() {
 				<Route path="/markets" element={<Markets />} />
 				<Route path="/markets/:marketId" element={<MarketDetails />} />
 				<Route path="/markets/discover" element={<DiscoverPage />} />
-				<Route path="/markets/search" element={<SearchResults />} />
 				<Route element={<PrivateRoute />}>
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/profile/settings" element={<Settings />} />

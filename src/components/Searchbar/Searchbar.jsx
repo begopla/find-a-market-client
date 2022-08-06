@@ -7,15 +7,18 @@ import { SearchIcon } from '@chakra-ui/icons';
 
 export default function Searchbar() {
     const [inputText, setInputText] = useState("");
+    const [searchResults, setSearchResults] = useState([])
     const [error, setError] = useState(null)
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await service.get("/search", inputText)
-            console.log(data)
-            navigate("/search")
+            console.log(inputText);
+            const {data} = await service.get("/markets/search", inputText)
+            setSearchResults(data)
+            console.log("search results: ", data)
+           // navigate("/markets/search")
         } catch (error) {
             setError(e.message)
         }
@@ -32,6 +35,7 @@ export default function Searchbar() {
                             bg={useColorModeValue('white', 'gray.700')}
                             type="text"
                             placeholder="Search..."
+                            name="q"
                             onChange={(e) =>
                                 setInputText(e.target.value)
                             } />

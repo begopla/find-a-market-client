@@ -10,7 +10,7 @@ const Markets = () => {
 	const [markets, setMarkets] = useState([])
 	const getAllMarkets = async () => {
 		const response = await axios.get(`${API_URL}/`)
-		 console.log(response)
+		 //console.log(response)
 		setMarkets(response.data)
 	}
 	useEffect(() => {
