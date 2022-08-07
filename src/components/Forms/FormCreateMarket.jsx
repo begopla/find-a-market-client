@@ -57,14 +57,14 @@ export default function FormCreateMarket() {
             setError(e.message)
         }
     }
+    const toggleMarketCreated = () => setMarketCreated(!marketCreated);
     const openCreateMarket =() =>{
         if(marketCreated === true){
-            setMarketCreated(!marketCreated)
+            toggleMarketCreated()
             onOpen();
         }else onOpen();
          }
 
-    const toggleMarketCreated = () => setMarketCreated(!marketCreated);
 
     return (
         <>

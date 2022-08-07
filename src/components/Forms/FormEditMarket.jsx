@@ -29,7 +29,7 @@ export default function FormEditMarket() {
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const { marketId } = useParams()
-
+    const [toggleEditMarket, setToggleEditMarket] = useState(false)
     const handleDeleteMarket = async () => {
 		const { data } = await service.delete(`/markets/${marketId}`)
         console.log(data);
@@ -45,6 +45,10 @@ export default function FormEditMarket() {
             navigate(`/markets/${marketId}`)
             console.log(data)
             console.log("Market updated: ", editMarket);
+
+            if(data){
+                toggleMarket()
+            }
         } catch (error) {
             setError(e.message)
         }
@@ -59,12 +63,20 @@ export default function FormEditMarket() {
         getOneMarket()
     }, [])
 
+    const toggleMarket = () => setToggleEditMarket(!toggleEditMarket)
+    const openEditMarket = () =>{
+        if(toggleEditMarket ===true){
+            toggleMarket()
+            onOpen()
+        }else onOpen()
+    }
+
     return (
         <>
-            <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={onOpen}>
+            <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={openEditMarket}>
                 Edit market
             </Button>
-            <Drawer
+           { !toggleEditMarket&& <Drawer
                 isOpen={isOpen}
                 placement='right'
                 initialFocusRef={firstField}
@@ -165,7 +177,7 @@ export default function FormEditMarket() {
                         </DrawerFooter>
                     
                 </DrawerContent>
-            </Drawer>
+            </Drawer>}
         </>
     )
 }
