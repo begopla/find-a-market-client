@@ -126,6 +126,16 @@ export default function FormCreateMarket() {
                                 </FormControl>
 
                                 <FormControl>
+                                    <FormLabel htmlFor='address'>Location</FormLabel>
+                                    <Input
+                                        id='autocomplete'
+                                        placeholder="Enter the address"
+                                        name='address'
+                                        onChange={(e) => setDescription(e.target.value)}
+                                         />
+                                </FormControl>
+
+                                <FormControl>
                                     <FormLabel htmlFor='website'>Website</FormLabel>
                                     <Input
                                         type='url'

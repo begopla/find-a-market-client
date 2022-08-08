@@ -24,7 +24,7 @@ import { EditIcon } from '@chakra-ui/icons';
 export default function FormEditMarket({props:{detailMarket, setDetailMarket}}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
-    const [editMarket, setEditMarket] = useState({name: "",type:"", description:"", website:""})
+    const [editMarket, setEditMarket] = useState({...detailMarket})
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const { marketId } = useParams()
