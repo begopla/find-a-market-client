@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
-import MarketInfo from "../../components/MarketInfo/MarketInfo"
 import {
     Box,
     Spinner,
@@ -12,7 +11,7 @@ import {
     Stack,
     Link,
     Flex,
-    Badge, Skeleton
+    Badge, 
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons';
 import FormEditMarket from "../../components/Forms/FormEditMarket"
@@ -22,16 +21,19 @@ const MarketDetails = () => {
     const [detailMarket, setDetailMarket] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const { marketId } = useParams()
-
     const getOneMarket = async () => {
         const { data } = await axios.get(`${API_URL}/markets/${marketId}`)
         setDetailMarket(data)
         setIsLoading(false)
-        //console.log('end of fetch');
     }
     useEffect(() => {
         getOneMarket()
     }, [])
+
+    const objSentAsProps ={
+        detailMarket: detailMarket,
+        setDetailMarket: setDetailMarket,
+            }
 
     return (
         <>
@@ -77,7 +79,7 @@ const MarketDetails = () => {
                         <Text fontSize='md'>{detailMarket.description}</Text>
                         <Text fontSize='sm'>Website: <Link href={detailMarket.website} isExternal>{detailMarket.website}</Link></Text>
                     </Stack>
-                    <FormEditMarket {...getOneMarket} />
+                    <FormEditMarket props ={objSentAsProps} />
                 </Stack>
             )}
         </>

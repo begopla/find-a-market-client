@@ -21,15 +21,16 @@ import {
 import { EditIcon } from '@chakra-ui/icons';
 //const API_URL = process.env.REACT_APP_API_URL
 
-export default function FormEditMarket() {
+export default function FormEditMarket({props:{detailMarket, setDetailMarket}}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
-    const [detailMarket, setDetailMarket] = useState({})
     const [editMarket, setEditMarket] = useState({name: "",type:"", description:"", website:""})
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const { marketId } = useParams()
     const [toggleEditMarket, setToggleEditMarket] = useState(false)
+   
+
     const handleDeleteMarket = async () => {
 		const { data } = await service.delete(`/markets/${marketId}`)
         console.log(data);
@@ -40,11 +41,12 @@ export default function FormEditMarket() {
     const handleEditMarket = async (e) => {
         e.preventDefault()
         try {
+            //getting the new activity data
             const { data } = await service.put(`/markets/${marketId}`, editMarket)
             setDetailMarket(data)
-            navigate(`/markets/${marketId}`)
+            // navigate(`/markets/${marketId}`)
             console.log(data)
-            console.log("Market updated: ", editMarket);
+            console.log("Market updated: ", detailMarket);
 
             if(data){
                 toggleMarket()
@@ -53,15 +55,6 @@ export default function FormEditMarket() {
             setError(e.message)
         }
     }
-
-    const getOneMarket = async () => {
-        const { data } = await service.get(`/markets/${marketId}`)
-        setEditMarket(data)
-    }
-
-    useEffect(() => {
-        getOneMarket()
-    }, [])
 
     const toggleMarket = () => setToggleEditMarket(!toggleEditMarket)
     const openEditMarket = () =>{
@@ -98,7 +91,7 @@ export default function FormEditMarket() {
                                         ref={firstField}
                                         id='name'
                                         name="name"
-                                        placeholder={editMarket.name}
+                                        placeholder={detailMarket.name}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -113,7 +106,7 @@ export default function FormEditMarket() {
                                     <Select
                                         id='type'
                                         name='type'
-                                        placeholder={editMarket.type}
+                                        placeholder={detailMarket.type}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -136,7 +129,7 @@ export default function FormEditMarket() {
                                     <Textarea
                                         id='description'
                                         name='description'
-                                        placeholder={editMarket.description}
+                                        placeholder={detailMarket.description}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,
@@ -151,7 +144,7 @@ export default function FormEditMarket() {
                                         type='url'
                                         id='website'
                                         name='website'
-                                        placeholder={editMarket.website}
+                                        placeholder={detailMarket.website}
                                         onChange={(e) =>
                                             setEditMarket({
                                                 ...editMarket,

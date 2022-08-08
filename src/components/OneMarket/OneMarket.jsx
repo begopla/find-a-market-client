@@ -35,13 +35,13 @@ function OneMarket({ name, _id, type, imageUrl }) {
                             lineHeight='tight'
                             noOfLines={1}
                         >
-                            {name}
+                            {name} 
                         </Box>
 
                         <Box display='flex' mt='2' alignItems='center'>
 
                             <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                City &bull; Country
+                                City &bull; 
                             </Box>
                         </Box>
                     </Box>
