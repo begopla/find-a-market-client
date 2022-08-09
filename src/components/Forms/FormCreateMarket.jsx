@@ -1,6 +1,5 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-//import service from "../../services/apiHandler"
+import React, { useState, } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import {API_URL} from '../../constants';
 import {
@@ -19,51 +18,58 @@ import {
     Textarea,
     useDisclosure,
     FormControl
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-
+import Autocomplete from "../Autocomplete/Autocomplete";
 export default function FormCreateMarket() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const firstField = React.useRef()
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const firstField = React.useRef();
     const [marketCreated, setMarketCreated] = useState(false);
-    const [name, setName] = useState("")
-    const [type, setType] = useState("")
-    const [description, setDescription] = useState("")
-    const [website, setWebsite] = useState("")
-    const [error, setError] = useState(null)
-    const navigate = useNavigate()
-    
-
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+    const [description, setDescription] = useState("");
+    const [website, setWebsite] = useState("");
+    const [coordinates, setCoordinates] = useState({
+        lat: null,
+        lng: null
+    });
+    const [address, setAddress] = useState("");
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+       
+    const objSentAsProps ={
+        coordinates: coordinates,
+        setCoordinates: setCoordinates,
+        address: address,
+        setAddress: setAddress
+    };
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
         const token = localStorage.getItem("authToken")
-        const newMarket = {name, type, description, website}
-        console.log(name,type, description, website  )
+        const newMarket = {name, type, description, website, coordinates}
+        console.log(name,type, description, website, coordinates, address)
         //const res = await service.post("/markets", newMarket)
         const res = await axios.post(`${API_URL}/markets`, newMarket,{
             headers: {
                 Authorization: `Bearer ${token}`,
-            },
-            
+            }, 
         })
         if(res.status === 200){
             toggleMarketCreated()
         }
-    
-        //!how to refresh the page after market submitted?
         navigate("/markets")    
         } catch (error) {
             setError(e.message)
         }
-    }
+    };
     const toggleMarketCreated = () => setMarketCreated(!marketCreated);
     const openCreateMarket =() =>{
         if(marketCreated === true){
             toggleMarketCreated()
             onOpen();
         }else onOpen();
-         }
+    };
 
 
     return (
@@ -127,12 +133,7 @@ export default function FormCreateMarket() {
 
                                 <FormControl>
                                     <FormLabel htmlFor='address'>Location</FormLabel>
-                                    <Input
-                                        id='autocomplete'
-                                        placeholder="Enter the address"
-                                        name='address'
-                                        onChange={(e) => setDescription(e.target.value)}
-                                         />
+                                    <Autocomplete props ={objSentAsProps}></Autocomplete>
                                 </FormControl>
 
                                 <FormControl>

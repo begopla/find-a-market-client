@@ -20,6 +20,8 @@ const Markets = () => {
 		getAllMarkets()
 	}, [])
 
+	
+
 	return (
 		<>
 			{isLoading && <Spinner
