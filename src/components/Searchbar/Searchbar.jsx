@@ -1,15 +1,12 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import "./Searchbar.css";
 import { Box, Input, InputGroup, InputRightElement, Button, Center, useColorModeValue } from '@chakra-ui/react';
 import service from "../../services/apiHandler"
 import { SearchIcon } from '@chakra-ui/icons';
 
-export default function Searchbar(({props: { markets, setMarkets }})) {
+export default function Searchbar({props: { markets, setMarkets }}) {
     const [inputText, setInputText] = useState("");
-    //const [searchResults, setSearchResults] = useState([])
     const [error, setError] = useState(null)
-    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
