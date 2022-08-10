@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { StarIcon } from "@chakra-ui/icons";
-import {FaRegHeart} from "react-icons/fa"
+import {FaRegHeart} from "react-icons/fa";
 import FormEditMarket from "../../components/Forms/FormEditMarket";
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -28,6 +28,7 @@ const MarketDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editMarketPhoto, setEditMarketePhoto] = useState(false);
   const [marketPhotos, setMarketPhotos] = useState([])
+  const [savedAsFav, setSavedAsFav] = useState(false)
   const { marketId } = useParams();
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
@@ -43,7 +44,7 @@ const MarketDetails = () => {
     setDetailMarket: setDetailMarket,
   };
   const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
-
+  const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
   const submitPhoto = async (e) => {
     e.preventDefault();
     const fd = new FormData()
@@ -58,6 +59,15 @@ const MarketDetails = () => {
       }
     }
   } 
+
+  const saveAsFav = async() =>{
+    toggleSaveAsFav()
+    await service.post(`markets/${marketId}/favourites`)
+  }
+  const removeAsFav = async() =>{
+    toggleSaveAsFav()
+    await service.post(`markets/${marketId}/removefav`)
+  }
   return (
     <>
       {isLoading && (
@@ -114,9 +124,10 @@ const MarketDetails = () => {
           <Stack spacing={2} px={"2rem"}>
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
-              <Flex >
-                <EditIcon onClick={toggleEditMarketPhoto} ml="15vw" w={6} h={6} mt="1vh" />
-                <Icon as={FaRegHeart} w={6} h={6} ml="2vw" mt="1vh" />
+              <Flex justifyContent='space-between'>
+                <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" />
+              { savedAsFav && <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />}
+              { !savedAsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
