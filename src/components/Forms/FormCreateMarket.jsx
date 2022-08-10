@@ -1,6 +1,5 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import service from "../../services/apiHandler"
+import React, { useState, } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import {API_URL} from '../../constants';
 import {
@@ -19,47 +18,65 @@ import {
     Textarea,
     useDisclosure,
     FormControl
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-
+import Autocomplete from "../Autocomplete/Autocomplete";
 export default function FormCreateMarket() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const firstField = React.useRef()
-    const [name, setName] = useState("")
-    const [type, setType] = useState("")
-    const [description, setDescription] = useState("")
-    const [website, setWebsite] = useState("")
-    const [error, setError] = useState(null)
-    const navigate = useNavigate()
-    
-
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const firstField = React.useRef();
+    const [marketCreated, setMarketCreated] = useState(false);
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+    const [description, setDescription] = useState("");
+    const [website, setWebsite] = useState("");
+    const [coordinates, setCoordinates] = useState({
+        lat: null,
+        lng: null
+    });
+    const [address, setAddress] = useState("");
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+       
+    const objSentAsProps ={
+        coordinates: coordinates,
+        setCoordinates: setCoordinates,
+        address: address,
+        setAddress: setAddress
+    };
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
         const token = localStorage.getItem("authToken")
-        const newMarket = {name, type, description, website}
-        console.log(name,type, description, website  )
-        const res = await service.post("/markets", newMarket)
-        await axios.post(`${API_URL}/markets`, newMarket,{
+        const newMarket = {name, type, description, website, coordinates, address}
+        //const res = await service.post("/markets", newMarket)
+        const res = await axios.post(`${API_URL}/markets`, newMarket,{
             headers: {
                 Authorization: `Bearer ${token}`,
-            },
+            }, 
         })
-
-        //console.log(res)
-        //console.log("New market created: ", newMarket);
-        navigate("/markets")    
+        if(res.status === 200){
+            toggleMarketCreated()
+        }
+        navigate("/")    
         } catch (error) {
             setError(e.message)
         }
-    }
+    };
+    const toggleMarketCreated = () => setMarketCreated(!marketCreated);
+    const openCreateMarket =() =>{
+        if(marketCreated === true){
+            toggleMarketCreated()
+            onOpen();
+        }else onOpen();
+    };
+
 
     return (
         <>
-            <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={onOpen}>
+            <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={openCreateMarket}>
                 Add a market
             </Button>
-            <Drawer
+         { !marketCreated &&  <Drawer
                 isOpen={isOpen}
                 placement='right'
                 initialFocusRef={firstField}
@@ -71,7 +88,7 @@ export default function FormCreateMarket() {
                     <DrawerHeader borderBottomWidth='1px'>
                         Add a new market
                     </DrawerHeader>
-                    <form onSubmit={handleSubmit}>
+                    
                         <DrawerBody>
 
                             <Stack spacing='24px'>
@@ -114,6 +131,11 @@ export default function FormCreateMarket() {
                                 </FormControl>
 
                                 <FormControl>
+                                    <FormLabel htmlFor='address'>Location</FormLabel>
+                                    <Autocomplete props ={objSentAsProps}></Autocomplete>
+                                </FormControl>
+
+                                <FormControl>
                                     <FormLabel htmlFor='website'>Website</FormLabel>
                                     <Input
                                         type='url'
@@ -130,11 +152,11 @@ export default function FormCreateMarket() {
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button type='submit' colorScheme='blue' onClick={onClose}>Submit</Button>
+                            <Button type='submit' colorScheme='blue' onClick={handleSubmit}>Submit</Button>
                         </DrawerFooter>
-                    </form>
+                   
                 </DrawerContent>
-            </Drawer>
+            </Drawer> }
         </>
     )
 }

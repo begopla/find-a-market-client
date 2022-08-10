@@ -1,171 +1,253 @@
-import React, { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import service from "../../services/apiHandler"
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import service from "../../services/apiHandler";
 import {
-    Button,
-    Drawer,
-    DrawerOverlay,
-    DrawerCloseButton,
-    DrawerHeader,
-    DrawerBody,
-    DrawerFooter,
-    DrawerContent,
-    Stack,
-    FormLabel,
-    Input,
-    Select,
-    Textarea,
-    useDisclosure,
-    FormControl
-} from '@chakra-ui/react'
-import { EditIcon } from '@chakra-ui/icons';
-//const API_URL = process.env.REACT_APP_API_URL
+  Button,
+  Spinner,
+  Drawer,
+  DrawerOverlay,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  DrawerContent,
+  Stack,
+  FormLabel,
+  Input,
+  Select,
+  Textarea,
+  useDisclosure,
+  FormControl,
+} from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
 
-export default function FormEditMarket() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const firstField = React.useRef()
-    const [detailMarket, setDetailMarket] = useState({})
-    const [editMarket, setEditMarket] = useState({name: "",type:"", description:"", website:""})
-    const [error, setError] = useState(null)
-    const navigate = useNavigate()
-    const { marketId } = useParams()
+export default function FormEditMarket({
+  props: { detailMarket, setDetailMarket },
+}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const firstField = React.useRef();
+  const [editMarket, setEditMarket] = useState({ ...detailMarket });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const { marketId } = useParams();
+  const [toggleEditMarket, setToggleEditMarket] = useState(false);
+  const [addressEdited, setAddressEdited] = useState("");
+  
 
-    const handleDeleteMarket = async () => {
-		const { data } = await service.delete(`/markets/${marketId}`)
-        console.log(data);
-		console.log("Market deleted: ", marketId);
-		setTimeout(() => navigate("/markets"), 1000)
-	}
+  const handleDeleteMarket = async () => {
+    const { data } = await service.delete(`/markets/${marketId}`);
+    setTimeout(() => navigate("/markets"), 1000);
+  };
 
-    const handleEditMarket = async (e) => {
-        e.preventDefault()
-        try {
-            const { data } = await service.put(`/markets/${marketId}`, editMarket)
-            setDetailMarket(data)
-            navigate(`/markets/${marketId}`)
-            console.log(data)
-            console.log("Market updated: ", editMarket);
-        } catch (error) {
-            setError(e.message)
-        }
+  const handleEditMarket = async (e) => {
+    e.preventDefault();
+    try {
+      //getting the new activity data
+      const { data } = await service.put(`/markets/${marketId}`, editMarket);
+      setDetailMarket(data);
+  
+      if (data) {
+        toggleMarket();
+      }
+    } catch (error) {
+      setError(e.message);
     }
+  };
 
-    const getOneMarket = async () => {
-        const { data } = await service.get(`/markets/${marketId}`)
-        setEditMarket(data)
-    }
+  const toggleMarket = () => setToggleEditMarket(!toggleEditMarket);
+  const openEditMarket = () => {
+    if (toggleEditMarket === true) {
+      toggleMarket();
+      onOpen();
+    } else onOpen();
+  };
 
-    useEffect(() => {
-        getOneMarket()
-    }, [])
+  const handleSelectAutocomplete = async (value) => {
+    const results = await geocodeByAddress(value);
+    const latLng = await getLatLng(results[0]);
+    setAddressEdited(results[0].formatted_address);
+    setEditMarket ({
+            ...detailMarket,
+            address:results[0].formatted_address,
+            coordinates:latLng
+        });
 
-    return (
-        <>
-            <Button leftIcon={<EditIcon />} colorScheme='teal' onClick={onOpen}>
-                Edit market
-            </Button>
-            <Drawer
-                isOpen={isOpen}
-                placement='right'
-                initialFocusRef={firstField}
-                onClose={onClose}
-            >
-                <DrawerOverlay />
-                <DrawerContent>
-                    <DrawerCloseButton />
-                    <DrawerHeader borderBottomWidth='1px'>
-                        Edit market
-                    </DrawerHeader>
-                    
-                        <DrawerBody>
+  };
+  return (
+    <>
+      <Button
+        leftIcon={<EditIcon />}
+        colorScheme="teal"
+        onClick={openEditMarket}
+      >
+        Edit market
+      </Button>
+      {!toggleEditMarket && (
+        <Drawer
+          isOpen={isOpen}
+          placement="right"
+          initialFocusRef={firstField}
+          onClose={onClose}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader borderBottomWidth="1px">Edit market</DrawerHeader>
 
-                            <Stack spacing='24px'>
-                                <FormControl isRequired>
-                                    <FormLabel htmlFor='name'>Name</FormLabel>
-                                    <Input
-                                        ref={firstField}
-                                        id='name'
-                                        name="name"
-                                        placeholder={editMarket.name}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.name]: e.target.value,
-                                            })
-                                        }
-                                    />
-                                </FormControl>
+            <DrawerBody>
+              <Stack spacing="24px">
+                <FormControl isRequired>
+                  <FormLabel htmlFor="name">Name</FormLabel>
+                  <Input
+                    ref={firstField}
+                    id="name"
+                    name="name"
+                    placeholder={detailMarket.name}
+                    onChange={(e) =>
+                      setEditMarket({
+                        ...editMarket,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </FormControl>
 
-                                <FormControl>
-                                    <FormLabel htmlFor='type'>Type of market</FormLabel>
-                                    <Select
-                                        id='type'
-                                        name='type'
-                                        placeholder={editMarket.type}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.type]: e.target.value,
-                                            })
-                                        }>
-                                        <option value='Fresh Food market'>Fresh Food market</option>
-                                        <option value='Farmers market'>Farmers market</option>
-                                        <option value='Flea market'>Flea market</option>
-                                        <option value='Street Food market'>Street Food market</option>
-                                        <option value='Bazaar'>Bazaar</option>
-                                        <option value='Night market'>Night market</option>
-                                        <option value='Books market'>Books market</option>
-                                        <option value='Fish market'>Fish market</option>
-                                    </Select>
-                                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="type">Type of market</FormLabel>
+                  <Select
+                    id="type"
+                    name="type"
+                    placeholder={detailMarket.type}
+                    onChange={(e) =>
+                      setEditMarket({
+                        ...editMarket,
+                        [e.target.type]: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="Fresh Food market">Fresh Food market</option>
+                    <option value="Farmers market">Farmers market</option>
+                    <option value="Flea market">Flea market</option>
+                    <option value="Street Food market">
+                      Street Food market
+                    </option>
+                    <option value="Bazaar">Bazaar</option>
+                    <option value="Night market">Night market</option>
+                    <option value="Books market">Books market</option>
+                    <option value="Fish market">Fish market</option>
+                  </Select>
+                </FormControl>
 
-                                <FormControl>
-                                    <FormLabel htmlFor='description'>Description</FormLabel>
-                                    <Textarea
-                                        id='description'
-                                        name='description'
-                                        placeholder={editMarket.description}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.description]: e.target.value,
-                                            })
-                                        } />
-                                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="description">Description</FormLabel>
+                  <Textarea
+                    id="description"
+                    name="description"
+                    placeholder={detailMarket.description}
+                    onChange={(e) =>
+                      setEditMarket({
+                        ...editMarket,
+                        [e.target.description]: e.target.value,
+                      })
+                    }
+                  />
+                </FormControl>
 
-                                <FormControl>
-                                    <FormLabel htmlFor='website'>Website</FormLabel>
-                                    <Input
-                                        type='url'
-                                        id='website'
-                                        name='website'
-                                        placeholder={editMarket.website}
-                                        onChange={(e) =>
-                                            setEditMarket({
-                                                ...editMarket,
-                                                [e.target.website]: e.target.value,
-                                            })
-                                        }
-                                    />
-                                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="address">Location</FormLabel>
+                  <PlacesAutocomplete
+                    value={addressEdited}
+                    onChange={setAddressEdited}
+                    onSelect={handleSelectAutocomplete}
+                  >
+                    {({
+                      getInputProps,
+                      suggestions,
+                      getSuggestionItemProps,
+                      loading,
+                    }) => (
+                      <div>
+                        
+                        <Input
+                          {...getInputProps({ placeholder: `${detailMarket.address}`})}
+                        />
+                        <div>
+                          {loading && (
+                            <Spinner
+                              position="fixed"
+                              top={{ base: "30%", md: "40%", lg: "50%" }}
+                              left="50%"
+                              marginLeft="-1.5em"
+                              thickness="4px"
+                              speed="0.65s"
+                              emptyColor="gray.200"
+                              color="teal.500"
+                              size="xl"
+                            />
+                          )}
+                          {suggestions.map((suggestion) => {
+                            const style = {
+                              backgroundColor: suggestion.active
+                                ? "#08ffc8"
+                                : "#fff",
+                            };
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  style,
+                                })}
+                              >
+                                {suggestion.description}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </PlacesAutocomplete>
+                </FormControl>
 
-                            </Stack>
-                        </DrawerBody>
+                <FormControl>
+                  <FormLabel htmlFor="website">Website</FormLabel>
+                  <Input
+                    type="url"
+                    id="website"
+                    name="website"
+                    placeholder={detailMarket.website}
+                    onChange={(e) =>
+                      setEditMarket({
+                        ...editMarket,
+                        [e.target.website]: e.target.value,
+                      })
+                    }
+                  />
+                </FormControl>
+              </Stack>
+            </DrawerBody>
 
-                        <DrawerFooter borderTopWidth='1px'>
-                            <Button variant='outline' mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button type='submit' colorScheme='blue' mr={3} onClick={handleEditMarket}>
-                                Submit
-                            </Button>
-                            <Button colorScheme='red' onClick={handleDeleteMarket}>
-                                Delete
-                            </Button>
-                        </DrawerFooter>
-                    
-                </DrawerContent>
-            </Drawer>
-        </>
-    )
+            <DrawerFooter borderTopWidth="1px">
+              <Button variant="outline" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                colorScheme="blue"
+                mr={3}
+                onClick={handleEditMarket}
+              >
+                Submit
+              </Button>
+              <Button colorScheme="red" onClick={handleDeleteMarket}>
+                Delete
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )}
+    </>
+  );
 }

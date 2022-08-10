@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
-import MarketInfo from "../../components/MarketInfo/MarketInfo"
 import {
     Box,
     Spinner,
@@ -12,7 +11,7 @@ import {
     Stack,
     Link,
     Flex,
-    Badge, Skeleton
+    Badge, 
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons';
 import FormEditMarket from "../../components/Forms/FormEditMarket"
@@ -22,16 +21,19 @@ const MarketDetails = () => {
     const [detailMarket, setDetailMarket] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const { marketId } = useParams()
-
     const getOneMarket = async () => {
         const { data } = await axios.get(`${API_URL}/markets/${marketId}`)
         setDetailMarket(data)
         setIsLoading(false)
-        //console.log('end of fetch');
     }
     useEffect(() => {
         getOneMarket()
     }, [])
+
+    const objSentAsProps ={
+        detailMarket: detailMarket,
+        setDetailMarket: setDetailMarket,
+            }
 
     return (
         <>
@@ -61,7 +63,7 @@ const MarketDetails = () => {
                     <Stack spacing={2} px={'2rem'}>
                         <Text fontSize='3xl'>{detailMarket.name}</Text>
                         <Flex alignItems='baseline' justifyContent='space-between'>
-                            <Box as='span' color='gray.600' fontSize='sm'>City &bull; Country</Box>
+                            <Box as='span' color='gray.600' fontSize='sm'>{detailMarket.address}</Box>
                             <Box display='flex' mt='2' alignItems='center' gap='3px'>
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'>10</Box>
                                 <StarIcon color={'teal.500'} />
@@ -77,7 +79,7 @@ const MarketDetails = () => {
                         <Text fontSize='md'>{detailMarket.description}</Text>
                         <Text fontSize='sm'>Website: <Link href={detailMarket.website} isExternal>{detailMarket.website}</Link></Text>
                     </Stack>
-                    <FormEditMarket {...getOneMarket} />
+                    <FormEditMarket props ={objSentAsProps} />
                 </Stack>
             )}
         </>
