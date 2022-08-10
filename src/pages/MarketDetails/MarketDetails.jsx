@@ -126,8 +126,8 @@ const MarketDetails = () => {
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
                 <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" />
-              { savedAsFav && <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />}
-              { !savedAsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
+              { !savedAsFav && <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />}
+              {  savedAsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">

@@ -10,7 +10,7 @@ import PrivateRoute from "./components/ProtectedRoute/PrivateRoute"
 import Markets from "./pages/Markets/Markets"
 import IconFooter from "./components/Footer/IconFooter"
 import DiscoverPage from "./pages/DiscoverPage/DiscoverPage"
-import Settings from "./pages/Settings"
+import Favourites from "./pages/Favourites"
 import UserData from "./pages/UserData"
 
 function App() {
@@ -28,11 +28,13 @@ function App() {
 				 	<Route path="/markets/discover" element={<DiscoverPage />} />
 					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
+						
 					</Route> 
+					<Route path="/profile/favourites" element={<Favourites />} />
 					<Route path="*" element={<Oops />} />
 				</Route>
 				<Route element={<PrivateRoute />}>	
-						<Route path="/profile/settings" element={<Settings />} />
+						
 						<Route path="/profile/user" element={<UserData />} />
 				</Route>
 				
