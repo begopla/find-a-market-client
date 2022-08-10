@@ -5,7 +5,7 @@ import { Box, Input, InputGroup, InputRightElement, Button, Center, useColorMode
 import service from "../../services/apiHandler"
 import { SearchIcon } from '@chakra-ui/icons';
 
-export default function Searchbar() {
+export default function Searchbar(({props: { markets, setMarkets }})) {
     const [inputText, setInputText] = useState("");
     //const [searchResults, setSearchResults] = useState([])
     const [error, setError] = useState(null)
