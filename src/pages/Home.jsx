@@ -4,11 +4,12 @@ import {Box, useColorModeValue} from '@chakra-ui/react'
 import Searchbar from "../components/Searchbar/Searchbar";
 
 const Home = () => {
+	const [markets, setMarkets] = useState([])
 	return (
-		<>
-		<Searchbar />
+		<> 
+		<Searchbar markets={setMarkets}/>
 		<Box bg={useColorModeValue('gray.200', 'gray.700')}>
-			<Markets />
+			<Markets markets={setMarkets}/>
 		</Box>
 		</>
 	);

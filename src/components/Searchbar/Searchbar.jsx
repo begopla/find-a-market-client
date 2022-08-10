@@ -1,16 +1,13 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./Searchbar.css";
-import axios from "axios";
 import { Box, Input, InputGroup, InputRightElement, Button, Center, useColorModeValue } from '@chakra-ui/react';
 import service from "../../services/apiHandler"
 import { SearchIcon } from '@chakra-ui/icons';
 
-const API_URL = process.env.REACT_APP_API_URL
-
 export default function Searchbar() {
     const [inputText, setInputText] = useState("");
-    const [searchResults, setSearchResults] = useState([])
+    //const [searchResults, setSearchResults] = useState([])
     const [error, setError] = useState(null)
     const navigate = useNavigate()
 
@@ -19,7 +16,7 @@ export default function Searchbar() {
         try {
             console.log(inputText);
             const {data} = await service.get(`/markets/search?q=${inputText}`)
-            setSearchResults(data)
+            setMarkets(data)
             console.log("search results: ", data)
         } catch (error) {
             setError(e.message)

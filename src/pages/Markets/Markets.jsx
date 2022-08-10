@@ -7,7 +7,7 @@ import {Box, SimpleGrid, useColorModeValue} from '@chakra-ui/react'
 const API_URL = process.env.REACT_APP_API_URL
 
 const Markets = () => {
-	const [markets, setMarkets] = useState([])
+	//const [markets, setMarkets] = useState([])
 	const getAllMarkets = async () => {
 		const response = await axios.get(`${API_URL}/`)
 		 //console.log(response)
