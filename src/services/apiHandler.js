@@ -34,6 +34,14 @@ service.fileUpload =async (picture)=>{
 	errorHandler(error)
    }
 }
+service.marketPhotoUpload =async (picture)=>{
+	try {
+	 const {data} = await service.put('/markets/:marketId',picture)
+	 return data
+	} catch (error) {
+	 errorHandler(error)
+	}
+ }
 
 service.signin = async (user) => {
 	try {
