@@ -63,7 +63,7 @@ const MarketDetails = () => {
                     <Stack spacing={2} px={'2rem'}>
                         <Text fontSize='3xl'>{detailMarket.name}</Text>
                         <Flex alignItems='baseline' justifyContent='space-between'>
-                            <Box as='span' color='gray.600' fontSize='sm'>City &bull; Country?</Box>
+                            <Box as='span' color='gray.600' fontSize='sm'>{detailMarket.address}</Box>
                             <Box display='flex' mt='2' alignItems='center' gap='3px'>
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'>10</Box>
                                 <StarIcon color={'teal.500'} />

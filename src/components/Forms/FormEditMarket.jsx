@@ -35,12 +35,11 @@ export default function FormEditMarket({
   const navigate = useNavigate();
   const { marketId } = useParams();
   const [toggleEditMarket, setToggleEditMarket] = useState(false);
-  const [address, setAddress] = useState("");
+  const [addressEdited, setAddressEdited] = useState("");
+  
 
   const handleDeleteMarket = async () => {
     const { data } = await service.delete(`/markets/${marketId}`);
-    console.log(data);
-    console.log("Market deleted: ", marketId);
     setTimeout(() => navigate("/markets"), 1000);
   };
 
@@ -50,10 +49,7 @@ export default function FormEditMarket({
       //getting the new activity data
       const { data } = await service.put(`/markets/${marketId}`, editMarket);
       setDetailMarket(data);
-      // navigate(`/markets/${marketId}`)
-      console.log(data);
-      console.log("Market updated: ", detailMarket);
-
+  
       if (data) {
         toggleMarket();
       }
@@ -72,12 +68,14 @@ export default function FormEditMarket({
 
   const handleSelectAutocomplete = async (value) => {
     const results = await geocodeByAddress(value);
-    console.log(results);
     const latLng = await getLatLng(results[0]);
-    setAddress(value);
-    console.log(latLng);
-    //!setCoordinates(latLng);
-    //console.log("Coordinates:", coordinates)
+    setAddressEdited(results[0].formatted_address);
+    setEditMarket ({
+            ...detailMarket,
+            address:results[0].formatted_address,
+            coordinates:latLng
+        });
+
   };
   return (
     <>
@@ -161,13 +159,9 @@ export default function FormEditMarket({
 
                 <FormControl>
                   <FormLabel htmlFor="address">Location</FormLabel>
-                  <p>Current location: {detailMarket.address}</p>
                   <PlacesAutocomplete
-                    value={editMarket.address}
-                    onChange={(e) => setAddress({
-                        ...editMarket,
-                        [e.target.description]: e.target.value,
-                    })}
+                    value={addressEdited}
+                    onChange={setAddressEdited}
                     onSelect={handleSelectAutocomplete}
                   >
                     {({

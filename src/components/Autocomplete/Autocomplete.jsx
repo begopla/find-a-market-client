@@ -9,12 +9,10 @@ const Autocomplete = ({ props: { coordinates, setCoordinates, address, setAddres
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
-    console.log(results);
     const latLng = await getLatLng(results[0]);
     setAddress(value);
     console.log(latLng);
     setCoordinates(latLng);
-    //console.log("Coordinates:", coordinates)
   };
   return (
     <>

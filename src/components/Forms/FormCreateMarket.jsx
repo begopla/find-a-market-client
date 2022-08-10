@@ -47,8 +47,7 @@ export default function FormCreateMarket() {
         e.preventDefault()
         try {
         const token = localStorage.getItem("authToken")
-        const newMarket = {name, type, description, website, coordinates}
-        console.log(name,type, description, website, coordinates, address)
+        const newMarket = {name, type, description, website, coordinates, address}
         //const res = await service.post("/markets", newMarket)
         const res = await axios.post(`${API_URL}/markets`, newMarket,{
             headers: {
@@ -58,7 +57,7 @@ export default function FormCreateMarket() {
         if(res.status === 200){
             toggleMarketCreated()
         }
-        navigate("/markets")    
+        navigate("/")    
         } catch (error) {
             setError(e.message)
         }
