@@ -35,7 +35,7 @@ export default function IconFooter() {
         <Box as={'a'} href={'/favourites'} >
           <VscHeart size={24} />
         </Box>
-        <Box as={'a'} href={'/signin'}>
+        <Box as={'a'} href={'/profile'}>
           <CgProfile size={24} />
         </Box>
         <Box as={'a'} href={'/markets/discover'}>

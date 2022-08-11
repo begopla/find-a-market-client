@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import {BrowserRouter, Switch, Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
 import Home from "./pages/Home"
 import Signin from "./pages/Signin"
@@ -10,32 +10,35 @@ import PrivateRoute from "./components/ProtectedRoute/PrivateRoute"
 import Markets from "./pages/Markets/Markets"
 import IconFooter from "./components/Footer/IconFooter"
 import DiscoverPage from "./pages/DiscoverPage/DiscoverPage"
-import Settings from "./pages/Settings"
+import Favourites from "./pages/Favourites"
 import UserData from "./pages/UserData"
 import SearchResults from "./pages/SearchResults"
 
 function App() {
-	return (
-		<div className="App">
-			<Navbar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/signin" element={<Signin />} />
-				<Route path="/signup" element={<Signup />} />
-				<Route path="/markets" element={<Markets />} />
-				<Route path="/markets/:marketId" element={<MarketDetails />} />
-				<Route path="/markets/discover" element={<DiscoverPage />} />
-				<Route element={<PrivateRoute />}>
-					<Route path="/profile" element={<Profile />} />
-					<Route path="/profile/settings" element={<Settings />} />
-					<Route path="/profile/user" element={<UserData />} />
+			return (				
+				<>
+				<Routes>
+				<Route element={<Navbar/>}>
+					<Route path="/" element={<Home />} />
+					<Route path="/signin" element={<Signin />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/markets" element={<Markets />} />
+          <Route path="/markets/:marketId" element={<MarketDetails />} />
+				 	<Route path="/markets/discover" element={<DiscoverPage />} />
+					<Route path="/profile" element={<PrivateRoute />}>
+						<Route path="/profile" element={<Profile />} />
+					</Route> 
+					<Route path="/profile/favourites" element={<Favourites />} />
+					<Route path="*" element={<Oops />} />
 				</Route>
-				<Route path="*" element={<Oops />} />
-			</Routes>
-			<IconFooter />
-		</div>
-
-	)
+				<Route element={<PrivateRoute />}>	
+						
+						<Route path="/profile/user" element={<UserData />} />
+				</Route>
+				</Routes>
+        		<IconFooter />
+				</>
+			);		
 }
 
 export default App

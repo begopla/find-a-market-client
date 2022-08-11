@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, Outlet } from "react-router-dom"
 import useAuth from "../../context/auth/useAuth"
 import "./Navbar.css"
-
+import FormCreateMarket from "../Forms/FormCreateMarket";
 import {
 	Box,
 	Flex,
@@ -19,20 +19,6 @@ import {
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-/*const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-	px={2}
-	py={1}
-	rounded={'md'}
-	_hover={{
-	  textDecoration: 'none',
-	  bg: useColorModeValue('gray.200', 'gray.700'),
-	}}
-	href={'#'}>
-	{children}
-  </Link>
-);*/
-
 export default function Navbar() {
 	const { isLoggedIn, currentUser, removeUser } = useAuth()
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -49,6 +35,7 @@ export default function Navbar() {
 							</Button>
 							{isLoggedIn && (
 								<>
+								<FormCreateMarket />
 									<Menu>
 										<MenuButton
 											as={Button}
@@ -77,7 +64,7 @@ export default function Navbar() {
 											<MenuDivider />
 											<MenuItem><NavLink to='/profile'>Your Profile</NavLink></MenuItem>
 											<MenuItem><NavLink to='/profile/User'>Personal Data</NavLink></MenuItem>
-											<MenuItem><NavLink to='/profile/settings'> Settings</NavLink></MenuItem>
+											<MenuItem><NavLink to='/profile/favourites'> Favourites</NavLink></MenuItem>
 											<MenuItem  onClick={removeUser}>Logout</MenuItem>
 
 										</MenuList>
@@ -94,6 +81,7 @@ export default function Navbar() {
 					</Flex>
 				</Flex>
 			</Box>
+			<Outlet/>
 		</>
 	);
 }
