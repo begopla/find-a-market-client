@@ -14,13 +14,14 @@ import {
     Stack,
     FormLabel,
     Input,
-    Select,
     Textarea,
     useDisclosure,
     FormControl
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import Autocomplete from "../Autocomplete/Autocomplete";
+import Select from 'react-select';
+
 export default function FormCreateMarket() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = React.useRef();
@@ -44,6 +45,18 @@ export default function FormCreateMarket() {
         address: address,
         setAddress: setAddress
     };
+
+    const typeOptions = [
+        {value: 'Fresh Food market', label: 'Fresh Food market'},
+        {value: 'Farmers market', label: 'Farmers market'},
+        {value: 'Flea market', label: 'Flea market'},
+        {value: 'Street Food market', label: 'Street Food market'},
+        {value: 'Bazaar', label: 'Bazaar'},
+        {value: 'Night market', label: 'Night market'},
+        {value: 'Books market', label: 'Books market'},
+        {value: 'Fish market', label: 'Fish market'}
+    ];
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
@@ -107,20 +120,12 @@ export default function FormCreateMarket() {
                                 <FormControl>
                                     <FormLabel htmlFor='type'>Type of market</FormLabel>
                                     <Select
-                                        placeholder='Select one'
-                                        id='type'
                                         name='type'
+                                        options={typeOptions}
                                         onChange={(e) => {setType(e.target.value)
-                                        console.log(e.target.value)}}>
-                                        <option value='Fresh Food market'>Fresh Food market</option>
-                                        <option value='Farmers market'>Farmers market</option>
-                                        <option value='Flea market'>Flea market</option>
-                                        <option value='Street Food market'>Street Food market</option>
-                                        <option value='Bazaar'>Bazaar</option>
-                                        <option value='Night market'>Night market</option>
-                                        <option value='Books market'>Books market</option>
-                                        <option value='Fish market'>Fish market</option>
-                                    </Select>
+                                        console.log(e.target.value)}}
+                                        />
+                                    
                                 </FormControl>
                                 
                                 <FormControl>
