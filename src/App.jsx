@@ -12,11 +12,10 @@ import IconFooter from "./components/Footer/IconFooter"
 import DiscoverPage from "./pages/DiscoverPage/DiscoverPage"
 import Favourites from "./pages/Favourites"
 import UserData from "./pages/UserData"
+import SearchResults from "./pages/SearchResults"
 
 function App() {
-
-			return (
-				
+			return (				
 				<>
 				<Routes>
 				<Route element={<Navbar/>}>
@@ -24,11 +23,10 @@ function App() {
 					<Route path="/signin" element={<Signin />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/markets" element={<Markets />} />
-          			<Route path="/markets/:marketId" element={<MarketDetails />} />
+          <Route path="/markets/:marketId" element={<MarketDetails />} />
 				 	<Route path="/markets/discover" element={<DiscoverPage />} />
 					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
-						
 					</Route> 
 					<Route path="/profile/favourites" element={<Favourites />} />
 					<Route path="*" element={<Oops />} />
@@ -37,14 +35,10 @@ function App() {
 						
 						<Route path="/profile/user" element={<UserData />} />
 				</Route>
-				
-
 				</Routes>
         		<IconFooter />
 				</>
-			);
-		
-	
+			);		
 }
 
 export default App
