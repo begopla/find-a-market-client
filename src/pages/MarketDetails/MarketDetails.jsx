@@ -22,6 +22,7 @@ import { StarIcon } from "@chakra-ui/icons";
 import {FaRegHeart} from "react-icons/fa";
 import FormEditMarket from "../../components/Forms/FormEditMarket";
 import ReviewInput from "../../components/Review/ReviewInput";
+import Review from "../../components/Review/Review";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
@@ -85,7 +86,7 @@ const MarketDetails = () => {
         />
       )}
       {!isLoading && (
-        <Stack className="DetailsMarket" py={"4rem"} mb={"5rem"} spacing={4}>
+        <Stack className="DetailsMarket" py={"4rem"} mb={"3rem"} spacing={4}>
           <Center>
             <Box w="100%">
               <Image
@@ -164,10 +165,13 @@ const MarketDetails = () => {
             </Flex>
             </Flex>
             <Text fontSize="md">{detailMarket.description}</Text>
-            <Text fontSize="sm">Opening days: {detailMarket.opening_days}</Text>
-            <Text fontSize="sm">Opening Months: {detailMarket.opening_months}</Text>
             <Text fontSize="sm">
-              Website:{" "} //?
+            <br/>Opening days: {detailMarket.opening_days}
+            <br/>Opening Months: {detailMarket.opening_months}
+            <br/>Opening hours: {detailMarket.opening_hours.from} to {detailMarket.opening_hours.to}
+            </Text>
+            <Text fontSize="sm">
+              Website:{" "} 
               <Link href={detailMarket.website} isExternal>
                 {detailMarket.website}
               </Link>
@@ -175,9 +179,10 @@ const MarketDetails = () => {
           </Stack>
           <FormEditMarket props={objSentAsProps} />
           <Box mt={4} pl={6}>
-              <Text>Do you know this market?</Text>
+              <Text fontSize="lg">Do you know this market?</Text>
               <ReviewInput />
           </Box>
+          <Review />
         </Stack>
       )}
     </>

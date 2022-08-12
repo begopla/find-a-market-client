@@ -15,7 +15,7 @@ import {
 	useColorModeValue,
 	Stack,
 	useColorMode,
-	Center,
+	Center
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
@@ -27,7 +27,9 @@ export default function Navbar() {
 		<>
 			<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} pos={'fixed'} width={'100%'}>
 				<Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-					<NavLink to='/'>Logo</NavLink>
+					<NavLink to='/'>
+						<img src="/logo1.png" alt="logo" width='45rem' />
+					</NavLink>
 					<Flex alignItems={'center'}>
 						<Stack direction={'row'} spacing={7}>
 							<Button onClick={toggleColorMode}>
@@ -35,7 +37,7 @@ export default function Navbar() {
 							</Button>
 							{isLoggedIn && (
 								<>
-								<FormCreateMarket />
+									<FormCreateMarket />
 									<Menu>
 										<MenuButton
 											as={Button}
@@ -65,7 +67,7 @@ export default function Navbar() {
 											<MenuItem><NavLink to='/profile'>Your Profile</NavLink></MenuItem>
 											<MenuItem><NavLink to='/profile/User'>Personal Data</NavLink></MenuItem>
 											<MenuItem><NavLink to='/profile/favourites'> Favourites</NavLink></MenuItem>
-											<MenuItem  onClick={removeUser}>Logout</MenuItem>
+											<MenuItem onClick={removeUser}>Logout</MenuItem>
 
 										</MenuList>
 									</Menu>
@@ -81,7 +83,7 @@ export default function Navbar() {
 					</Flex>
 				</Flex>
 			</Box>
-			<Outlet/>
+			<Outlet />
 		</>
 	);
 }
