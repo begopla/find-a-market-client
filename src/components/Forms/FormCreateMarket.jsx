@@ -16,7 +16,8 @@ import {
     Input,
     Textarea,
     useDisclosure,
-    FormControl
+    FormControl,
+    Text
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import Autocomplete from "../Autocomplete/Autocomplete";
@@ -28,6 +29,8 @@ export default function FormCreateMarket() {
     const [marketCreated, setMarketCreated] = useState(false);
     const [name, setName] = useState("");
     const [type, setType] = useState([]);
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
     const [description, setDescription] = useState("");
     const [website, setWebsite] = useState("");
     const [coordinates, setCoordinates] = useState({
@@ -37,8 +40,8 @@ export default function FormCreateMarket() {
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
     const [marketPhoto, setMarketPhoto] = useState([]);
-    const [openingDays, setOpeningDays ] = useState([]);
-    const [openingMonths, setOpeningMonths ] = useState([]);
+    const [openingDays, setOpeningDays] = useState([]);
+    const [openingMonths, setOpeningMonths] = useState([]);
     const navigate = useNavigate();
 
     const objSentAsProps = {
@@ -86,8 +89,8 @@ export default function FormCreateMarket() {
         { value: 'December', label: 'December' }
     ];
 
-    const handleDays = openingDays =>{setOpeningDays(openingDays)}
-    const handleMonths = openingMonths =>{setOpeningMonths(openingMonths)}
+    const handleDays = openingDays => { setOpeningDays(openingDays) }
+    const handleMonths = openingMonths => { setOpeningMonths(openingMonths) }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -95,9 +98,9 @@ export default function FormCreateMarket() {
             const token = localStorage.getItem("authToken")
             const imageUrl = new FormData();
             imageUrl.append("marketPhoto", marketPhoto);
-            const newMarket = { name, type:type.value, openingDays, openingMonths, description, website, coordinates, address, imageUrl }
+            const newMarket = { name, type: type.value, openingDays, openingMonths, from, to, description, website, coordinates, address, imageUrl }
             //const res = await service.post("/markets", newMarket)
-            
+
             const res = await axios.post(`${API_URL}/markets`, newMarket, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -182,6 +185,28 @@ export default function FormCreateMarket() {
                                     closeMenuOnSelect={false}
                                     onChange={handleMonths}
                                 />
+                            </FormControl>
+
+                            <FormControl>
+                                <FormLabel>Opening hours</FormLabel>
+                                <Stack direction={'row'} >
+                                    <Stack>
+                                        <FormLabel htmlFor="from">From</FormLabel>
+                                        <Input
+                                            type={'time'}
+                                            name='from'
+                                            onChange={(e) => setFrom(e.target.value)}
+                                        />
+                                    </Stack>
+                                    <Stack>
+                                        <FormLabel htmlFor="to">to</FormLabel>
+                                        <Input
+                                            type={'time'}
+                                            name='to'
+                                            onChange={(e) => setTo(e.target.value)}
+                                        />
+                                    </Stack>
+                                </Stack>
                             </FormControl>
 
                             <FormControl>

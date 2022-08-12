@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import service from "../../services/apiHandler";
 import {
+  Center,
   Button,
   Spinner,
   Drawer,
@@ -36,7 +37,7 @@ export default function FormEditMarket({
   const { marketId } = useParams();
   const [toggleEditMarket, setToggleEditMarket] = useState(false);
   const [addressEdited, setAddressEdited] = useState("");
-  
+
 
   const handleDeleteMarket = async () => {
     const { data } = await service.delete(`/markets/${marketId}`);
@@ -49,7 +50,7 @@ export default function FormEditMarket({
       //getting the new activity data
       const { data } = await service.put(`/markets/${marketId}`, editMarket);
       setDetailMarket(data);
-  
+
       if (data) {
         toggleMarket();
       }
@@ -70,22 +71,25 @@ export default function FormEditMarket({
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
     setAddressEdited(results[0].formatted_address);
-    setEditMarket ({
-            ...detailMarket,
-            address:results[0].formatted_address,
-            coordinates:latLng
-        });
+    setEditMarket({
+      ...detailMarket,
+      address: results[0].formatted_address,
+      coordinates: latLng
+    });
 
   };
   return (
     <>
-      <Button
-        leftIcon={<EditIcon />}
-        colorScheme="teal"
-        onClick={openEditMarket}
-      >
-        Edit market
-      </Button>
+      <Center>
+        <Button
+          leftIcon={<EditIcon />}
+          colorScheme="teal"
+          minW="80%"
+          onClick={openEditMarket}
+        >
+          Edit market
+        </Button>
+      </Center>
       {!toggleEditMarket && (
         <Drawer
           isOpen={isOpen}
@@ -171,9 +175,9 @@ export default function FormEditMarket({
                       loading,
                     }) => (
                       <div>
-                        
+
                         <Input
-                          {...getInputProps({ placeholder: `${detailMarket.address}`})}
+                          {...getInputProps({ placeholder: `${detailMarket.address}` })}
                         />
                         <div>
                           {loading && (

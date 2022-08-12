@@ -15,12 +15,13 @@ import {
   Badge,
   Input,
   Button,
-  Icon
+  Icon,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { StarIcon } from "@chakra-ui/icons";
 import {FaRegHeart} from "react-icons/fa";
 import FormEditMarket from "../../components/Forms/FormEditMarket";
+import ReviewInput from "../../components/Review/ReviewInput";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
@@ -84,7 +85,7 @@ const MarketDetails = () => {
         />
       )}
       {!isLoading && (
-        <Stack className="DetailsMarket" py={"4rem"} spacing={4}>
+        <Stack className="DetailsMarket" py={"4rem"} mb={"5rem"} spacing={4}>
           <Center>
             <Box w="100%">
               <Image
@@ -173,6 +174,10 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           <FormEditMarket props={objSentAsProps} />
+          <Box mt={4} pl={6}>
+              <Text>Do you know this market?</Text>
+              <ReviewInput />
+          </Box>
         </Stack>
       )}
     </>
