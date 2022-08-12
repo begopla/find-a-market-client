@@ -163,8 +163,10 @@ const MarketDetails = () => {
             </Flex>
             </Flex>
             <Text fontSize="md">{detailMarket.description}</Text>
+            <Text fontSize="sm">Opening days: {detailMarket.opening_days}</Text>
+            <Text fontSize="sm">Opening Months: {detailMarket.opening_months}</Text>
             <Text fontSize="sm">
-              Website:{" "}
+              Website:{" "} //?
               <Link href={detailMarket.website} isExternal>
                 {detailMarket.website}
               </Link>
