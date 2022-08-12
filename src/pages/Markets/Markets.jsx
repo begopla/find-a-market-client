@@ -19,7 +19,7 @@ const Markets = ({props: { markets, setMarkets }}) => {
   
 	useEffect(() => {
 		getAllMarkets()
-	}, [])
+	}, []);
 
 	return (
 		<>

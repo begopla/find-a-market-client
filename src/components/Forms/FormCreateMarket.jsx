@@ -35,7 +35,6 @@ export default function FormCreateMarket() {
     });
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
-    const [marketPhoto, setMarketPhoto] = useState([])
     const navigate = useNavigate();
        
     const objSentAsProps ={
@@ -48,9 +47,8 @@ export default function FormCreateMarket() {
         e.preventDefault()
         try {
         const token = localStorage.getItem("authToken")
-        const imageUrl = new FormData();
-        imageUrl.append("marketPhoto", marketPhoto);
-        const newMarket = {name, type, description, website, coordinates, address, imageUrl}
+       
+        const newMarket = {name, type, description, website, coordinates, address}
         //const res = await service.post("/markets", newMarket)
         const res = await axios.post(`${API_URL}/markets`, newMarket,{
             headers: {
@@ -60,7 +58,7 @@ export default function FormCreateMarket() {
         if(res.status === 200){
             toggleMarketCreated()
         }
-        navigate("/")    
+        setTimeout(() => navigate("/"), 1000);  
         } catch (error) {
             setError(e.message)
         }
@@ -121,20 +119,6 @@ export default function FormCreateMarket() {
                                         <option value='Books market'>Books market</option>
                                         <option value='Fish market'>Fish market</option>
                                     </Select>
-                                </FormControl>
-                                
-                                <FormControl>
-                                <FormLabel htmlFor='marketPhoto'>Market photo</FormLabel>
-                                <Input 
-                                    name="marketPhoto"
-                                    type="file"
-                                    accept="image/png, image/jpeg, image/jpg"
-                                    onChange={(e) => {
-
-                                    console.log(e.target.files[0])
-                                    setMarketPhoto(e.target.files[0])}}
-                                    
-                                />
                                 </FormControl>
 
                                 <FormControl>
