@@ -23,7 +23,7 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                             </Badge>
                             <Box display='flex' mt='2' alignItems='center' gap='3px'>
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                    10 
+                                    10
                                 </Box>
                                 <StarIcon color={'teal.500'} />
                             </Box>

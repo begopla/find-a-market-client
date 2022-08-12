@@ -46,8 +46,6 @@ export default function FormEditMarket({
     e.preventDefault();
     const fd = new FormData()
     try {
-      //getting the new activity data
-      if(imageUrl){
         fd.append("imageUrl", imageUrl)
         
         for(let [key, value] of Object.entries(editMarket)){
@@ -57,16 +55,12 @@ export default function FormEditMarket({
           fd.append(key, value)
         
         }
-      }
-    const { data } = await service.put(`/markets/${marketId}`,editMarket);
-      
-      //for photo upload to cloudinary problem with coordinates and author not getting data only [object object]
-      //const { data } = await service.put(`/markets/${marketId}`,JSON.parse(fd));
-      setDetailMarket(data);
-
-      if (data) {
-        toggleMarket();
-      }
+        const { data } = await service.put(`/markets/${marketId}`,fd);
+        setDetailMarket(data);
+        if (data) {
+          toggleMarket();
+        }  
+     
     } catch (error) {
       setError(e.message);
     }
