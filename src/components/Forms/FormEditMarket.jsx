@@ -50,17 +50,18 @@ export default function FormEditMarket({
       if(imageUrl){
         fd.append("imageUrl", imageUrl)
         
-        for(const [key, value] of Object.entries(editMarket)){
-          fd.append(key, value)
-          for (const [key, value] of fd.entries()) {
-            console.log(key, value)
+        for(let [key, value] of Object.entries(editMarket)){
+          if(typeof value === 'object'){
+            value = JSON.stringify(value)
           }
+          fd.append(key, value)
+        
         }
       }
     const { data } = await service.put(`/markets/${marketId}`,editMarket);
       
       //for photo upload to cloudinary problem with coordinates and author not getting data only [object object]
-      //const { data } = await service.put(`/markets/${marketId}`,fd);
+      //const { data } = await service.put(`/markets/${marketId}`,JSON.parse(fd));
       setDetailMarket(data);
 
       if (data) {
@@ -155,7 +156,7 @@ export default function FormEditMarket({
                   </Select>
                 </FormControl>
                 {/* //For photo upload */}
-                {/* <FormControl>
+                <FormControl>
                   <FormLabel htmlFor="imageUrl">Market photo</FormLabel>
                   <Input
                     name="imageUrl"
@@ -163,7 +164,7 @@ export default function FormEditMarket({
                     accept="image/png, image/jpeg, image/jpg"
                     onChange={(e) => setImageUrl(e.target.files[0])}
                   />
-                </FormControl> */}
+                </FormControl> 
                 <FormControl>
                   <FormLabel htmlFor="description">Description</FormLabel>
                   <Textarea
