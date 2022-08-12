@@ -1,10 +1,9 @@
 import useAuth from "../context/auth/useAuth";
 import React, { useState, useEffect } from "react"
-import {Image, Text, Center, Box, useColorModeValue, Spinner, SimpleGrid} from '@chakra-ui/react';
+import { Text, Center, Box, useColorModeValue, Spinner, SimpleGrid} from '@chakra-ui/react';
 import service from "../services/apiHandler";
 import OneMarket from "../components/OneMarket/OneMarket";
 const Favourites = () => {
-    const {currentUser,  authenticateUser, storeToken } = useAuth();
     const [favMarkets, setFavMarkets] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import OneMarket from "../components/OneMarket/OneMarket"
-import {Box, SimpleGrid, useColorModeValue} from '@chakra-ui/react'
+import {SimpleGrid, useColorModeValue} from '@chakra-ui/react'
 import service from "../services/apiHandler"
 
 const SearchResults = () => {

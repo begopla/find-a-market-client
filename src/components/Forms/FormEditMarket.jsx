@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import service from "../../services/apiHandler";
 import {
   Button,
@@ -26,30 +26,43 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 export default function FormEditMarket({
-  props: { detailMarket, setDetailMarket },
+  props: { detailMarket, setDetailMarket, marketId, imageUrl,setImageUrl },
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
   const [editMarket, setEditMarket] = useState({ ...detailMarket });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { marketId } = useParams();
+  //const { marketId } = useParams();
   const [toggleEditMarket, setToggleEditMarket] = useState(false);
   const [addressEdited, setAddressEdited] = useState("");
-  
 
   const handleDeleteMarket = async () => {
     const { data } = await service.delete(`/markets/${marketId}`);
-    setTimeout(() => navigate("/markets"), 1000);
+    setTimeout(() => navigate("/"), 1000);
   };
 
   const handleEditMarket = async (e) => {
     e.preventDefault();
+    const fd = new FormData()
     try {
       //getting the new activity data
-      const { data } = await service.put(`/markets/${marketId}`, editMarket);
+      if(imageUrl){
+        fd.append("imageUrl", imageUrl)
+        
+        for(const [key, value] of Object.entries(editMarket)){
+          fd.append(key, value)
+          for (const [key, value] of fd.entries()) {
+            console.log(key, value)
+          }
+        }
+      }
+    const { data } = await service.put(`/markets/${marketId}`,editMarket);
+      
+      //for photo upload to cloudinary problem with coordinates and author not getting data only [object object]
+      //const { data } = await service.put(`/markets/${marketId}`,fd);
       setDetailMarket(data);
-  
+
       if (data) {
         toggleMarket();
       }
@@ -57,7 +70,7 @@ export default function FormEditMarket({
       setError(e.message);
     }
   };
-
+ 
   const toggleMarket = () => setToggleEditMarket(!toggleEditMarket);
   const openEditMarket = () => {
     if (toggleEditMarket === true) {
@@ -70,13 +83,13 @@ export default function FormEditMarket({
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
     setAddressEdited(results[0].formatted_address);
-    setEditMarket ({
-            ...detailMarket,
-            address:results[0].formatted_address,
-            coordinates:latLng
-        });
-
+    setEditMarket({
+      ...detailMarket,
+      address: results[0].formatted_address,
+      coordinates: latLng,
+    });
   };
+
   return (
     <>
       <Button
@@ -141,7 +154,16 @@ export default function FormEditMarket({
                     <option value="Fish market">Fish market</option>
                   </Select>
                 </FormControl>
-
+                {/* //For photo upload */}
+                {/* <FormControl>
+                  <FormLabel htmlFor="imageUrl">Market photo</FormLabel>
+                  <Input
+                    name="imageUrl"
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    onChange={(e) => setImageUrl(e.target.files[0])}
+                  />
+                </FormControl> */}
                 <FormControl>
                   <FormLabel htmlFor="description">Description</FormLabel>
                   <Textarea
@@ -171,9 +193,10 @@ export default function FormEditMarket({
                       loading,
                     }) => (
                       <div>
-                        
                         <Input
-                          {...getInputProps({ placeholder: `${detailMarket.address}`})}
+                          {...getInputProps({
+                            placeholder: `${detailMarket.address}`,
+                          })}
                         />
                         <div>
                           {loading && (

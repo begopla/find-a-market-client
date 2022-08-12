@@ -27,7 +27,7 @@ const MarketDetails = () => {
   const [detailMarket, setDetailMarket] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [editMarketPhoto, setEditMarketePhoto] = useState(false);
-  const [marketPhotos, setMarketPhotos] = useState([])
+  const [imageUrl, setImageUrl] = useState([])
   const [savedAsFav, setSavedAsFav] = useState(false)
   const { marketId } = useParams();
   const getOneMarket = async () => {
@@ -42,17 +42,21 @@ const MarketDetails = () => {
   const objSentAsProps = {
     detailMarket: detailMarket,
     setDetailMarket: setDetailMarket,
+    marketId:marketId,
+    imageUrl:imageUrl,
+    setImageUrl:setImageUrl
+
   };
   const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
   const submitPhoto = async (e) => {
     e.preventDefault();
     const fd = new FormData()
-    console.log(marketPhotos)
-    if (marketPhotos) {
-      fd.append("marketPhotos", marketPhotos)
+    console.log(imageUrl)
+    if (imageUrl) {
+      fd.append("imageUrl", imageUrl)
       try {
-         await service.marketPhotoUpload(fd);
+         await service.marketPhotoUpload(fd,marketId);
       
       } catch (error) {
         console.error(error)
@@ -107,9 +111,9 @@ const MarketDetails = () => {
                     mr = "5vw"
                     width="25vw"
                     type="file"
-                    name="marketPhotos"
+                    name="imageUrl"
                     accept="image/png, image/jpeg, image/jpg"
-                    onChange={(e) => setMarketPhotos(e.target.files[0])}
+                    onChange={(e) => setImageUrl(e.target.files[0])}
                   />
                 <Center>
 
