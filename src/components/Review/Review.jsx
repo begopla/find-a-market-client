@@ -11,7 +11,7 @@ import { RiDoubleQuotesL, RiDoubleQuotesR } from "react-icons/ri";
 
 export default function Review({author, date, review}) {
     return (
-        <Box bg={useColorModeValue('gray.50', 'gray.900')}
+        <Box bg={useColorModeValue('#F6F6F6', 'gray.900')}
             color={useColorModeValue('gray.700', 'gray.200')}
             
             boxShadow='md'

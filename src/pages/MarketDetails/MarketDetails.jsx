@@ -196,7 +196,7 @@ const MarketDetails = () => {
           </Box>
           <SimpleGrid
           p='3rem'
-          minChildWidth='20rem'
+          minChildWidth='18rem'
           spacing='20px'>
           {thisMarketReviews.map((review) => {
             return (
