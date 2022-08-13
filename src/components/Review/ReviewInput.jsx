@@ -58,7 +58,7 @@ export default function ReviewInput() {
                             <Textarea 
                             name="review"
                             placeholder='Tell people about this market'
-                            onChange={(e) => setReview(e.target.value)}
+                            onChange={(e) => {setReview(e.target.value); console.log(e.target.value)}}
                             />
                         </FormControl>
                     </ModalBody>

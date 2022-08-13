@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 import {
     Button,
+    useColorModeValue,
     Drawer,
     DrawerOverlay,
     DrawerCloseButton,
@@ -16,8 +17,7 @@ import {
     Input,
     Textarea,
     useDisclosure,
-    FormControl,
-    Text
+    FormControl
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import Autocomplete from "../Autocomplete/Autocomplete";
@@ -43,6 +43,9 @@ export default function FormCreateMarket() {
     const [openingDays, setOpeningDays] = useState([]);
     const [openingMonths, setOpeningMonths] = useState([]);
     const navigate = useNavigate();
+
+    const color = useColorModeValue('gray.700', 'gray.200');
+    const bg = useColorModeValue('gray.50', 'gray.900');
 
     const objSentAsProps = {
         coordinates: coordinates,
@@ -140,7 +143,7 @@ export default function FormCreateMarket() {
                         Add a new market
                     </DrawerHeader>
 
-                    <DrawerBody>
+                    <DrawerBody >
 
                         <Stack spacing='24px'>
                             <FormControl isRequired>
