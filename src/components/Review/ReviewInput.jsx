@@ -17,7 +17,9 @@ import {
     FormLabel
 } from '@chakra-ui/react';
 
-export default function ReviewInput() {
+export default function ReviewInput({
+    props: {thisMarketReviews, setThisMarketReviews}
+}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [review, setReview] = useState("");
     const [error, setError] = useState(null);
@@ -25,10 +27,11 @@ export default function ReviewInput() {
     const { marketId } = useParams();
 
     const handleSubmit = async (e) => {
+        console.log(review)
         e.preventDefault()
         try {
             const token = localStorage.getItem("authToken")
-            const res = await axios.post(`${API_URL}/markets/${marketId}/review`, review, {
+            const res = await axios.post(`${API_URL}/markets/${marketId}/review`, {review}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -36,6 +39,7 @@ export default function ReviewInput() {
             console.log(res);
             if (res.status === 200) {
                 toggleReviewCreated()
+                setThisMarketReviews(res.data.reviews)
             }
         } catch (error) {
             setError(e.message)
@@ -58,7 +62,7 @@ export default function ReviewInput() {
                             <Textarea 
                             name="review"
                             placeholder='Tell people about this market'
-                            onChange={(e) => {setReview(e.target.value); console.log(e.target.value)}}
+                            onChange={(e) => {setReview(e.target.value)}}
                             />
                         </FormControl>
                     </ModalBody>
@@ -67,7 +71,7 @@ export default function ReviewInput() {
                         <Button colorScheme='red' mr={3} onClick={onClose}>
                             Close
                         </Button>
-                        <Button colorScheme='blue' onClick={handleSubmit}>Submit</Button>
+                        <Button colorScheme='blue' type="submit" onClick={handleSubmit}>Submit</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
