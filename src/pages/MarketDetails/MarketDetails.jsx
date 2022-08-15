@@ -35,6 +35,7 @@ const MarketDetails = () => {
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
     setDetailMarket(data);
+    console.log(data)
     setIsLoading(false);
   };
   useEffect(() => {
@@ -73,6 +74,11 @@ const MarketDetails = () => {
   const removeAsFav = async() =>{
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
+  }
+
+  const checkIfMarketisFav = async() => {
+    const favMarkets = service.get(`/profile/favourites`)
+    console.log(favMarkets)
   }
   return (
     <>
@@ -177,7 +183,7 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           <FormEditMarket props={objSentAsProps} />
-          <MapContainer lat={detailMarket.coordinates.lat} lng={detailMarket.coordinates.lng} />
+          <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />
         </Stack>
       )}
     </>
