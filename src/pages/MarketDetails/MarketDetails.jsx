@@ -177,7 +177,7 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           <FormEditMarket props={objSentAsProps} />
-          <MapContainer lat={detailMarket.coordinates.lat} lng={detailMarket.coordinates.lng} />
+          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates.lat} lng={detailMarket.coordinates.lng} />}
         </Stack>
       )}
     </>
