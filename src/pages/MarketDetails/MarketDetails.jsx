@@ -31,11 +31,11 @@ const MarketDetails = () => {
   const [editMarketPhoto, setEditMarketePhoto] = useState(false);
   const [imageUrl, setImageUrl] = useState([])
   const [savedAsFav, setSavedAsFav] = useState(false)
+  const [marketIsFav, setMarketIsFav]= useState(false)
   const { marketId } = useParams();
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
     setDetailMarket(data);
-    console.log(data)
     setIsLoading(false);
   };
   useEffect(() => {
@@ -70,16 +70,31 @@ const MarketDetails = () => {
   const saveAsFav = async() =>{
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/favourites`)
+    console.log('market added as fav')
   }
   const removeAsFav = async() =>{
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
+    console.log('market removed as fav')
   }
 
   const checkIfMarketisFav = async() => {
-    const favMarkets = service.get(`/profile/favourites`)
-    console.log(favMarkets)
+    const favMarkets = await service.get(`/profile/favourites`)
+    const favMarketArray = favMarkets.data.savedList;
+    if(!favMarketArray.lenght){
+      favMarketArray.forEach(element => {
+        if(element._id===marketId){
+          setMarketIsFav(!marketIsFav)
+          console.log('isFav', marketIsFav)
+        }
+      });
+      
+    }
+   
   }
+  useEffect(() => {
+    checkIfMarketisFav();
+  }, []);
   return (
     <>
       {isLoading && (
@@ -138,8 +153,8 @@ const MarketDetails = () => {
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
                 <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" />
-              { !savedAsFav && <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />}
-              {  savedAsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
+              { savedAsFav  || marketIsFav === false ? <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />:
+                 <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
@@ -183,7 +198,7 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           <FormEditMarket props={objSentAsProps} />
-          <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />
+          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
         </Stack>
       )}
     </>
