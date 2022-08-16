@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import useAuth from "../../context/auth/useAuth"
 import service from "../../services/apiHandler"
 import './Form.css' 
 import { Flex, Stack, Center, Heading, Box, InputGroup, Input, InputRightElement, Button, useColorModeValue} from '@chakra-ui/react'
@@ -12,13 +12,17 @@ const FormSignUp = () => {
 	const [error, setError] = useState(null)
 	const [showPassword, setShowPassword] = useState(false)
 	const navigate = useNavigate()
+	const { storeToken, authenticateUser } = useAuth()
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		try {
 			const res = await service.signup(user)
+			const resSignIn = await service.signin(user)
 			console.log(res)
-			navigate("/signin")
+			storeToken(resSignIn.authToken)
+			await authenticateUser()
+			navigate("/profile")
 		} catch (error) {
 			setError(e.message)
 		}

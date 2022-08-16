@@ -8,13 +8,14 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
     return (
         <Center>
             <Link to={`/markets/${_id}`}>
-                <Box maxW='15rem' overflow='hidden' pt='3'>
+                <Box maxW='15rem' overflow='hidden' pt='4' mb='2'>
                     <Image
                         boxSize='15rem'
                         objectFit='cover'
                         src={imageUrl}
                         alt={name}
-                        borderRadius='xl' />
+                        borderRadius='xl'
+                        boxShadow='lg' />
                     <Box p='2'>
                         <Box display='flex' alignItems='baseline' justifyContent='space-between'>
                             <Badge borderRadius='full' px='2' colorScheme='teal'>
@@ -22,7 +23,7 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                             </Badge>
                             <Box display='flex' mt='2' alignItems='center' gap='3px'>
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                    10 
+                                    10
                                 </Box>
                                 <StarIcon color={'teal.500'} />
                             </Box>

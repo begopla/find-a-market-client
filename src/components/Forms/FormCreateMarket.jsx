@@ -42,6 +42,7 @@ export default function FormCreateMarket() {
     const [marketPhoto, setMarketPhoto] = useState([]);
     const [openingDays, setOpeningDays] = useState([]);
     const [openingMonths, setOpeningMonths] = useState([]);
+
     const navigate = useNavigate();
 
     const color = useColorModeValue('gray.700', 'gray.200');
@@ -98,6 +99,7 @@ export default function FormCreateMarket() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+
             const token = localStorage.getItem("authToken")
             const imageUrl = new FormData();
             imageUrl.append("marketPhoto", marketPhoto);
@@ -113,6 +115,7 @@ export default function FormCreateMarket() {
                 toggleMarketCreated()
             }
             navigate("/")
+
         } catch (error) {
             setError(e.message)
         }
@@ -142,6 +145,7 @@ export default function FormCreateMarket() {
                     <DrawerHeader borderBottomWidth='1px'>
                         Add a new market
                     </DrawerHeader>
+
 
                     <DrawerBody >
 

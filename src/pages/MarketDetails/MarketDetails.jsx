@@ -24,16 +24,25 @@ import { FaRegHeart } from "react-icons/fa";
 import FormEditMarket from "../../components/Forms/FormEditMarket";
 import ReviewInput from "../../components/Review/ReviewInput";
 import Review from "../../components/Review/Review";
+import MapContainer from "../../components/Map/MapContainer"
+import useAuth from "../../context/auth/useAuth";
+import { useNavigate } from "react-router-dom";
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
+  const { currentUser } = useAuth();
   const [detailMarket, setDetailMarket] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [editMarketPhoto, setEditMarketePhoto] = useState(false);
-  const [marketPhotos, setMarketPhotos] = useState([]);
+ // const [editMarketPhoto, setEditMarketePhoto] = useState(false);
   const [savedAsFav, setSavedAsFav] = useState(false);
   const [thisMarketReviews, setThisMarketReviews] = useState([]);
+  const [imageUrl, setImageUrl] = useState([])
+  const [savedAsFav, setSavedAsFav] = useState(false)
+  const [marketIsFav, setMarketIsFav]= useState(false)
   const { marketId } = useParams();
+  const navigate = useNavigate();
+  
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
     setDetailMarket(data.market);
@@ -50,38 +59,72 @@ const MarketDetails = () => {
   const objSentAsProps = {
     detailMarket: detailMarket,
     setDetailMarket: setDetailMarket,
+    marketId:marketId,
+    imageUrl:imageUrl,
+    setImageUrl:setImageUrl
+
   };
+
 
   const reviewProps = {
     thisMarketReviews: thisMarketReviews,
     setThisMarketReviews: setThisMarketReviews
   }
 
-  const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
+ 
+
+  // const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
-  const submitPhoto = async (e) => {
-    e.preventDefault();
-    const fd = new FormData()
-    console.log(marketPhotos)
-    if (marketPhotos) {
-      fd.append("marketPhotos", marketPhotos)
-      try {
-        await service.marketPhotoUpload(fd);
+  // const submitPhoto = async (e) => {
+  //   e.preventDefault();
+  //   const fd = new FormData()
+  //   console.log(imageUrl)
+  //   if (imageUrl) {
+  //     fd.append("imageUrl", imageUrl)
+  //     try {
+  //        await service.marketPhotoUpload(fd,marketId);
+      
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  // } 
 
-      } catch (error) {
-        console.error(error)
-      }
+  const saveAsFav = async() =>{
+        if(currentUser){
+      toggleSaveAsFav()
+      await service.post(`markets/${marketId}/favourites`)
+      console.log('market added as fav')
+    }else{
+      navigate('/signin')
     }
-  }
 
-  const saveAsFav = async () => {
-    toggleSaveAsFav()
-    await service.post(`markets/${marketId}/favourites`)
   }
   const removeAsFav = async () => {
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
+    console.log('market removed as fav')
   }
+
+  const checkIfMarketisFav = async() => {
+    if(currentUser){
+
+      const favMarkets = await service.get(`/profile/favourites`)
+      const favMarketArray = favMarkets.data.savedList;
+      if(!favMarketArray.lenght){
+        favMarketArray.forEach(element => {
+          if(element._id===marketId){
+            setMarketIsFav(!marketIsFav)
+          }
+        });
+      }
+      
+    }
+   
+  }
+  useEffect(() => {
+    checkIfMarketisFav();
+  }, []);
   return (
     <>
       {isLoading && (
@@ -110,10 +153,12 @@ const MarketDetails = () => {
 
               />
             </Box>
-            {editMarketPhoto && (
-              <Box>
-                <form onSubmit={submitPhoto}>
-                  <Input
+           <Input
+
+            {/* {editMarketPhoto && (
+                <Box>
+              <form onSubmit={submitPhoto}>
+                 <Input
                     height="8vh"
                     pt="2vh"
                     mt="2vh"
@@ -121,27 +166,27 @@ const MarketDetails = () => {
                     mr="5vw"
                     width="25vw"
                     type="file"
-                    name="marketPhotos"
+                    name="imageUrl"
                     accept="image/png, image/jpeg, image/jpg"
-                    onChange={(e) => setMarketPhotos(e.target.files[0])}
+                    onChange={(e) => setImageUrl(e.target.files[0])}
                   />
                   <Center>
+                  <Button type="submit" colorScheme="teal" mt="2vh" mb="2vh">
+                    Upload a new photo
+                  </Button>
+                </Center>
+              </form>
+                </Box>
+            )} */}
 
-                    <Button type="submit" colorScheme="teal" mt="2vh" mb="2vh">
-                      Upload a new photo
-                    </Button>
-                  </Center>
-                </form>
-              </Box>
-            )}
           </Center>
           <Stack spacing={2} px={"2rem"}>
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
-                <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" />
-                {!savedAsFav && <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" />}
-                {savedAsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
+                {/* <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" /> */}
+              { savedAsFav  || marketIsFav === false ? <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />:
+                 <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
@@ -189,7 +234,9 @@ const MarketDetails = () => {
               </Link>
             </Text>
           </Stack>
-          <FormEditMarket props={objSentAsProps} />
+
+        {currentUser &&  <FormEditMarket props={objSentAsProps} />}
+        {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
           <Box mt={4} pl={6}>
             <Text fontSize="lg">Do you know this market?</Text>
             <ReviewInput props={reviewProps}/>
@@ -207,6 +254,10 @@ const MarketDetails = () => {
             )
           })}
           </SimpleGrid>
+
+          {currentUser && <FormEditMarket props={objSentAsProps} />}
+         
+
         </Stack>
       )}
     </>
