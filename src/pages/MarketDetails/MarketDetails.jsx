@@ -21,6 +21,8 @@ import { EditIcon } from "@chakra-ui/icons";
 import { StarIcon } from "@chakra-ui/icons";
 import {FaRegHeart} from "react-icons/fa";
 import FormEditMarket from "../../components/Forms/FormEditMarket";
+import MapContainer from "../../components/Map/MapContainer"
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
@@ -175,6 +177,7 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           <FormEditMarket props={objSentAsProps} />
+          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
         </Stack>
       )}
     </>
