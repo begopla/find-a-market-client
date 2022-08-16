@@ -1,4 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&family=Charis+SIL&family=Gentium+Plus&family=Raleway:wght@100&display=swap');
 
 img:not([alt]) {
 	filter: none;
+}
+
+.name{
+	font-family: 'Advent Pro';
+	color: #51ADAF;
+	font-size: 2rem;
 }
