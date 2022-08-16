@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import service from "../../services/apiHandler";
 import {
+  Center,
   Button,
   Spinner,
   Drawer,
@@ -61,6 +62,7 @@ export default function FormEditMarket({
           toggleMarket();
         }  
      
+
     } catch (error) {
       setError(e.message);
     }
@@ -87,13 +89,16 @@ export default function FormEditMarket({
 
   return (
     <>
-      <Button
-        leftIcon={<EditIcon />}
-        colorScheme="teal"
-        onClick={openEditMarket}
-      >
-        Edit market
-      </Button>
+      <Center>
+        <Button
+          leftIcon={<EditIcon />}
+          colorScheme="teal"
+          minW="80%"
+          onClick={openEditMarket}
+        >
+          Edit market
+        </Button>
+      </Center>
       {!toggleEditMarket && (
         <Drawer
           isOpen={isOpen}
