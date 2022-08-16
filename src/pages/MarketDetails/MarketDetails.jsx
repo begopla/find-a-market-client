@@ -35,7 +35,6 @@ const MarketDetails = () => {
   const [detailMarket, setDetailMarket] = useState({});
   const [isLoading, setIsLoading] = useState(true);
  // const [editMarketPhoto, setEditMarketePhoto] = useState(false);
-  const [savedAsFav, setSavedAsFav] = useState(false);
   const [thisMarketReviews, setThisMarketReviews] = useState([]);
   const [imageUrl, setImageUrl] = useState([])
   const [savedAsFav, setSavedAsFav] = useState(false)
@@ -153,8 +152,6 @@ const MarketDetails = () => {
 
               />
             </Box>
-           <Input
-
             {/* {editMarketPhoto && (
                 <Box>
               <form onSubmit={submitPhoto}>
