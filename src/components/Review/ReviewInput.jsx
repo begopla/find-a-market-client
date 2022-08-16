@@ -32,6 +32,7 @@ export default function ReviewInput({
         try {
             const token = localStorage.getItem("authToken")
             const res = await axios.post(`${API_URL}/markets/${marketId}/review`, {review}, {
+            
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

@@ -22,7 +22,7 @@ const Profile = () => {
 			return(
 			<DisplayMyMarket 
 				{...market}
-				key={market._id}
+				id={market._id}
 			/>
 			)
 		})}

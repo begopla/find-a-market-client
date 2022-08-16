@@ -4,30 +4,34 @@ import { Text, Center, Box, useColorModeValue, Spinner, SimpleGrid} from '@chakr
 import service from "../services/apiHandler";
 import OneMarket from "../components/OneMarket/OneMarket";
 const Favourites = () => {
+	const { currentUser } = useAuth();
     const [favMarkets, setFavMarkets] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
     const getFavMarkets = async () => {
-      const response = await service.get("/profile/favourites");
-      console.log(response);
-      setFavMarkets(response.data.savedList)
-      setIsLoading(false)
+	  if(currentUser){
+
+		const response = await service.get("/profile/favourites");
+		console.log(response);
+		setFavMarkets(response.data.savedList)
+		setIsLoading(false)
+	}
     }
     useEffect(() => {
       getFavMarkets()
     }, [])
-
 
     return (
     <>
    
     <Text fontSize='2xl' mt='0vh' ml='40vw' mb='2vh'>Placeholder</Text>
     <Center>
-    <Text fontSize='2xl' mt='5vh' >Discover you're favourite markets</Text>
-    </Center>
+    {currentUser  && <Text fontSize='2xl' mt='5vh' >Discover you're favourite markets</Text>}
+	{!currentUser && <Text fontSize='2xl' mt='5vh'>Log in and start saving your favorite markets </Text>}
+	</Center>
 
     <Box bg={useColorModeValue('gray.200', 'gray.700')}>
-    {isLoading && <Spinner
+    {isLoading  && currentUser &&<Spinner
 				position='fixed'
 				top={{ base: '30%', md: '40%', lg: '45%' }}
 				left='50%'
