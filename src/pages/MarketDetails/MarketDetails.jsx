@@ -49,24 +49,24 @@ const MarketDetails = () => {
   };
   const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
-  const submitPhoto = async (e) => {
-    e.preventDefault();
-    const fd = new FormData()
-    console.log(imageUrl)
-    if (imageUrl) {
-      //fd.append("imageUrl", imageUrl)
-      for(let img of imageUrl){
-        fd.append("imageUrl", img)
-        console.log(fd)
-      }
-      try {
-         await service.marketPhotoUpload(fd,marketId);
+  // const submitPhoto = async (e) => {
+  //   e.preventDefault();
+  //   const fd = new FormData()
+  //   console.log(imageUrl)
+  //   if (imageUrl) {
+  //     //fd.append("imageUrl", imageUrl)
+  //     for(let img of imageUrl){
+  //       fd.append("imageUrl", img)
+  //       console.log(fd)
+  //     }
+  //     try {
+  //        await service.marketPhotoUpload(fd,marketId);
       
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  } 
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  // } 
 
   const saveAsFav = async() =>{
     toggleSaveAsFav()
@@ -104,7 +104,7 @@ const MarketDetails = () => {
                 
               />
             </Box>
-            {editMarketPhoto && (
+            {/* {editMarketPhoto && (
                 <Box>
               <form onSubmit={submitPhoto}>
                  <Input
@@ -128,13 +128,13 @@ const MarketDetails = () => {
                 </Center>
               </form>
                 </Box>
-            )}
+            )} */}
           </Center>
           <Stack spacing={2} px={"2rem"}>
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
-                <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" />
+                {/* <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" /> */}
               { !savedAsFav && <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />}
               {  savedAsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
