@@ -13,8 +13,6 @@ import {
   Link,
   Flex,
   Badge,
-  Input,
-  Button,
   Icon,
   SimpleGrid,
 } from "@chakra-ui/react";
