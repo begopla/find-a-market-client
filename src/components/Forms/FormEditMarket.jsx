@@ -46,15 +46,27 @@ export default function FormEditMarket({
     e.preventDefault();
     const fd = new FormData()
     try {
-        fd.append("imageUrl", imageUrl)
-        
-        for(let [key, value] of Object.entries(editMarket)){
+      //For multiple upload:
+      //  fd.append("imageUrl", imageUrl)
+      
+      for(let img of imageUrl){
+        fd.append("imageUrl", img)
+      }
+      
+
+      for(let [key, value] of Object.entries(editMarket)){
           if(typeof value === 'object'){
             value = JSON.stringify(value)
           }
           fd.append(key, value)
         
-        }
+      }
+    // This is just to log everything that is inside the FormData if needed to have access
+      for(let [key, value] of fd.entries()){
+        console.lpg(key, value)
+      }
+
+
         const { data } = await service.put(`/markets/${marketId}`,fd);
         setDetailMarket(data);
         if (data) {
@@ -156,7 +168,8 @@ export default function FormEditMarket({
                     name="imageUrl"
                     type="file"
                     accept="image/png, image/jpeg, image/jpg"
-                    onChange={(e) => setImageUrl(e.target.files[0])}
+                    multiple
+                    onChange={(e) => setImageUrl(e.target.files)}
                   />
                 </FormControl> 
                 <FormControl>

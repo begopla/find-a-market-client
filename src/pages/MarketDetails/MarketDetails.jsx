@@ -54,7 +54,11 @@ const MarketDetails = () => {
     const fd = new FormData()
     console.log(imageUrl)
     if (imageUrl) {
-      fd.append("imageUrl", imageUrl)
+      //fd.append("imageUrl", imageUrl)
+      for(let img of imageUrl){
+        fd.append("imageUrl", img)
+        console.log(fd)
+      }
       try {
          await service.marketPhotoUpload(fd,marketId);
       
@@ -113,7 +117,8 @@ const MarketDetails = () => {
                     type="file"
                     name="imageUrl"
                     accept="image/png, image/jpeg, image/jpg"
-                    onChange={(e) => setImageUrl(e.target.files[0])}
+                    multiple
+                    onChange={(e) => setImageUrl(e.target.files)}
                   />
                 <Center>
 
