@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import {Text, Box, Center, Button} from '@chakra-ui/react';
 import '../styles/profile.css';
+
 import DisplayMyMarket from "../components/DisplayMyMarket/DisplayMyMarket";
 import service from '../services/apiHandler';
 const Profile = () => {
@@ -8,6 +9,7 @@ const Profile = () => {
 	const [myMarkets, setMyMarkets] = useState([]);
 	const getMyMarkets = async () => {
 		const response = await service.myMarkets();
+		console.log(response)
 		setMyMarkets(response)
 	}
 	useEffect(() => {
@@ -15,6 +17,7 @@ const Profile = () => {
 	}, []);
 
 	return (
+		
 		<Box>
 			<Text>PlaceHolder</Text>
 			<Center><Text mt='8vh' fontSize='3xl'>My Markets</Text></Center>
@@ -22,7 +25,7 @@ const Profile = () => {
 			return(
 			<DisplayMyMarket 
 				{...market}
-				key={market._id}
+				id={market._id}
 			/>
 			)
 		})}
@@ -30,6 +33,7 @@ const Profile = () => {
 		<Button mt='5vh'>Create a new market</Button>
 		</Center>
 		</Box>
+		
 	)
 }
 

@@ -32,7 +32,7 @@ export default function IconFooter() {
         <Box as={'a'} href={'/'}>
           <VscSearch size={22} />
         </Box>
-        <Box as={'a'} href={'/favourites'} >
+        <Box as={'a'} href={'/profile/favourites'} >
           <VscHeart size={24} />
         </Box>
         <Box as={'a'} href={'/profile'}>
