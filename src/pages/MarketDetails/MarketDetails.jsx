@@ -182,8 +182,6 @@ const MarketDetails = () => {
               </Link>
             </Text>
           </Stack>
-          {currentUser &&<FormEditMarket props={objSentAsProps} />}
-        
           <Box mt={4} pl={6}>
             <Text fontSize="lg">Do you know this market?</Text>
             <ReviewInput props={reviewProps}/>
@@ -201,6 +199,8 @@ const MarketDetails = () => {
             )
           })}
           </SimpleGrid>
+          {currentUser &&<FormEditMarket props={objSentAsProps} />}
+        
 
         {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
           
