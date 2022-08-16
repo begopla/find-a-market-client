@@ -22,17 +22,21 @@ import { StarIcon } from "@chakra-ui/icons";
 import {FaRegHeart} from "react-icons/fa";
 import FormEditMarket from "../../components/Forms/FormEditMarket";
 import MapContainer from "../../components/Map/MapContainer"
+import useAuth from "../../context/auth/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
+  const { currentUser } = useAuth();
   const [detailMarket, setDetailMarket] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [editMarketPhoto, setEditMarketePhoto] = useState(false);
+  // const [editMarketPhoto, setEditMarketePhoto] = useState(false);
   const [imageUrl, setImageUrl] = useState([])
   const [savedAsFav, setSavedAsFav] = useState(false)
   const [marketIsFav, setMarketIsFav]= useState(false)
   const { marketId } = useParams();
+  const navigate = useNavigate();
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
     setDetailMarket(data);
@@ -50,27 +54,31 @@ const MarketDetails = () => {
     setImageUrl:setImageUrl
 
   };
-  const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
+  // const toggleEditMarketPhoto = () => setEditMarketePhoto(!editMarketPhoto);
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
-  const submitPhoto = async (e) => {
-    e.preventDefault();
-    const fd = new FormData()
-    console.log(imageUrl)
-    if (imageUrl) {
-      fd.append("imageUrl", imageUrl)
-      try {
-         await service.marketPhotoUpload(fd,marketId);
+  // const submitPhoto = async (e) => {
+  //   e.preventDefault();
+  //   const fd = new FormData()
+  //   console.log(imageUrl)
+  //   if (imageUrl) {
+  //     fd.append("imageUrl", imageUrl)
+  //     try {
+  //        await service.marketPhotoUpload(fd,marketId);
       
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  } 
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  // } 
 
   const saveAsFav = async() =>{
-    toggleSaveAsFav()
-    await service.post(`markets/${marketId}/favourites`)
-    console.log('market added as fav')
+        if(currentUser){
+      toggleSaveAsFav()
+      await service.post(`markets/${marketId}/favourites`)
+      console.log('market added as fav')
+    }else{
+      navigate('/signin')
+    }
   }
   const removeAsFav = async() =>{
     toggleSaveAsFav()
@@ -79,15 +87,17 @@ const MarketDetails = () => {
   }
 
   const checkIfMarketisFav = async() => {
-    const favMarkets = await service.get(`/profile/favourites`)
-    const favMarketArray = favMarkets.data.savedList;
-    if(!favMarketArray.lenght){
-      favMarketArray.forEach(element => {
-        if(element._id===marketId){
-          setMarketIsFav(!marketIsFav)
-          console.log('isFav', marketIsFav)
-        }
-      });
+    if(currentUser){
+
+      const favMarkets = await service.get(`/profile/favourites`)
+      const favMarketArray = favMarkets.data.savedList;
+      if(!favMarketArray.lenght){
+        favMarketArray.forEach(element => {
+          if(element._id===marketId){
+            setMarketIsFav(!marketIsFav)
+          }
+        });
+      }
       
     }
    
@@ -123,7 +133,7 @@ const MarketDetails = () => {
                 
               />
             </Box>
-            {editMarketPhoto && (
+            {/* {editMarketPhoto && (
                 <Box>
               <form onSubmit={submitPhoto}>
                  <Input
@@ -146,13 +156,13 @@ const MarketDetails = () => {
                 </Center>
               </form>
                 </Box>
-            )}
+            )} */}
           </Center>
           <Stack spacing={2} px={"2rem"}>
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
-                <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" />
+                {/* <EditIcon onClick={toggleEditMarketPhoto} ml="35vw" w={6} h={6} mt="1vh" /> */}
               { savedAsFav  || marketIsFav === false ? <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />:
                  <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
@@ -197,7 +207,7 @@ const MarketDetails = () => {
               </Link>
             </Text>
           </Stack>
-          <FormEditMarket props={objSentAsProps} />
+          {currentUser &&<FormEditMarket props={objSentAsProps} />}
           {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
         </Stack>
       )}
