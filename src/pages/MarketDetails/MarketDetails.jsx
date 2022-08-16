@@ -183,7 +183,6 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           {currentUser &&<FormEditMarket props={objSentAsProps} />}
-          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
         
           <Box mt={4} pl={6}>
             <Text fontSize="lg">Do you know this market?</Text>
@@ -193,17 +192,18 @@ const MarketDetails = () => {
           p='3rem'
           minChildWidth='18rem'
           spacing='20px'>
-          {/* {thisMarketReviews?.map((review) => {
+          {thisMarketReviews?.map((review) => {
             return (
               <Review 
               {...review}
               key={review._id}
               />
             )
-          })} */}
+          })}
           </SimpleGrid>
 
-          {currentUser && <FormEditMarket props={objSentAsProps} />}
+        {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
+          
         </Stack>
       )}
     </>
