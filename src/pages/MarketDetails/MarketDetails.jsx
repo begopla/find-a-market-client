@@ -187,7 +187,7 @@ const MarketDetails = () => {
             <ReviewInput props={reviewProps} />
           </Box>
           <SimpleGrid
-            p='3rem'
+            px='2rem'
             minChildWidth='18rem'
             spacing='20px'
             pos='relative'>

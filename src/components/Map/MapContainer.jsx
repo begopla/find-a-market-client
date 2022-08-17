@@ -28,7 +28,8 @@ export class MapContainer extends Component {
             width: "94%",
             height: "20rem",
             borderRadius: "10px",
-            marginLeft: "3%"
+            marginTop: "1rem",
+            marginLeft: "3%",
           }}
         >
           <Marker
