@@ -9,20 +9,23 @@ export default function Searchbar({props: { markets, setMarkets }}) {
     const [error, setError] = useState(null)
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
         try {
-            console.log(inputText);
             const {data} = await service.get(`/markets/search?q=${inputText}`)
             setMarkets(data)
-            console.log("search results: ", data)
         } catch (error) {
             setError(e.message)
         }
     }
 
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 13 ) {
+            handleSubmit();
+        }
+    }
+
     return (
         <Center>
-            <Box className='searchBar' h='18rem' mt='3rem' w='100%' zIndex={-1}>
+            <Box className='searchBar' h='18rem' mt='3rem' w='100%' zIndex={0}>
                 <Center pos='relative' top='45%'>
                     <InputGroup size='sm' w='70%'>
                         <Input
@@ -34,11 +37,14 @@ export default function Searchbar({props: { markets, setMarkets }}) {
                             name="q"
                             onChange={(e) =>
                                 setInputText(e.target.value)
-                            } />
+                            }
+                            onKeyDown={handleKeyDown} 
+                            />
                         <InputRightElement width='4.5rem'>
                             <Button h='1.5rem' size='sm' px='5'
                                 _hover={{ bgColor: 'teal.200' }}
-                                onClick={handleSubmit}>
+                                onClick={handleSubmit}
+                                >
                                 <SearchIcon />
                             </Button>
                         </InputRightElement>
