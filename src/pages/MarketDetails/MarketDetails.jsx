@@ -71,7 +71,7 @@ const MarketDetails = () => {
         if(currentUser){
       toggleSaveAsFav()
       await service.post(`markets/${marketId}/favourites`)
-      console.log('market added as fav')
+      console.log('market added as fav', savedAsFav)
     }else{
       navigate('/signin')
     }
@@ -79,7 +79,7 @@ const MarketDetails = () => {
   const removeAsFav = async () => {
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
-    console.log('market removed as fav')
+    console.log('market removed as fav', savedAsFav)
   }
 
   const checkIfMarketisFav = async() => {
@@ -90,6 +90,7 @@ const MarketDetails = () => {
       if(!favMarketArray.lenght){
         favMarketArray.forEach(element => {
           if(element._id===marketId){
+            console.log('this market is already a favourite')
             setMarketIsFav(!marketIsFav)
           }
         });}
@@ -97,7 +98,7 @@ const MarketDetails = () => {
   }
   useEffect(() => {
     checkIfMarketisFav();
-  }, []);
+  }, [savedAsFav]);
   return (
     <>
       {isLoading && (
@@ -131,8 +132,8 @@ const MarketDetails = () => {
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
-              { savedAsFav  || marketIsFav === false ? <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" />:
-                 <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" />}
+              { !savedAsFav && !marketIsFav ? <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" /> : ''}
+              { marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" /> }
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
