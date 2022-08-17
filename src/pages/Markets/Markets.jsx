@@ -40,7 +40,8 @@ const Markets = ({props: { markets, setMarkets }}) => {
 					spacing='5px'
 					className="listMarkets"
 					marginBottom={'4rem'}
-					px={'3rem'}>
+					px={'3rem'}
+					mt={'3rem'}>
 					{markets.map((market) => {
 						return (
 							<OneMarket

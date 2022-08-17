@@ -22,7 +22,7 @@ export default function Searchbar({props: { markets, setMarkets }}) {
 
     return (
         <Center>
-            <Box className='searchBar' h='18rem' mt='3rem' w='100%'>
+            <Box className='searchBar' h='18rem' mt='3rem' w='100%' zIndex={-1}>
                 <Center pos='relative' top='45%'>
                     <InputGroup size='sm' w='70%'>
                         <Input
