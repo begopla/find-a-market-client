@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import MarketInfo from "../../components/MarketInfo/MarketInfo"
 import { Box, Center, Image, Avatar, Text, Stack, Link, Flex, Badge } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons';
 const API_URL = process.env.REACT_APP_API_URL
@@ -11,7 +10,7 @@ const DiscoverPage = () => {
 
     const getRandomMarket = async () => {
         const { data } = await axios.get(`${API_URL}/markets/discover`)
-        console.log(data);
+        //console.log(data);
         setDiscoverMarket(data)
         setAuthorInfo(data.author)
     }
