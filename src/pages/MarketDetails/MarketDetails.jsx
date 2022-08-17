@@ -181,11 +181,13 @@ const MarketDetails = () => {
               </Link>
             </Text>
           </Stack>
-          {currentUser && <FormEditMarket props={objSentAsProps} />}
-          <Box mt={4} pl={6}>
-            <Text fontSize="lg">Do you know this market?</Text>
-            <ReviewInput props={reviewProps} />
-          </Box>
+          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
+          {currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
+            <Box pl='3rem'>
+              <Text fontSize="lg" fontWeight="bold" mt='1rem'>Do you know this market?</Text>
+              <ReviewInput props={reviewProps} />
+            </Box>
+          }
           <SimpleGrid
             px='2rem'
             minChildWidth='18rem'
@@ -200,8 +202,7 @@ const MarketDetails = () => {
               )
             })}
           </SimpleGrid>
-          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
-        </Stack>
+         </Stack>
       )}
     </>
   );

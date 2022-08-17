@@ -56,7 +56,7 @@ export default function ReviewInput({
 
     return (
         <>
-            <Button mt={4} onClick={openCreateReview}>Leave a review!</Button>
+            <Button mt='1rem' onClick={openCreateReview} colorScheme='teal' variant='outline'>Leave a review!</Button>
 
             {!reviewCreated && <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

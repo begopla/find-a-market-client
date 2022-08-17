@@ -14,7 +14,11 @@ export class MapContainer extends Component {
 
   render() {
     return (
-      <>
+      <div
+      style={{
+        height: "20rem",
+        position: "relative",
+      }}>
         <Map google={this.props.google}
           initialCenter={{
             lat: this.state.mapCenter.lat,
@@ -39,7 +43,7 @@ export class MapContainer extends Component {
             }}
           />
         </Map>
-      </>
+      </div>
     )
   }
 }
