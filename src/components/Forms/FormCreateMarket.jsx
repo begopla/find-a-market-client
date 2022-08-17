@@ -4,7 +4,6 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 import {
     Button,
-    useColorModeValue,
     Drawer,
     DrawerOverlay,
     DrawerCloseButton,
@@ -39,14 +38,11 @@ export default function FormCreateMarket() {
     });
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
-    const [marketPhoto, setMarketPhoto] = useState([]);
     const [openingDaysValues, setOpeningDaysValues] = useState([]);
     const [openingMonthsValues, setOpeningMonthsValues] = useState([]);
 
     const navigate = useNavigate();
 
-    const color = useColorModeValue('gray.700', 'gray.200');
-    const bg = useColorModeValue('gray.50', 'gray.900');
 
     const objSentAsProps = {
         coordinates: coordinates,
@@ -175,7 +171,8 @@ export default function FormCreateMarket() {
                                     name='type'
                                     options={typeOptions}
                                     value={type}
-                                    onChange={setType}
+                                    onChange={setType}                   
+                                    
                                 />
                             </FormControl>
 
