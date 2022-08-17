@@ -47,12 +47,18 @@ export default function ReviewInput({
         }
     };
     const toggleReviewCreated = () => setReviewCreated(!reviewCreated);
+    const openCreateReview = () => {
+        if (reviewCreated === true) {
+            toggleReviewCreated()
+            onOpen();
+        } else onOpen();
+    };
 
     return (
         <>
-            <Button mt={4} onClick={onOpen}>Leave a review!</Button>
+            <Button mt={4} onClick={openCreateReview}>Leave a review!</Button>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
+            {!reviewCreated && <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Write a review</ModalHeader>
@@ -75,7 +81,7 @@ export default function ReviewInput({
                         <Button colorScheme='blue' type="submit" onClick={handleSubmit}>Submit</Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal>
+            </Modal>}
         </>
     )
 }
