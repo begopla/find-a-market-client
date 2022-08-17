@@ -15,6 +15,7 @@ import {
   Badge,
   Icon,
   SimpleGrid,
+  useColorModeValue
 } from "@chakra-ui/react";
 
 import { StarIcon } from "@chakra-ui/icons";
@@ -100,7 +101,7 @@ const MarketDetails = () => {
     checkIfMarketisFav();
   }, []);
   return (
-    <>
+    <Box bg={useColorModeValue('white', 'gray.700')}>
       {isLoading && (
         <Spinner
           position="fixed"
@@ -115,7 +116,12 @@ const MarketDetails = () => {
         />
       )}
       {!isLoading && (
-        <Stack className="DetailsMarket" py={"4rem"} mb={"3rem"} spacing={4}>
+        <Stack
+          className="DetailsMarket"
+          py={"4rem"}
+          pb={"3rem"}
+          spacing={4}
+        >
           <Center>
             <Box w="100%">
               <Image
@@ -183,7 +189,7 @@ const MarketDetails = () => {
           </Stack>
           {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
           {currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
-            <Box pl='3rem'>
+            <Box pl='3rem' py='1rem'>
               <Text fontSize="lg" fontWeight="bold" mt='1rem'>Do you know this market?</Text>
               <ReviewInput props={reviewProps} />
             </Box>
@@ -202,9 +208,9 @@ const MarketDetails = () => {
               )
             })}
           </SimpleGrid>
-         </Stack>
+        </Stack>
       )}
-    </>
+    </Box>
   );
 };
 

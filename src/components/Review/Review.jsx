@@ -24,10 +24,10 @@ export default function Review({ author, date, review }) {
             <Flex justify='flex-start' gap='1rem'>
                 <Avatar
                     size={'md'}
-                    src={author.profilePicture}
+                    src={author?.profilePicture}
                 />
                 <Stack>
-                    <Text fontSize='md'>{author.name}</Text>
+                    <Text fontSize='md'>{author?.name}</Text>
                     <Text fontSize='xs'>Posted on {formatDate}</Text>
                 </Stack>
             </Flex>

@@ -39,9 +39,9 @@ const Markets = ({props: { markets, setMarkets }}) => {
 					minChildWidth='15rem'
 					spacing='5px'
 					className="listMarkets"
-					marginBottom={'4rem'}
+					pb={'4rem'}
 					px={'3rem'}
-					mt={'3rem'}>
+					pt={'3rem'}>
 					{markets.map((market) => {
 						return (
 							<OneMarket
