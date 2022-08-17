@@ -36,7 +36,7 @@ export default function Searchbar({ props: { markets, setMarkets } }) {
     return (
         <Center>
             <Box className='searchBar' h='18rem' mt='3rem' w='100%' zIndex={0}>
-                <Center as="flex" flexDirection='column' pos='relative' top='45%'>
+                <Center as="flex" flexDirection='column' pos='relative' top={{base:'35%', md:'45%', lg:'45%'}}>
                     <Hide above='700px'><Text className="nameSearch">Localish</Text></Hide>
                     <InputGroup size='sm' w='70%'>
                         <Input
