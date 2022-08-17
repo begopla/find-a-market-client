@@ -15,7 +15,6 @@ import {
   Stack,
   FormLabel,
   Input,
-  Select,
   Textarea,
   useDisclosure,
   FormControl,
@@ -25,49 +24,114 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import Select from "react-select";
 
 export default function FormEditMarket({
-  props: { detailMarket, setDetailMarket, marketId, imageUrl,setImageUrl },
+  props: { detailMarket, setDetailMarket, marketId, imageUrl, setImageUrl },
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
   const [editMarket, setEditMarket] = useState({ ...detailMarket });
+
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   //const { marketId } = useParams();
   const [toggleEditMarket, setToggleEditMarket] = useState(false);
   const [addressEdited, setAddressEdited] = useState("");
+  const [type, setType] = useState([]);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [openingDaysValues, setOpeningDaysValues] = useState([]);
+  const [openingMonthsValues, setOpeningMonthsValues] = useState([]);
 
+  const typeOptions = [
+    { value: "Fresh Food market", label: "Fresh Food market" },
+    { value: "Farmers market", label: "Farmers market" },
+    { value: "Flea market", label: "Flea market" },
+    { value: "Street Food market", label: "Street Food market" },
+    { value: "Bazaar", label: "Bazaar" },
+    { value: "Night market", label: "Night market" },
+    { value: "Books market", label: "Books market" },
+    { value: "Fish market", label: "Fish market" },
+  ];
+
+  const daysOptions = [
+    { value: "Every day", label: "Every day" },
+    { value: "Monday", label: "Monday" },
+    { value: "Tuesday", label: "Tuesday" },
+    { value: "Wednesday", label: "Wednesday" },
+    { value: "Thursday", label: "Thursday" },
+    { value: "Friday", label: "Friday" },
+    { value: "Saturday", label: "Saturday" },
+    { value: "Sunday", label: "Sunday" },
+  ];
+
+  const monthsOptions = [
+    { value: "All year", label: "All year" },
+    { value: "January", label: "January" },
+    { value: "February", label: "February" },
+    { value: "March", label: "March" },
+    { value: "April", label: "April" },
+    { value: "May", label: "May" },
+    { value: "June", label: "June" },
+    { value: "July", label: "July" },
+    { value: "August", label: "August" },
+    { value: "September", label: "September" },
+    { value: "October", label: "October" },
+    { value: "November", label: "November" },
+    { value: "December", label: "December" },
+  ];
+
+  const handleDays = (openingDaysValues) => {
+    const openingDaysValuesArray =[];
+    console.log(openingDaysValues)
+    openingDaysValues.forEach(entrie=>{ 
+        openingDaysValuesArray.push(entrie.value)
+    });
+   
+    setEditMarket({...detailMarket,
+      openingDays: openingDaysValuesArray});
+  };
+  const handleMonths = (openingMonthsValues) => {
+    setOpeningMonthsValues(openingMonthsValues);
+    const openingMonthsValuesArray =[];
+            openingMonthsValues.forEach(entrie=>{ 
+                openingMonthsValuesArray.push(entrie.value)
+            });
+    console.log('Opening Months',openingMonthsValues);
+    setEditMarket({...detailMarket,
+      openingMonths: openingMonthsValuesArray});
+
+  };
   const handleDeleteMarket = async () => {
-    const { data } = await service.delete(`/markets/${marketId}`);
+    await service.delete(`/markets/${marketId}`);
     setTimeout(() => navigate("/"), 1000);
   };
 
   const handleEditMarket = async (e) => {
     e.preventDefault();
-    const fd = new FormData()
+    const fd = new FormData();
     try {
-        fd.append("imageUrl", imageUrl)
-        
-        for(let [key, value] of Object.entries(editMarket)){
-          if(typeof value === 'object'){
-            value = JSON.stringify(value)
-          }
-          fd.append(key, value)
-        
-        }
-        const { data } = await service.put(`/markets/${marketId}`,fd);
-        setDetailMarket(data);
-        if (data) {
-          toggleMarket();
-        }  
-     
+      console.log(editMarket)
+      fd.append("imageUrl", imageUrl);
 
+      for (let [key, value] of Object.entries(editMarket)) {
+        if (typeof value === "object") {
+          value = JSON.stringify(value);
+        }
+        fd.append(key, value);
+      }
+
+      const { data } = await service.put(`/markets/${marketId}`, fd);
+      setDetailMarket(data);
+      if (data) {
+        toggleMarket();
+      }
     } catch (error) {
       setError(e.message);
     }
   };
- 
+
   const toggleMarket = () => setToggleEditMarket(!toggleEditMarket);
   const openEditMarket = () => {
     if (toggleEditMarket === true) {
@@ -120,11 +184,15 @@ export default function FormEditMarket({
                     id="name"
                     name="name"
                     placeholder={detailMarket.name}
-                    onChange={(e) =>
+                    onChange={(e) =>{
+
                       setEditMarket({
                         ...editMarket,
-                        [e.target.name]: e.target.value,
+                        name: e.target.value,
+
                       })
+                      console.log(e.target.value)
+                    }
                     }
                   />
                 </FormControl>
@@ -132,27 +200,12 @@ export default function FormEditMarket({
                 <FormControl>
                   <FormLabel htmlFor="type">Type of market</FormLabel>
                   <Select
-                    id="type"
                     name="type"
                     placeholder={detailMarket.type}
-                    onChange={(e) =>
-                      setEditMarket({
-                        ...editMarket,
-                        [e.target.type]: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="Fresh Food market">Fresh Food market</option>
-                    <option value="Farmers market">Farmers market</option>
-                    <option value="Flea market">Flea market</option>
-                    <option value="Street Food market">
-                      Street Food market
-                    </option>
-                    <option value="Bazaar">Bazaar</option>
-                    <option value="Night market">Night market</option>
-                    <option value="Books market">Books market</option>
-                    <option value="Fish market">Fish market</option>
-                  </Select>
+                    options={typeOptions}
+                    value={type}
+                    onChange={setType}
+                  />
                 </FormControl>
                 {/* //For photo upload */}
                 <FormControl>
@@ -163,7 +216,65 @@ export default function FormEditMarket({
                     accept="image/png, image/jpeg, image/jpg"
                     onChange={(e) => setImageUrl(e.target.files[0])}
                   />
-                </FormControl> 
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="opening_days">Opening days</FormLabel>
+                  <Select
+                    isMulti
+                    name="openingDays"
+                    options={daysOptions}
+                    value={openingDaysValues}
+                    isClearable
+                    closeMenuOnSelect={false}
+                    onChange={handleDays}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="opening_months">Opening months</FormLabel>
+                  <Select
+                    isMulti
+                    name="openingMonths"
+                    options={monthsOptions}
+                    value={openingMonthsValues}
+                    isClearable
+                    closeMenuOnSelect={false}
+                    onChange={handleMonths}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Opening hours</FormLabel>
+                  <Stack direction={"row"}>
+                    <Stack>
+                      <FormLabel htmlFor="from">From</FormLabel>
+                      <Input
+                        type={"time"}
+                        name="from"
+                        onChange={(e) => 
+                        setEditMarket({
+                          ...editMarket,
+                          [e.target.name]: e.target.value,
+                          })
+                        }
+                      />
+                    </Stack>
+                    <Stack>
+                      <FormLabel htmlFor="to">to</FormLabel>
+                      <Input
+                        type={"time"}
+                        name="to"
+                        onChange={(e) => 
+                          setEditMarket({
+                          ...editMarket,
+                          [e.target.name]: e.target.value,
+                          })
+                        }
+                      />
+                    </Stack>
+                  </Stack>
+                </FormControl>
+
                 <FormControl>
                   <FormLabel htmlFor="description">Description</FormLabel>
                   <Textarea
@@ -244,7 +355,7 @@ export default function FormEditMarket({
                     onChange={(e) =>
                       setEditMarket({
                         ...editMarket,
-                        [e.target.website]: e.target.value,
+                        website: e.target.value,
                       })
                     }
                   />
