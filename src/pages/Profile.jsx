@@ -15,7 +15,7 @@ const Profile = () => {
 	}, []);
 
 	return (
-		<Box>
+		<Box height='95vh'>
 			<Text>PlaceHolder</Text>
 			<Center><Text mt='8vh' fontSize='3xl'>My Markets</Text></Center>
 		{myMarkets?.map((market) =>{
@@ -26,9 +26,7 @@ const Profile = () => {
 			/>
 			)
 		})}
-		<Center>
-		<Button mt='5vh'>Create a new market</Button>
-		</Center>
+		
 		</Box>
 	)
 }

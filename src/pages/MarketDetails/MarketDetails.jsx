@@ -176,8 +176,8 @@ const MarketDetails = () => {
             </Flex>
             <Text fontSize="md">{detailMarket.description}</Text>
             <Text fontSize="sm">
-              <br />Opening days: {detailMarket?.opening_days}
-              <br />Opening Months: {detailMarket?.opening_months}
+              <br />Opening days: {detailMarket?.openingDays.join(', ')}
+              <br />Opening Months: {detailMarket?.openingMonths.join(', ')}
               <br />Opening hours: {detailMarket?.opening_hours?.from} to {detailMarket?.opening_hours?.to}
             </Text>
             <Text fontSize="sm">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -23,7 +23,6 @@ const Autocomplete = ({ props: { coordinates, setCoordinates, address, setAddres
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
-            <p>Coordinates -lat:{coordinates.lat}</p>
             <Input {...getInputProps({ placeholder: "Type address" })} />
             <div>
               {loading && (

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 import {
     Button,
-    useColorModeValue,
     Drawer,
     DrawerOverlay,
     DrawerCloseButton,
@@ -39,14 +38,11 @@ export default function FormCreateMarket() {
     });
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
-    const [marketPhoto, setMarketPhoto] = useState([]);
-    const [openingDays, setOpeningDays] = useState([]);
-    const [openingMonths, setOpeningMonths] = useState([]);
+    const [openingDaysValues, setOpeningDaysValues] = useState([]);
+    const [openingMonthsValues, setOpeningMonthsValues] = useState([]);
 
     const navigate = useNavigate();
 
-    const color = useColorModeValue('gray.700', 'gray.200');
-    const bg = useColorModeValue('gray.50', 'gray.900');
 
     const objSentAsProps = {
         coordinates: coordinates,
@@ -93,18 +89,27 @@ export default function FormCreateMarket() {
         { value: 'December', label: 'December' }
     ];
 
-    const handleDays = openingDays => { setOpeningDays(openingDays) }
-    const handleMonths = openingMonths => { setOpeningMonths(openingMonths) }
+    const handleDays = openingDaysValues => { setOpeningDaysValues(openingDaysValues) 
+    console.log(openingDaysValues)}
+    const handleMonths = openingMonthsValues => { setOpeningMonthsValues(openingMonthsValues) 
+    console.log(openingMonthsValues)}
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
 
             const token = localStorage.getItem("authToken")
-            const imageUrl = new FormData();
-            imageUrl.append("marketPhoto", marketPhoto);
-            const newMarket = { name, type: type.value, openingDays, openingMonths, from, to, description, website, coordinates, address, imageUrl }
-            //const res = await service.post("/markets", newMarket)
+            const openingDaysValuesArray =[];
+            openingDaysValues.forEach(entrie=>{ 
+                openingDaysValuesArray.push(entrie.value)
+            });
+            const openingMonthsValuesArray =[];
+            openingMonthsValues.forEach(entrie=>{ 
+                openingMonthsValuesArray.push(entrie.value)
+            });
+            console.log(openingMonthsValuesArray)
+            const newMarket = { name, type: type.value, openingDays:openingDaysValuesArray, openingMonths: openingMonthsValuesArray, from, to, description, website, coordinates, address }
+            
 
             const res = await axios.post(`${API_URL}/markets`, newMarket, {
                 headers: {
@@ -166,7 +171,8 @@ export default function FormCreateMarket() {
                                     name='type'
                                     options={typeOptions}
                                     value={type}
-                                    onChange={setType}
+                                    onChange={setType}                   
+                                    
                                 />
                             </FormControl>
 
@@ -175,7 +181,7 @@ export default function FormCreateMarket() {
                                 <Select isMulti
                                     name='opening_days'
                                     options={daysOptions}
-                                    value={openingDays}
+                                    value={openingDaysValues}
                                     isClearable
                                     closeMenuOnSelect={false}
                                     onChange={handleDays}
@@ -187,7 +193,7 @@ export default function FormCreateMarket() {
                                 <Select isMulti
                                     name='opening_months'
                                     options={monthsOptions}
-                                    value={openingMonths}
+                                    value={openingMonthsValues}
                                     isClearable
                                     closeMenuOnSelect={false}
                                     onChange={handleMonths}
@@ -216,20 +222,6 @@ export default function FormCreateMarket() {
                                 </Stack>
                             </FormControl>
 
-                            <FormControl>
-                                <FormLabel htmlFor='marketPhoto'>Market photo</FormLabel>
-                                <Input
-                                    name="marketPhoto"
-                                    type="file"
-                                    accept="image/png, image/jpeg, image/jpg"
-                                    onChange={(e) => {
-
-                                        console.log(e.target.files[0])
-                                        setMarketPhoto(e.target.files[0])
-                                    }}
-
-                                />
-                            </FormControl>
 
                             <FormControl>
                                 <FormLabel htmlFor='description'>Description</FormLabel>
