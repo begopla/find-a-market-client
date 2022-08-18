@@ -1,7 +1,8 @@
-import React, {useState} from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import { API_URL } from "../../constants";
+import useAuth from "../../context/auth/useAuth";
 import {
     Button,
     Modal,
@@ -18,21 +19,23 @@ import {
 } from '@chakra-ui/react';
 
 export default function ReviewInput({
-    props: {thisMarketReviews, setThisMarketReviews}
+    props: { thisMarketReviews, setThisMarketReviews }
 }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [review, setReview] = useState("");
     const [error, setError] = useState(null);
     const [reviewCreated, setReviewCreated] = useState(false);
     const { marketId } = useParams();
+    const navigate = useNavigate();
+    const { currentUser } = useAuth();
 
     const handleSubmit = async (e) => {
         console.log(review)
         e.preventDefault()
         try {
             const token = localStorage.getItem("authToken")
-            const res = await axios.post(`${API_URL}/markets/${marketId}/review`, {review}, {
-            
+            const res = await axios.post(`${API_URL}/markets/${marketId}/review`, { review }, {
+
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -48,10 +51,13 @@ export default function ReviewInput({
     };
     const toggleReviewCreated = () => setReviewCreated(!reviewCreated);
     const openCreateReview = () => {
-        if (reviewCreated === true) {
-            toggleReviewCreated()
-            onOpen();
-        } else onOpen();
+        if (currentUser) {
+            if (reviewCreated === true) {
+                toggleReviewCreated()
+                onOpen();
+            } else onOpen();
+        }
+        navigate('/signin');
     };
 
     return (
@@ -65,11 +71,11 @@ export default function ReviewInput({
                     <ModalCloseButton />
                     <ModalBody>
                         <FormControl>
-                            <FormLabel htmlFor="review"/>
-                            <Textarea 
-                            name="review"
-                            placeholder='Tell people about this market'
-                            onChange={(e) => {setReview(e.target.value)}}
+                            <FormLabel htmlFor="review" />
+                            <Textarea
+                                name="review"
+                                placeholder='Tell people about this market'
+                                onChange={(e) => { setReview(e.target.value) }}
                             />
                         </FormControl>
                     </ModalBody>

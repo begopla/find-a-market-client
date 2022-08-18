@@ -66,9 +66,9 @@ const MarketDetails = () => {
     setThisMarketReviews: setThisMarketReviews
   }
 
-
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
   const toggleFollowUsers = () => setUserWantsFollow(!userWantsFollow)
+
 
   const saveAsFav = async () => {
     if (currentUser) {
@@ -148,15 +148,15 @@ const MarketDetails = () => {
                 boxSize="18rem"
                 w="100%"
                 objectFit="cover"
-                src={detailMarket.imageUrl}
-                alt={detailMarket.name}
+                src={detailMarket?.imageUrl}
+                alt={detailMarket?.name}
 
               />
             </Box>
           </Center>
           <Stack spacing={2} px={"2rem"}>
             <Flex>
-              <Text fontSize="3xl">{detailMarket.name}</Text>
+              <Text fontSize="3xl">{detailMarket?.name}</Text>
               <Flex justifyContent='space-between'>
                 {!savedAsFav && !marketIsFav ? <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" /> : ''}
                 {marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
@@ -184,7 +184,7 @@ const MarketDetails = () => {
                     colorScheme="teal"
                     textAlign="center"               
                   >
-                    Follow <span class="authorId hide">{detailMarket.author._id}</span>
+                    Follow <span class="authorId hide">{detailMarket?.author._id}</span>
                   </Badge></Button>}
                   {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
                     height='2vh'
@@ -194,7 +194,7 @@ const MarketDetails = () => {
                     colorScheme="teal"
                     textAlign="center"
                   >
-                    Followed  <span class="authorId hide">{detailMarket.author._id}</span> 
+                    Followed  <span class="authorId hide">{detailMarket?.author._id}</span> 
                   </Badge></Button>}
                 </Flex>
                 <Box display="flex" alignItems="center" gap="3px">
@@ -204,7 +204,7 @@ const MarketDetails = () => {
                 </Box>
               </Flex>
             </Flex>
-            <Text fontSize="md">{detailMarket.description}</Text>
+            <Text fontSize="md">{detailMarket?.description}</Text>
             <Text fontSize="sm">
               <br />Opening days: {detailMarket?.openingDays.join(', ')}
               <br />Opening Months: {detailMarket?.openingMonths.join(', ')}
@@ -212,13 +212,14 @@ const MarketDetails = () => {
             </Text>
             <Text fontSize="sm">
               Website:{" "}
-              <Link href={detailMarket.website} isExternal>
-                {detailMarket.website}
+              <Link href={detailMarket?.website} isExternal>
+                {detailMarket?.website}
               </Link>
             </Text>
           </Stack>
           {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
-          {currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
+          {currentUser &&
+            currentUser?._id === detailMarket.author?._id ? <FormEditMarket props={objSentAsProps} /> :
             <Box pl='3rem' py='1rem'>
               <Text fontSize="lg" fontWeight="bold" mt='1rem'>Do you know this market?</Text>
               <ReviewInput props={reviewProps} />

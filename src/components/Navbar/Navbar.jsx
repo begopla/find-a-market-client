@@ -17,9 +17,11 @@ import {
 	useColorMode,
 	Center,
 	Text,
-	Hide
+	Hide,
+	Tooltip
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { IoEarthOutline } from 'react-icons/io5';
 
 export default function Navbar() {
 	const { isLoggedIn, currentUser, removeUser } = useAuth()
@@ -37,6 +39,13 @@ export default function Navbar() {
 					</NavLink>
 					<Flex alignItems={'center'}>
 						<Stack direction={'row'} spacing={7}>
+							<Hide below='900px'>
+								<Tooltip hasArrow label='Discover a new market!' bg='teal.500'>
+									<Box as={'a'} href={'/markets/discover'} pt='2'>
+										<IoEarthOutline size={25} />
+									</Box>
+								</Tooltip>
+							</Hide>
 							<Button onClick={toggleColorMode}>
 								{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
 							</Button>

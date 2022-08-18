@@ -6,7 +6,7 @@ export default function NoSearchResults() {
         align='center' 
         pb='8rem' 
         bg={useColorModeValue('white', 'gray.700')}>
-            <Box boxSize='sm'><Image src='no-results.png'></Image></Box>
+            <Box boxSize='15rem'><Image src='no-results.png'></Image></Box>
             <Text align='center' fontSize='xl' fontWeight='bold'>Sorry We could't find<br />what you are looking for</Text>
             <Text fontSize='md'>Please try searching something else</Text>
         </Stack>
