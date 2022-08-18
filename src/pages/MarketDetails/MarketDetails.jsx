@@ -43,14 +43,14 @@ const MarketDetails = () => {
   const navigate = useNavigate();
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
-    console.log(data)
     setDetailMarket(data.market);
     setThisMarketReviews(data.allReviews)
     setIsLoading(false);
+
   };
   useEffect(() => {
     getOneMarket();
-  }, []);
+  }, [savedAsFav]);
 
   const objSentAsProps = {
     detailMarket: detailMarket,
@@ -73,8 +73,7 @@ const MarketDetails = () => {
   const saveAsFav = async () => {
     if (currentUser) {
       toggleSaveAsFav()
-      await service.post(`markets/${marketId}/favourites`)
-      console.log('market added as fav')
+      const res = await service.post(`markets/${marketId}/favourites`)
     } else {
       navigate('/signin')
     }
@@ -82,7 +81,7 @@ const MarketDetails = () => {
   const removeAsFav = async () => {
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
-    console.log('market removed as fav')
+
   }
 
  
@@ -102,7 +101,7 @@ const MarketDetails = () => {
   }
   useEffect(() => {
     checkIfMarketisFav();
-  }, []);
+  }, [savedAsFav]);
 
   
   const updateFollowUsers = async (e) => {
@@ -120,6 +119,7 @@ const MarketDetails = () => {
     await service.post(`/profile/${toUnFollowId}/removefollower`)
     
   }
+
   return (
     <Box bg={useColorModeValue('white', 'gray.700')}>
       {isLoading && (
@@ -158,8 +158,8 @@ const MarketDetails = () => {
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
-                {savedAsFav || marketIsFav === false ? <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" /> :
-                  <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
+                {!savedAsFav && !marketIsFav ? <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" /> : ''}
+                {marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
@@ -167,7 +167,6 @@ const MarketDetails = () => {
                 {detailMarket.address}
               </Box>
             </Flex>
-
             <Flex>
               <Flex gap="10px" alignItems="center">
                 <Avatar
@@ -200,9 +199,8 @@ const MarketDetails = () => {
                 </Flex>
                 <Box display="flex" alignItems="center" gap="3px">
                   <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
-                    10
-                  </Box>
-                  <StarIcon color={"teal.500"} w={5} h={5} ml="2vw" />
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
                 </Box>
               </Flex>
             </Flex>
