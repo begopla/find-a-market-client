@@ -24,7 +24,10 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+
+import DeleteMarketAlert from "../DeleteMarketAlert/DeleteMarketAlert";
 import Select from "react-select";
+
 
 export default function FormEditMarket({
   props: { detailMarket, setDetailMarket, marketId, imageUrl, setImageUrl },
@@ -105,7 +108,7 @@ export default function FormEditMarket({
   };
   const handleDeleteMarket = async () => {
     await service.delete(`/markets/${marketId}`);
-    setTimeout(() => navigate("/"), 1000);
+    setTimeout(() => navigate("/"), 500);
   };
 
   const handleEditMarket = async (e) => {
@@ -375,9 +378,10 @@ export default function FormEditMarket({
               >
                 Submit
               </Button>
-              <Button colorScheme="red" onClick={handleDeleteMarket}>
+              <DeleteMarketAlert handleDeleteMarket={handleDeleteMarket}/>
+              {/*<Button colorScheme="red" onClick={handleDeleteMarket}>
                 Delete
-              </Button>
+              </Button>*/}
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
