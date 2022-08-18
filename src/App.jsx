@@ -12,7 +12,6 @@ import IconFooter from "./components/Footer/IconFooter"
 import DiscoverPage from "./pages/DiscoverPage/DiscoverPage"
 import Favourites from "./pages/Favourites"
 import UserData from "./pages/UserData"
-import SearchResults from "./pages/SearchResults"
 
 function App() {
 			return (				

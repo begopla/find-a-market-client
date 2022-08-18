@@ -1,43 +1,49 @@
 import React, { Component } from 'react'
-
-
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
-
+import "./MapContainer.css"
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 export class MapContainer extends Component {
-    state = {
+  state = {
     activeMarker: {},
     selectedPlace: {},
-    mapCenter:{
+    mapCenter: {
       lat: this.props.lat,
       lng: this.props.lng
     }
   };
- 
- 
- 
+
   render() {
     return (
-      <>
-      
-      <Map google={this.props.google}
-        initialCenter = {{
-          lat: this.state.mapCenter.lat,
-          lng: this.state.mapCenter.lng,
-        }}
-        center = {{
-          lat: this.state.mapCenter.lat,
-          lng: this.state.mapCenter.lng,
-        }}
-        >
-        <Marker 
-          position ={{
+      <div
+      style={{
+        height: "20rem",
+        position: "relative",
+      }}>
+        <Map google={this.props.google}
+          initialCenter={{
             lat: this.state.mapCenter.lat,
             lng: this.state.mapCenter.lng,
           }}
-        />
-      </Map>
-      </>
+          center={{
+            lat: this.state.mapCenter.lat,
+            lng: this.state.mapCenter.lng,
+          }}
+          style={{
+            width: "94%",
+            height: "20rem",
+            borderRadius: "10px",
+            marginTop: "1rem",
+            marginLeft: "3%",
+          }}
+        >
+          <Marker
+            position={{
+              lat: this.state.mapCenter.lat,
+              lng: this.state.mapCenter.lng,
+            }}
+          />
+        </Map>
+      </div>
     )
   }
 }

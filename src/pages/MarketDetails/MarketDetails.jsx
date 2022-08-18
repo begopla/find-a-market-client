@@ -15,6 +15,7 @@ import {
   Badge,
   Icon,
   SimpleGrid,
+  useColorModeValue
 } from "@chakra-ui/react";
 
 import { StarIcon } from "@chakra-ui/icons";
@@ -35,7 +36,7 @@ const MarketDetails = () => {
   const [imageUrl, setImageUrl] = useState([])
   const [savedAsFav, setSavedAsFav] = useState(false)
   const [thisMarketReviews, setThisMarketReviews] = useState([]);
-  const [marketIsFav, setMarketIsFav]= useState(false)
+  const [marketIsFav, setMarketIsFav] = useState(false)
   const { marketId } = useParams();
   const navigate = useNavigate();
   const getOneMarket = async () => {
@@ -52,9 +53,9 @@ const MarketDetails = () => {
   const objSentAsProps = {
     detailMarket: detailMarket,
     setDetailMarket: setDetailMarket,
-    marketId:marketId,
-    imageUrl:imageUrl,
-    setImageUrl:setImageUrl
+    marketId: marketId,
+    imageUrl: imageUrl,
+    setImageUrl: setImageUrl
 
   };
 
@@ -63,12 +64,12 @@ const MarketDetails = () => {
     setThisMarketReviews: setThisMarketReviews
   }
 
-  
+
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
   // const submitPhoto = async (e) => {
 
   const saveAsFav = async () => {
-        if(currentUser){
+    if (currentUser) {
       toggleSaveAsFav()
       const res = await service.post(`markets/${marketId}/favourites`)
     }else{
@@ -81,25 +82,25 @@ const MarketDetails = () => {
   
   }
 
-  const checkIfMarketisFav = async() => {
-    if(currentUser){
+  const checkIfMarketisFav = async () => {
+    if (currentUser) {
 
       const favMarkets = await service.get(`/profile/favourites`)
       const favMarketArray = favMarkets.data.savedList;
-      
       if(!favMarketArray.lenght){
         favMarketArray.forEach(element => {
-          if(element._id===marketId){
+          if (element._id === marketId) {
             setMarketIsFav(!marketIsFav)
           }
-        });}
-    } 
+        });
+      }
+    }
   }
   useEffect(() => {
     checkIfMarketisFav();
   }, [savedAsFav]);
   return (
-    <>
+    <Box bg={useColorModeValue('white', 'gray.700')}>
       {isLoading && (
         <Spinner
           position="fixed"
@@ -114,7 +115,12 @@ const MarketDetails = () => {
         />
       )}
       {!isLoading && (
-        <Stack className="DetailsMarket" py={"4rem"}  mb={"3rem"} spacing={4}>
+        <Stack
+          className="DetailsMarket"
+          py={"4rem"}
+          pb={"3rem"}
+          spacing={4}
+        >
           <Center>
             <Box w="100%">
               <Image
@@ -123,7 +129,7 @@ const MarketDetails = () => {
                 objectFit="cover"
                 src={detailMarket.imageUrl}
                 alt={detailMarket.name}
-                
+
               />
             </Box>
           </Center>
@@ -140,7 +146,6 @@ const MarketDetails = () => {
                 {detailMarket.address}
               </Box>
             </Flex>
-             
             <Flex>              
             <Flex gap="10px" alignItems="center">
               <Avatar
@@ -163,14 +168,12 @@ const MarketDetails = () => {
                 <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
                  {detailMarket.stars.length}
                 </Box>
-                <StarIcon color={"teal.500"}  w={5} h={5} ml="2vw"/>
-              </Box>
-            </Flex>
+              </Flex>
             </Flex>
             <Text fontSize="md">{detailMarket.description}</Text>
             <Text fontSize="sm">
-              <br />Opening days: {detailMarket?.opening_days}
-              <br />Opening Months: {detailMarket?.opening_months}
+              <br />Opening days: {detailMarket?.openingDays.join(', ')}
+              <br />Opening Months: {detailMarket?.openingMonths.join(', ')}
               <br />Opening hours: {detailMarket?.opening_hours?.from} to {detailMarket?.opening_hours?.to}
             </Text>
             <Text fontSize="sm">
@@ -180,31 +183,30 @@ const MarketDetails = () => {
               </Link>
             </Text>
           </Stack>
-          <Box mt={4} pl={6}>
-            <Text fontSize="lg">Do you know this market?</Text>
-            <ReviewInput props={reviewProps}/>
-          </Box>
+          {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
+          {currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
+            <Box pl='3rem' py='1rem'>
+              <Text fontSize="lg" fontWeight="bold" mt='1rem'>Do you know this market?</Text>
+              <ReviewInput props={reviewProps} />
+            </Box>
+          }
           <SimpleGrid
-          p='3rem'
-          minChildWidth='18rem'
-          spacing='20px'>
-          {thisMarketReviews?.map((review) => {
-            return (
-              <Review 
-              {...review}
-              key={review._id}
-              />
-            )
-          })}
+            px='2rem'
+            minChildWidth='18rem'
+            spacing='20px'
+            pos='relative'>
+            {thisMarketReviews?.map((review) => {
+              return (
+                <Review
+                  {...review}
+                  key={review._id}
+                />
+              )
+            })}
           </SimpleGrid>
-          {currentUser &&<FormEditMarket props={objSentAsProps} />}
-        
-
-        {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
-          
         </Stack>
       )}
-    </>
+    </Box>
   );
 };
 

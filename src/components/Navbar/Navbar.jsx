@@ -32,7 +32,7 @@ export default function Navbar() {
 					<NavLink to='/'>
 						<Flex alignItems={'center'}>
 							<img src="/logo1.png" alt="logo" width='45rem' />
-							<Hide below='900px'><Text className="name">Localish</Text></Hide>
+							<Hide below='700px'><Text className="name">Localish</Text></Hide>
 						</Flex>
 					</NavLink>
 					<Flex alignItems={'center'}>

@@ -3,3 +3,9 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.nameSearch{
+    font-family: 'Advent Pro';
+	color: #FFF;
+	font-size: 2.5rem;
+}
