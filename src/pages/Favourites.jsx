@@ -26,7 +26,7 @@ const Favourites = () => {
    
     <Text fontSize='2xl' mt='0vh' ml='40vw' mb='2vh'>Placeholder</Text>
     <Center>
-      {currentUser  && <Text fontSize='2xl' mt='5vh' >Discover you're favourite markets</Text>}
+      {currentUser  && <Text fontSize='2xl' mt='5vh' >Discover your favourite markets</Text>}
 	    {!currentUser && <Box height='80vh'><Text fontSize='2xl' mt='5vh'>Log in and start saving your favorite markets </Text></Box>}
 	  </Center>
 
