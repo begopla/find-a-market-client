@@ -97,6 +97,7 @@ const DiscoverPage = () => {
     }, []);
 
     return (
+
         <Box bg={useColorModeValue('white', 'gray.700')}>
             {isLoading && (
                 <Spinner
@@ -128,6 +129,7 @@ const DiscoverPage = () => {
                                 alt={discoverMarket.name}
 
                             />
+
                         </Box>
                     </Center>
                     <Stack spacing={2} px={"2rem"}>
@@ -164,7 +166,7 @@ const DiscoverPage = () => {
                                 </Flex>
                                 <Box display="flex" alignItems="center" gap="3px">
                                     <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
-                                        10
+                                       {discoverMarket.stars.length}
                                     </Box>
                                     <StarIcon color={"teal.500"} w={5} h={5} ml="2vw" />
                                 </Box>

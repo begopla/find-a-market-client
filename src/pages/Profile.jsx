@@ -16,11 +16,11 @@ const Profile = () => {
 
 	return (
 		<Box height='95vh'>
-			<Text>PlaceHolder</Text>
 			<Center><Text mt='8vh' fontSize='3xl'>My Markets</Text></Center>
+		
 		{myMarkets?.map((market) =>{
 			return(
-			<DisplayMyMarket 
+			<DisplayMyMarket  
 				{...market}
 				id={market._id}
 			/>

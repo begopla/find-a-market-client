@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { Center, Box, Image, Badge, Skeleton } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
-function OneMarket({ name, _id, type, imageUrl, address }) {
+function OneMarket({ name, _id, type, imageUrl, address, stars }) {
 
     return (
         <Center>
@@ -23,7 +23,7 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                             </Badge>
                             <Box display='flex' mt='2' alignItems='center' gap='3px'>
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                    10
+                                    {stars.length}
                                 </Box>
                                 <StarIcon color={'teal.500'} />
                             </Box>
