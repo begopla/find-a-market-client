@@ -51,8 +51,8 @@ const Profile = () => {
 		
 		</Box>
 
-		<Box height='14vh'>
-			<Center ><Text  fontSize='2xl'>Users following</Text></Center>
+		<Center height='14vh' flexDirection='column'>
+			<Text  fontSize='2xl'>Users following</Text>
 			{/* <Grid
 			bg={useColorModeValue('white', 'gray.700')}
 					minChildWidth='5vw'
@@ -80,7 +80,7 @@ const Profile = () => {
 				})}
 			</AvatarGroup>
 			{/* </Grid> */}
-		</Box>
+		</Center>
 		</>
 	)
 }
