@@ -35,7 +35,7 @@ const DiscoverPage = () => {
                     <Flex alignItems='baseline' justifyContent='space-between'>
                         <Box as='span' color='gray.600' fontSize='sm'>City &bull; Country</Box>
                         <Box display='flex' mt='2' alignItems='center' gap='3px'>
-                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>10</Box>
+                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>{discoverMarket.stars.length}</Box>
                             <StarIcon color={'teal.500'} />
                         </Box>
                     </Flex>

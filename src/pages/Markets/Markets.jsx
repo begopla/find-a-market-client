@@ -13,7 +13,7 @@ const Markets = ({props: { markets, setMarkets }}) => {
 	const getAllMarkets = async () => {
 		const response = await axios.get(`${API_URL}/`)
 		 //console.log(response)
-     setMarkets(response.data)
+     	setMarkets(response.data)
 		 setIsLoading(false)	
 	}
   
@@ -48,6 +48,7 @@ const Markets = ({props: { markets, setMarkets }}) => {
 								key={market._id}
 								id={market._id}
 								name={market.name}
+								stars = {market.stars}
 							/>
 						)
 					})}
