@@ -10,8 +10,7 @@ import {
 import { IoEarthOutline } from 'react-icons/io5';
 import { CgProfile } from "react-icons/cg";
 import { VscHeart, VscSearch } from "react-icons/vsc";
-import { BsThreeDots } from "react-icons/bs";
-
+import FooterPopover from '../FooterPopover/FooterPopover';
 
 export default function IconFooter() {
   return (
@@ -45,8 +44,8 @@ export default function IconFooter() {
             <Box as={'a'} href={'/markets/discover'}>
               <IoEarthOutline size={25} />
             </Box>
-            <Box as={'a'} href={'#'}>
-              <BsThreeDots size={25} />
+            <Box>
+              <FooterPopover />
             </Box>
           </Container>
         </Box>
