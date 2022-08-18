@@ -64,9 +64,7 @@ const MarketDetails = () => {
     setThisMarketReviews: setThisMarketReviews
   }
 
-
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
-  // const submitPhoto = async (e) => {
 
   const saveAsFav = async () => {
     if (currentUser) {
@@ -188,7 +186,8 @@ const MarketDetails = () => {
             </Text>
           </Stack>
           {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
-          {currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
+          {currentUser &&
+            currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
             <Box pl='3rem' py='1rem'>
               <Text fontSize="lg" fontWeight="bold" mt='1rem'>Do you know this market?</Text>
               <ReviewInput props={reviewProps} />

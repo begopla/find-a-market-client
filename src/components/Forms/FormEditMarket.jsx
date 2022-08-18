@@ -86,24 +86,28 @@ export default function FormEditMarket({
   ];
 
   const handleDays = (openingDaysValues) => {
-    const openingDaysValuesArray =[];
+    const openingDaysValuesArray = [];
     console.log(openingDaysValues)
-    openingDaysValues.forEach(entrie=>{ 
-        openingDaysValuesArray.push(entrie.value)
+    openingDaysValues.forEach(entrie => {
+      openingDaysValuesArray.push(entrie.value)
     });
-   
-    setEditMarket({...detailMarket,
-      openingDays: openingDaysValuesArray});
+
+    setEditMarket({
+      ...detailMarket,
+      openingDays: openingDaysValuesArray
+    });
   };
   const handleMonths = (openingMonthsValues) => {
     setOpeningMonthsValues(openingMonthsValues);
-    const openingMonthsValuesArray =[];
-            openingMonthsValues.forEach(entrie=>{ 
-                openingMonthsValuesArray.push(entrie.value)
-            });
-    console.log('Opening Months',openingMonthsValues);
-    setEditMarket({...detailMarket,
-      openingMonths: openingMonthsValuesArray});
+    const openingMonthsValuesArray = [];
+    openingMonthsValues.forEach(entrie => {
+      openingMonthsValuesArray.push(entrie.value)
+    });
+    console.log('Opening Months', openingMonthsValues);
+    setEditMarket({
+      ...detailMarket,
+      openingMonths: openingMonthsValuesArray
+    });
 
   };
   const handleDeleteMarket = async () => {
@@ -161,6 +165,7 @@ export default function FormEditMarket({
           leftIcon={<EditIcon />}
           colorScheme="teal"
           minW="80%"
+          my="2rem"
           onClick={openEditMarket}
         >
           Edit market
@@ -187,7 +192,7 @@ export default function FormEditMarket({
                     id="name"
                     name="name"
                     placeholder={detailMarket.name}
-                    onChange={(e) =>{
+                    onChange={(e) => {
 
                       setEditMarket({
                         ...editMarket,
@@ -254,10 +259,10 @@ export default function FormEditMarket({
                       <Input
                         type={"time"}
                         name="from"
-                        onChange={(e) => 
-                        setEditMarket({
-                          ...editMarket,
-                          [e.target.name]: e.target.value,
+                        onChange={(e) =>
+                          setEditMarket({
+                            ...editMarket,
+                            [e.target.name]: e.target.value,
                           })
                         }
                       />
@@ -267,10 +272,10 @@ export default function FormEditMarket({
                       <Input
                         type={"time"}
                         name="to"
-                        onChange={(e) => 
+                        onChange={(e) =>
                           setEditMarket({
-                          ...editMarket,
-                          [e.target.name]: e.target.value,
+                            ...editMarket,
+                            [e.target.name]: e.target.value,
                           })
                         }
                       />
@@ -378,10 +383,7 @@ export default function FormEditMarket({
               >
                 Submit
               </Button>
-              <DeleteMarketAlert handleDeleteMarket={handleDeleteMarket}/>
-              {/*<Button colorScheme="red" onClick={handleDeleteMarket}>
-                Delete
-              </Button>*/}
+              <DeleteMarketAlert handleDeleteMarket={handleDeleteMarket} />
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
