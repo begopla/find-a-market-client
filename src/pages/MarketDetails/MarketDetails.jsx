@@ -16,7 +16,9 @@ import {
   Icon,
   SimpleGrid,
   useColorModeValue,
-  Button
+  Button,
+  Hide,
+  Show
 } from "@chakra-ui/react";
 
 import { StarIcon } from "@chakra-ui/icons";
@@ -197,11 +199,17 @@ const MarketDetails = () => {
                     Followed  <span class="authorId hide">{detailMarket?.author._id}</span> 
                   </Badge></Button>}
                 </Flex>
+                <Hide above="600px" >
                 <Box display="flex"  gap="3px">
                   <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
                     {detailMarket.stars.length}</Box>
                   <StarIcon color='teal'/>
                 </Box>
+                <Show above="600px">
+
+                  
+                </Show>
+                </Hide>
               </Flex>
             </Flex>
             <Text fontSize="md">{detailMarket?.description}</Text>
