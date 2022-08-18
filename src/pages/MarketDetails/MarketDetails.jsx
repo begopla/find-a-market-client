@@ -162,11 +162,9 @@ const MarketDetails = () => {
                 {marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
-            <Flex alignItems="baseline" justifyContent="space-between">
               <Box as="span" color="gray.600" fontSize="sm">
                 {detailMarket.address}
-              </Box>
-            </Flex>
+              </Box>   
             <Flex>
               <Flex gap="10px" alignItems="center">
                 <Avatar
@@ -177,18 +175,20 @@ const MarketDetails = () => {
                 <Flex flexDirection="column">
                   <Text>{detailMarket.author?.name}</Text>
                   { !userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
-                    height='2vh'
-                    paddingTop='0.4vh'
+                    height='3vh'
+                    paddingTop='0.5vh'
+                    paddingBottom='0.2vh'
                     borderRadius="full"
-                    px="2"
+                    px="3"
                     colorScheme="teal"
                     textAlign="center"               
                   >
                     Follow <span class="authorId hide">{detailMarket?.author._id}</span>
                   </Badge></Button>}
                   {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
-                    height='2vh'
-                    paddingTop='0.4vh'
+                    height='4vh'
+                    paddingTop='0.3vh'
+                    paddingBottom='0.2vh'
                     borderRadius="full"
                     px="2"
                     colorScheme="teal"
@@ -197,7 +197,7 @@ const MarketDetails = () => {
                     Followed  <span class="authorId hide">{detailMarket?.author._id}</span> 
                   </Badge></Button>}
                 </Flex>
-                <Box display="flex" alignItems="center" gap="3px">
+                <Box display="flex"  gap="3px">
                   <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
                     {detailMarket.stars.length}</Box>
                   <StarIcon color='teal'/>
