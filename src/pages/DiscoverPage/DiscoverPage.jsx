@@ -16,9 +16,11 @@ const DiscoverPage = () => {
     }, []);
 
     return (
+
         <>
             {navigate(`/markets/${discoverMarket._id}`)}
         </>
+
     );
 };
 

@@ -29,7 +29,6 @@ const Favourites = () => {
       {currentUser  && <Text fontSize='2xl' mt='5vh' >Discover your favourite markets</Text>}
 	    {!currentUser && <Box height='80vh'><Text fontSize='2xl' mt='5vh'>Log in and start saving your favorite markets </Text></Box>}
 	  </Center>
-
     <Box bg={useColorModeValue('gray.200', 'gray.700')}>
     {isLoading  && currentUser &&<Spinner
 				position='fixed'

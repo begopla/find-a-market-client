@@ -15,7 +15,8 @@ import {
   Badge,
   Icon,
   SimpleGrid,
-  useColorModeValue
+  useColorModeValue,
+  Button
 } from "@chakra-ui/react";
 
 import { StarIcon } from "@chakra-ui/icons";
@@ -26,7 +27,7 @@ import Review from "../../components/Review/Review";
 import MapContainer from "../../components/Map/MapContainer"
 import useAuth from "../../context/auth/useAuth";
 import { useNavigate } from "react-router-dom";
-
+import './MarketDetails.css'
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
@@ -37,18 +38,19 @@ const MarketDetails = () => {
   const [savedAsFav, setSavedAsFav] = useState(false)
   const [thisMarketReviews, setThisMarketReviews] = useState([]);
   const [marketIsFav, setMarketIsFav] = useState(false)
+  const [userWantsFollow, setUserWantsFollow] = useState(false)
   const { marketId } = useParams();
   const navigate = useNavigate();
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
-    console.log(data)
     setDetailMarket(data.market);
     setThisMarketReviews(data.allReviews)
     setIsLoading(false);
+
   };
   useEffect(() => {
     getOneMarket();
-  }, []);
+  }, [savedAsFav]);
 
   const objSentAsProps = {
     detailMarket: detailMarket,
@@ -65,12 +67,13 @@ const MarketDetails = () => {
   }
 
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
+  const toggleFollowUsers = () => setUserWantsFollow(!userWantsFollow)
+
 
   const saveAsFav = async () => {
     if (currentUser) {
       toggleSaveAsFav()
-      await service.post(`markets/${marketId}/favourites`)
-      console.log('market added as fav')
+      const res = await service.post(`markets/${marketId}/favourites`)
     } else {
       navigate('/signin')
     }
@@ -78,9 +81,10 @@ const MarketDetails = () => {
   const removeAsFav = async () => {
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
-    console.log('market removed as fav')
+
   }
 
+ 
   const checkIfMarketisFav = async () => {
     if (currentUser) {
 
@@ -97,7 +101,25 @@ const MarketDetails = () => {
   }
   useEffect(() => {
     checkIfMarketisFav();
-  }, []);
+  }, [savedAsFav]);
+
+  
+  const updateFollowUsers = async (e) => {
+    toggleFollowUsers()
+    const toFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
+    
+    await service.post(`/profile/${toFollowId}/addfollower`)
+    
+  }
+
+  const removeFollowedUser = async (e) => {
+    const toUnFollowId =  e.currentTarget.children[0].childNodes[1].innerHTML;
+    toggleFollowUsers()
+    
+    await service.post(`/profile/${toUnFollowId}/removefollower`)
+    
+  }
+
   return (
     <Box bg={useColorModeValue('white', 'gray.700')}>
       {isLoading && (
@@ -126,18 +148,18 @@ const MarketDetails = () => {
                 boxSize="18rem"
                 w="100%"
                 objectFit="cover"
-                src={detailMarket.imageUrl}
-                alt={detailMarket.name}
+                src={detailMarket?.imageUrl}
+                alt={detailMarket?.name}
 
               />
             </Box>
           </Center>
           <Stack spacing={2} px={"2rem"}>
             <Flex>
-              <Text fontSize="3xl">{detailMarket.name}</Text>
+              <Text fontSize="3xl">{detailMarket?.name}</Text>
               <Flex justifyContent='space-between'>
-                {savedAsFav || marketIsFav === false ? <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" /> :
-                  <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
+                {!savedAsFav && !marketIsFav ? <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" /> : ''}
+                {marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
@@ -145,34 +167,44 @@ const MarketDetails = () => {
                 {detailMarket.address}
               </Box>
             </Flex>
-
             <Flex>
               <Flex gap="10px" alignItems="center">
                 <Avatar
-                  size="md"
+                  size="lg"
                   mt="0px"
                   src={detailMarket.author?.profilePicture}
                 />
-                <Flex flexDirection="column" gap="2px">
+                <Flex flexDirection="column">
                   <Text>{detailMarket.author?.name}</Text>
-                  <Badge
+                  { !userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
+                    height='2vh'
+                    paddingTop='0.4vh'
+                    borderRadius="full"
+                    px="2"
+                    colorScheme="teal"
+                    textAlign="center"               
+                  >
+                    Follow <span class="authorId hide">{detailMarket?.author._id}</span>
+                  </Badge></Button>}
+                  {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
+                    height='2vh'
+                    paddingTop='0.4vh'
                     borderRadius="full"
                     px="2"
                     colorScheme="teal"
                     textAlign="center"
                   >
-                    Follow
-                  </Badge>
+                    Followed  <span class="authorId hide">{detailMarket?.author._id}</span> 
+                  </Badge></Button>}
                 </Flex>
                 <Box display="flex" alignItems="center" gap="3px">
                   <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
-                    10
-                  </Box>
-                  <StarIcon color={"teal.500"} w={5} h={5} ml="2vw" />
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
                 </Box>
               </Flex>
             </Flex>
-            <Text fontSize="md">{detailMarket.description}</Text>
+            <Text fontSize="md">{detailMarket?.description}</Text>
             <Text fontSize="sm">
               <br />Opening days: {detailMarket?.openingDays.join(', ')}
               <br />Opening Months: {detailMarket?.openingMonths.join(', ')}
@@ -180,14 +212,14 @@ const MarketDetails = () => {
             </Text>
             <Text fontSize="sm">
               Website:{" "}
-              <Link href={detailMarket.website} isExternal>
-                {detailMarket.website}
+              <Link href={detailMarket?.website} isExternal>
+                {detailMarket?.website}
               </Link>
             </Text>
           </Stack>
           {detailMarket?.coordinates && <MapContainer lat={detailMarket.coordinates?.lat} lng={detailMarket.coordinates?.lng} />}
           {currentUser &&
-            currentUser._id === detailMarket.author._id ? <FormEditMarket props={objSentAsProps} /> :
+            currentUser?._id === detailMarket.author?._id ? <FormEditMarket props={objSentAsProps} /> :
             <Box pl='3rem' py='1rem'>
               <Text fontSize="lg" fontWeight="bold" mt='1rem'>Do you know this market?</Text>
               <ReviewInput props={reviewProps} />
