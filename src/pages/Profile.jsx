@@ -1,5 +1,5 @@
 import { useState, useEffect} from "react";
-import {Text, Box, Center, SimpleGrid, Grid, useColorModeValue, Avatar, Flex} from '@chakra-ui/react';
+import {Text, Box, Center, SimpleGrid, Grid, useColorModeValue, Avatar, AvatarGroup, Flex} from '@chakra-ui/react';
 import '../styles/profile.css';
 import DisplayMyMarket from "../components/DisplayMyMarket/DisplayMyMarket";
 import service from '../services/apiHandler';
@@ -23,9 +23,9 @@ const Profile = () => {
 
 	return (
 		<>
-		<Box height='90vh'>
+		<Box height='80vh'>
 			
-			<Center><Text mt='8vh' fontSize='3xl'>My Markets</Text></Center>
+			<Center><Text mt='6vh' fontSize='2xl'>My Markets</Text></Center>
 		{<SimpleGrid
 		bg={useColorModeValue('white', 'gray.700')}
 					minChildWidth='10rem'
@@ -51,9 +51,9 @@ const Profile = () => {
 		
 		</Box>
 
-		<Box height='20vh'>
-			<Center ><Text  fontSize='3xl'>Users following</Text></Center>
-			<Grid
+		<Box height='14vh'>
+			<Center ><Text  fontSize='2xl'>Users following</Text></Center>
+			{/* <Grid
 			bg={useColorModeValue('white', 'gray.700')}
 					minChildWidth='5vw'
 					templateColumns={'repeat(5,1fr)'}
@@ -64,25 +64,22 @@ const Profile = () => {
 					px={'2rem'}
 					pt={'1rem'}
 					
-			>
+			> */}
+			<AvatarGroup>
+
 				{followedUsers?.map((user)=>{
 					return(
-						<Box width='20vw' marginLeft='10vw'>
-
-						<Flex direction='column'>
-
+						
 						<Avatar
 							size='lg'
 							mt="0px"
 							src={user.profilePicture}
 							/>
-						<Text paddingLeft='2vw'>{user.name}</Text>
-						</Flex>
-						</Box>
 						
 					)
 				})}
-			</Grid>
+			</AvatarGroup>
+			{/* </Grid> */}
 		</Box>
 		</>
 	)
