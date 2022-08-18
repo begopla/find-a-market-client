@@ -44,7 +44,7 @@ const MarketDetails = () => {
     setDetailMarket(data.market);
     setThisMarketReviews(data.allReviews)
     setIsLoading(false);
-   
+
   };
   useEffect(() => {
     getOneMarket();
@@ -72,14 +72,14 @@ const MarketDetails = () => {
     if (currentUser) {
       toggleSaveAsFav()
       const res = await service.post(`markets/${marketId}/favourites`)
-    }else{
+    } else {
       navigate('/signin')
     }
   }
   const removeAsFav = async () => {
     toggleSaveAsFav()
     await service.post(`markets/${marketId}/removefav`)
-  
+
   }
 
   const checkIfMarketisFav = async () => {
@@ -87,7 +87,7 @@ const MarketDetails = () => {
 
       const favMarkets = await service.get(`/profile/favourites`)
       const favMarketArray = favMarkets.data.savedList;
-      if(!favMarketArray.lenght){
+      if (!favMarketArray.lenght) {
         favMarketArray.forEach(element => {
           if (element._id === marketId) {
             setMarketIsFav(!marketIsFav)
@@ -137,8 +137,8 @@ const MarketDetails = () => {
             <Flex>
               <Text fontSize="3xl">{detailMarket.name}</Text>
               <Flex justifyContent='space-between'>
-              { !savedAsFav && !marketIsFav ? <Icon as={FaRegHeart} onClick={saveAsFav}  w={6} h={6} ml="2vw" mt="1vh" /> : ''}
-              { marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{color:"red"}}  w={6} h={6} ml="2vw" mt="1vh" /> }
+                {!savedAsFav && !marketIsFav ? <Icon as={FaRegHeart} onClick={saveAsFav} w={6} h={6} ml="2vw" mt="1vh" /> : ''}
+                {marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
             <Flex alignItems="baseline" justifyContent="space-between">
@@ -146,27 +146,28 @@ const MarketDetails = () => {
                 {detailMarket.address}
               </Box>
             </Flex>
-            <Flex>              
-            <Flex gap="10px" alignItems="center">
-              <Avatar
-                size="md"
-                mt="0px"
-                src={detailMarket.author?.profilePicture}
-              />
-              <Flex flexDirection="column" gap="2px">
-                <Text>{detailMarket.author?.name}</Text>
-                <Badge
-                  borderRadius="full"
-                  px="2"
-                  colorScheme="teal"
-                  textAlign="center"
-                >
-                  Follow
-                </Badge>
-              </Flex>
-              <Box display="flex"  alignItems="center" gap="3px">
-                <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
-                 {detailMarket.stars.length}
+            <Flex>
+              <Flex gap="10px" alignItems="center">
+                <Avatar
+                  size="md"
+                  mt="0px"
+                  src={detailMarket.author?.profilePicture}
+                />
+                <Flex flexDirection="column" gap="2px">
+                  <Text>{detailMarket.author?.name}</Text>
+                  <Badge
+                    borderRadius="full"
+                    px="2"
+                    colorScheme="teal"
+                    textAlign="center"
+                  >
+                    Follow
+                  </Badge>
+                </Flex>
+                <Box display="flex" alignItems="center" gap="3px">
+                  <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
                 </Box>
               </Flex>
             </Flex>
