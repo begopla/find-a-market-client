@@ -15,7 +15,8 @@ import {
   Badge,
   Icon,
   SimpleGrid,
-  useColorModeValue
+  useColorModeValue,
+  Button
 } from "@chakra-ui/react";
 
 import { StarIcon } from "@chakra-ui/icons";
@@ -26,7 +27,7 @@ import Review from "../../components/Review/Review";
 import MapContainer from "../../components/Map/MapContainer"
 import useAuth from "../../context/auth/useAuth";
 import { useNavigate } from "react-router-dom";
-
+import './MarketDetails.css'
 const API_URL = process.env.REACT_APP_API_URL;
 
 const MarketDetails = () => {
@@ -37,6 +38,7 @@ const MarketDetails = () => {
   const [savedAsFav, setSavedAsFav] = useState(false)
   const [thisMarketReviews, setThisMarketReviews] = useState([]);
   const [marketIsFav, setMarketIsFav] = useState(false)
+  const [userWantsFollow, setUserWantsFollow] = useState(false)
   const { marketId } = useParams();
   const navigate = useNavigate();
   const getOneMarket = async () => {
@@ -66,7 +68,7 @@ const MarketDetails = () => {
 
 
   const toggleSaveAsFav = () => setSavedAsFav(!savedAsFav)
-  // const submitPhoto = async (e) => {
+  const toggleFollowUsers = () => setUserWantsFollow(!userWantsFollow)
 
   const saveAsFav = async () => {
     if (currentUser) {
@@ -82,6 +84,7 @@ const MarketDetails = () => {
 
   }
 
+ 
   const checkIfMarketisFav = async () => {
     if (currentUser) {
 
@@ -99,6 +102,24 @@ const MarketDetails = () => {
   useEffect(() => {
     checkIfMarketisFav();
   }, [savedAsFav]);
+
+  
+  const updateFollowUsers = async (e) => {
+    toggleFollowUsers()
+    const toFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
+    
+    await service.post(`/profile/${toFollowId}/addfollower`)
+    
+  }
+
+  const removeFollowedUser = async (e) => {
+    const toUnFollowId =  e.currentTarget.children[0].childNodes[1].innerHTML;
+    toggleFollowUsers()
+    
+    await service.post(`/profile/${toUnFollowId}/removefollower`)
+    
+  }
+
   return (
     <Box bg={useColorModeValue('white', 'gray.700')}>
       {isLoading && (
@@ -149,20 +170,32 @@ const MarketDetails = () => {
             <Flex>
               <Flex gap="10px" alignItems="center">
                 <Avatar
-                  size="md"
+                  size="lg"
                   mt="0px"
                   src={detailMarket.author?.profilePicture}
                 />
-                <Flex flexDirection="column" gap="2px">
+                <Flex flexDirection="column">
                   <Text>{detailMarket.author?.name}</Text>
-                  <Badge
+                  { !userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
+                    height='2vh'
+                    paddingTop='0.4vh'
+                    borderRadius="full"
+                    px="2"
+                    colorScheme="teal"
+                    textAlign="center"               
+                  >
+                    Follow <span class="authorId hide">{detailMarket.author._id}</span>
+                  </Badge></Button>}
+                  {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
+                    height='2vh'
+                    paddingTop='0.4vh'
                     borderRadius="full"
                     px="2"
                     colorScheme="teal"
                     textAlign="center"
                   >
-                    Follow
-                  </Badge>
+                    Followed  <span class="authorId hide">{detailMarket.author._id}</span> 
+                  </Badge></Button>}
                 </Flex>
                 <Box display="flex" alignItems="center" gap="3px">
                   <Box as="span" ml="41vw" color="gray.600" fontSize="m" >

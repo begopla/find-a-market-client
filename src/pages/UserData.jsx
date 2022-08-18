@@ -2,7 +2,7 @@ import { useState} from 'react'
 import useAuth from "../context/auth/useAuth";
 import {EditIcon} from '@chakra-ui/icons';
 import service from '../services/apiHandler';
-import {Flex, Image, Input, Button, Text, Center, Box, color} from '@chakra-ui/react';
+import {Flex, Image, Input, Button, Text, Center, Box, List,  Stack, ListItem} from '@chakra-ui/react';
 import Select from 'react-select';
 import axios from 'axios';
 import {API_URL} from '../constants';
@@ -76,6 +76,7 @@ const UserData = () => {
 			const data = await service.fileUpload(fd);
 			storeToken(data.token)
 			await authenticateUser()
+      navigate("/profile")
 		  } catch (error) {
 			console.error(error)
 		  }
@@ -91,17 +92,39 @@ const UserData = () => {
             Authorization: `Bearer ${token}`,
           },
         })
-        navigate('/profile')
+        console.log(response)
+        // storeToken(response.token)
+			  // await authenticateUser()
+         //navigate('/profile')
         
       } catch (error) {
         console.error(error)
       }
     }
+  let dietaryReqValues = [];
+  let eatingHabValues = [];
+  let typeOfCuisineValues = [];
+
+  currentUser.dietaryReq.forEach(element => {
+    dietaryReqValues.push(element.value)
+    console.log(dietaryReqValues)
+  });
+
+  currentUser.eatingHabits.forEach(element => {
+    eatingHabValues.push(element.value)
+    console.log(eatingHabValues)
+  });
+
+  currentUser.typeOfCuisine.forEach(element => {
+    typeOfCuisineValues.push(element.value)
+    console.log(typeOfCuisineValues)
+  });
+
   return (
     <>
     
     <Flex  >
-        <Box>
+        <Box height=''>
         <Image 
             boxSize='20vw'
             ml='40vw'
@@ -132,12 +155,17 @@ const UserData = () => {
       accept="image/png, image/jpeg, image/jpg"
       onChange={(e) => setProfilePicture(e.target.files[0])}
     /></Center>
-    <Center><Button type='submit' colorScheme='yellow'  mt='2vh' mb='2vh'>Upload a new photo</Button></Center>
+    <Center><Button type='submit' colorScheme='teal'  mt='2vh' mb='2vh'>Upload a new photo</Button></Center>
     </form>
     )}
     
+    <Stack>
+      <Text >Cuisine type preferences: {dietaryReqValues.join(', ')}</Text>
+      <Text>Eating habits : {eatingHabValues.join(', ')}</Text>
+      <Text>Types of cuisine: {typeOfCuisineValues.join(', ')}</Text>
+      
     <Center>
-    {!editInfo &&<Button colorScheme='blue' mt='5vh' onClick={toggleEditInfo}>Edit profile </Button>}
+    {!editInfo &&<Button colorScheme='teal' mt='5vh' onClick={toggleEditInfo}>Edit profile </Button>}
     </Center>
     {editInfo && <Center>
     
@@ -175,7 +203,7 @@ const UserData = () => {
              closeMenuOnSelect={false}
              onChange={handleHabits}
               />
-    <Button type="submit" colorScheme='blue' mt='5vh' onClick={handleSubmit}>Submit</Button>
+    <Button type="submit" colorScheme='teal' mt='5vh' onClick={handleSubmit}>Submit</Button>
     </Flex>
     
    
@@ -183,6 +211,7 @@ const UserData = () => {
     
     }
 
+    </Stack>
 
     </>
   )
