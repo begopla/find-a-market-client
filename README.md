@@ -164,16 +164,18 @@ address - String
 
 ### Trello/Kanban
 
-[Link to your trello board](https://trello.com) or picture of your physical board
+[Link to trello board](https://trello.com/b/ht84XDC3/market-finder) 
 
 ### Git
 
 The url to your repository and to your deployed project
 
-[Client repository Link](http://github.com)
-[Server repository Link](http://github.com)
+[Client repository Link](https://github.com/begopla/find-a-market-client)
+[Server repository Link](https://github.com/begopla/find-a-market-server)
 
-[Deploy Link](http://heroku.com)
+[Deploy Link]
+(https://localish.netlify.app/)
+(https://localish.herokuapp.com/)
 
 ### Slides
 
