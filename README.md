@@ -52,7 +52,8 @@ Multiple photos:
 - / - Home: Markets list
 - /auth/signup - Signup form
 - /auth/signin - Login form
-- /markets/:id- Market details 
+- /markets/:marketId - Market details
+- /markets/discover - Random market details
 - /profile/ - My market and users I follow
 - /profile/User - see and edit your preferences and user data
 - /profile/favorites - my favorite markets
@@ -116,49 +117,121 @@ Multiple photos:
 User model
 
 ```
-username - String // required
+name - String // required & unique
 email - String // required & unique
 password - String // required
-favorites - [ObjectID<Restaurant>]
+profilePicture - String
+location - String
+bookmarkList - [ObjectID<Market>]
+usersFollowed - [ObjectID<User>]
+typeOfCuisine - Object
+dietaryReq - Object
+eatingHabits - Object
 ```
 
-Restaurant model
+Market model
 
 ```
-owner - ObjectID<User> // required
 name - String // required
-phone - String
+imageUrl - String
+coordinates - Object
 address - String
+type - String
+description - String
+openingMonths - [String]
+openingDays - [String]
+opening_hours
+  from - String
+  to - String
+website - String
+stars - [ObjectID<User>]
+author - ObjectID<User> 
+```
+
+Review model
+
+```
+market - ObjectID<Market>
+author - ObjectID<User>
+review - String
+date - Date
 ```
 
 ## API Endpoints/Backend Routes
 
+- GET /
 - GET /auth/me
 - POST /auth/signup
   - body:
-    - username
+    - name
     - email
     - password
-- POST /auth/login
+- POST /auth/signin
   - body:
-    - username
+    - email
     - password
-- POST /auth/logout
+- POST /markets
+    - body:
+      - name
+      - type
+      - description
+      - coordinates
+      - address
+      - openingDays
+      - openingMonths
+      - from
+      - to
+      - website
+- GET /markets/:marketId
+- PUT /markets/:marketId
+    - body:
+      - name
+      - type
+      - description
+      - coordinates
+      - address
+      - openingDays
+      - openingMonths
+      - from
+      - to
+      - website
+- DELETE /markets/marketId
   - body: (empty)
-- POST /user/me/favorite
+- GET /markets/my-markets
+- GET /markets/search
+- GET /markets/discover
+- POST /markets/:marketId/review
+  - body: 
+    - review
+- PUT /markets/:marketId/:reviewId
   - body:
-    - restaurantId
-- DELETE /user/me/favorite/:restaurantId
+    - review
+- DELETE /markets/:marketId/:reviewId
   - body: (empty)
-- GET /restaurant
-- POST /restaurant
+- POST /markets/:marketId/favourites
+  - body: (empty)
+- POST /markets/:marketId/removefav
+  - body: (empty)
+- GET /profile/favourites
+- GET /profile/followed
+- GET /profile
+- PUT /profile
+  - body:
+    - profilePicture
+- POST /profile/upload
+  - body: (empty)
+- PUT /profile/user-info
   - body:
     - name
-    - phone
-    - address
-- GET /restaurant/:id
-
-  
+    - location
+    - typeOfCuisine
+    - dietaryReq
+    - eatingHabits
+- GET /profile/displayusers
+- POST /profile/:userId/addfollower
+  - body: (empty)
+- POST /profile/:userId/removefollower
+  - body: (empty)
 
 ## Links
 
