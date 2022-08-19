@@ -1,9 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Center, Box, Image, Badge, Skeleton } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { Center, Box, Image, Badge, Text } from '@chakra-ui/react';
 
-function OneMarket({ name, _id, type, imageUrl, address }) {
+
+function OneMarketSmall({ name, _id, type, imageUrl, address }) {
 
     return (
         <Center>
@@ -17,13 +17,12 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                         borderRadius='xl'
                         boxShadow='lg' />
                     <Box p='2'>
-                        <Box display='flex' alignItems='baseline' justifyContent='space-between'>
+                       
                             <Badge borderRadius='full' px='2' colorScheme='teal'>
                                 {type}
                             </Badge>   
-                        </Box>
-                        <Box
-                            mt='2'
+                            <Text
+                            mt='0.5vh'
                             fontWeight='bold'
                             fontSize='xl'
                             as='h4'
@@ -31,7 +30,7 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                             noOfLines={1}
                         >
                             {name} 
-                        </Box>
+                        </Text>
                     </Box>
                 </Box>
             </Link>
@@ -39,4 +38,4 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
     )
 }
 
-export default OneMarket
+export default OneMarketSmall
