@@ -135,7 +135,7 @@ export default function FormEditMarket({
         toggleMarket();
       }
     } catch (error) {
-      setError(e.message);
+      setError(error.response.data.message);
     }
   };
 
@@ -185,6 +185,7 @@ export default function FormEditMarket({
 
             <DrawerBody>
               <Stack spacing="24px">
+              {error && <h3 className="error"> {error}</h3>}
                 <FormControl isRequired>
                   <FormLabel htmlFor="name">Name</FormLabel>
                   <Input

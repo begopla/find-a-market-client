@@ -24,7 +24,7 @@ const FormSignUp = () => {
 			await authenticateUser()
 			navigate("/profile")
 		} catch (error) {
-			setError(e.message)
+			setError(error.response.data.message)
 		}
 	}
 	const handleShowClick = () => setShowPassword(!showPassword);
@@ -42,7 +42,7 @@ const FormSignUp = () => {
         alignItems="center"
       	>
 		<Box minW={{ base: "90%", md: "468px" }}>
-			{error && <h3 className="error">{error.message}</h3>}
+			
 			<form onSubmit={handleSubmit}>
 			<Stack
               spacing={4}
@@ -92,6 +92,7 @@ const FormSignUp = () => {
 					  </Button>
 				</InputRightElement>
 				</InputGroup>
+				{error && <h3 className="error">⚠️{error}</h3>}
 				<Button
 					borderRadius={10}
 					type="submit"
