@@ -78,8 +78,8 @@ export default function Navbar() {
 											</Center>
 											<br />
 											<MenuDivider />
-											<MenuItem><NavLink to='/profile/User'>My Profile </NavLink></MenuItem>
 											<MenuItem><NavLink to='/profile'>My Markets</NavLink></MenuItem>
+											<MenuItem><NavLink to='/profile/User'>My Profile </NavLink></MenuItem>
 											<MenuItem><NavLink to='/profile/favourites'> My Favourites</NavLink></MenuItem>
 											<MenuItem onClick={removeUser}>Logout</MenuItem>
 

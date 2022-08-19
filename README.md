@@ -1,70 +1,182 @@
-# Getting Started with Create React App
+# Localish
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project description
 
-## Available Scripts
+Localish is a simple website using 3 models, all CRUD operations, full authentification and authorizaition process.
 
-In the project directory, you can run:
+Developed with a mobile first approach, the back end uses Node and Express and the front end React.
 
-### `yarn start`
+Developed for market lovers and those who want support the local businesses by creating awarness of the small little markets every visitor should know of your city.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<div style="display: flex; justify-content:space-between; width=100%">
+<img scr='https://res.cloudinary.com/dhdkj4oxv/image/upload/v1660909877/find-a-market/fgenxb40panltnyisnwf.jpg' alt='homepage'>
+<img scr='https://res.cloudinary.com/dhdkj4oxv/image/upload/v1660910130/find-a-market/w7weyyxl8vr0xsxp0r9t.jpg' alt='homepage'>
+</div>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## User Stories
 
-### `yarn test`
+-  **404:** As an anon/user I can see a 404 page if I try to reach a page that does not exist so that I know it's my fault
+-  **Signup:** As a user I can sign up in the platform so that I can start creating saving favorite markets
+-  **Login:** As a user I can login to the platform so that I can see my favorite markets and follow other users
+-  **Logout:** As a user I can logout from the platform so no one else can use it
+- **Profile:** As a user I can see the Markets I created and the users I follow as well as edit my profile data.
+-  **Add markets** As a user I can add a market so that I can share it with the community
+-  **List markets** As a user I want to all  markets so that I can choose one to visit
+-  **See market details** As a user I want to see the markets details so I know where I can visit it.
+-  **Review a market** As a user I can click on leave a review and give my input
+-  **Search markets** As a user I want to search markets by name, location or any key so that I know if it´s already in the platform
+-  **Add to favorites** As a user I want to add a market to favorite so that I can save the markets that I liked the most
+-  **See my favorites** As a user I want to see my favorite restaurantes so that I can see the ones I liked the most
+-   **Discover a market** As a user I can click on the dicovery Button and it will show me a new Marke for me to discover.
+-  **Star a market** As I user I can make my opinion about a market base on the stars a Market has. The more people has saved the market as favourite, the more stars.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Backlog
+Sign up and login:
+- Allow users to sign up using Google sign up and log in.
 
-### `yarn build`
+User profile:
+- See the  profile from the users I  follow and their favorite markets. 
+- Chat with the users I follow
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Geo Location:
+- See all markets in a map 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Multiple photos:
+- Allo multiple upload of photos for the market details and display them using a picture carrousel
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  
+# Client
 
-### `yarn eject`
+## Routes
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- / - Home: Markets list
+- /auth/signup - Signup form
+- /auth/signin - Login form
+- /markets/:id- Market details 
+- /profile/ - My market and users I follow
+- /profile/User - see and edit your preferences and user data
+- /profile/favorites - my favorite markets
+- 404
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Pages
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Home Page (public)
+- Sign in Page (anon only)
+- Log in Page (anon only)
+- Restaurants List Page (public only)
+- Restaurant Create (user only)
+- Restaurant Detail Page (public only)
+- My Profile Page (user only)
+- 404 Page (public)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Components
 
-## Learn More
+- Autocomplete
+- DeleteMarketAlert
+- DisplayMyMarket
+- Footer
+- FooterPopover
+- Forms
+    - Form Create Market
+    - Form Edit Market
+    - Form Profile
+    - Form SignIn 
+    - Form SignUp
+- Map
+- Navbar
+- NoSearchResults
+- OneMarket
+    - One Market
+    - One Market Small
+- ProtectedRoute
+- Review
+- Searchbar component
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## IO
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Services
 
-### Analyzing the Bundle Size
+- Auth Service
+  - service.signin
+  - service.signup
+  - service.logout
+  - service.isLoggedIn
+- Profile Service
+  - service.fileUpload
+- Market Service
+  - service.marketPhotoUpload   
+  - service.myMarkets
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Server
 
-### Making a Progressive Web App
+## Models
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+User model
 
-### Advanced Configuration
+```
+username - String // required
+email - String // required & unique
+password - String // required
+favorites - [ObjectID<Restaurant>]
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Restaurant model
 
-### Deployment
+```
+owner - ObjectID<User> // required
+name - String // required
+phone - String
+address - String
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## API Endpoints/Backend Routes
 
-### `yarn build` fails to minify
+- GET /auth/me
+- POST /auth/signup
+  - body:
+    - username
+    - email
+    - password
+- POST /auth/login
+  - body:
+    - username
+    - password
+- POST /auth/logout
+  - body: (empty)
+- POST /user/me/favorite
+  - body:
+    - restaurantId
+- DELETE /user/me/favorite/:restaurantId
+  - body: (empty)
+- GET /restaurant
+- POST /restaurant
+  - body:
+    - name
+    - phone
+    - address
+- GET /restaurant/:id
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  
+
+## Links
+
+### Trello/Kanban
+
+[Link to your trello board](https://trello.com) or picture of your physical board
+
+### Git
+
+The url to your repository and to your deployed project
+
+[Client repository Link](http://github.com)
+[Server repository Link](http://github.com)
+
+[Deploy Link](http://heroku.com)
+
+### Slides
+
+The url to your presentation slides
+
+[Slides Link](http://slides.com)
