@@ -26,8 +26,7 @@ const FormSignIn = () => {
 			await authenticateUser()
 			navigate("/")
 		} catch (error) {
-			console.error(error)
-			setError(error)
+			setError(error.response.data.message)
 		}
 	}
 	const handleShowClick = () => setShowPassword(!showPassword);
@@ -40,76 +39,76 @@ const FormSignIn = () => {
 			justifyContent="center"
 			alignItems="center"
 		>
+		<Stack
+        flexDir="column"
+        mb="2"
+        justifyContent="center"
+        alignItems="center"
+      	>
+
+		<Box minW={{ base: "90%", md: "468px" }}>
+			
+			<form onSubmit={handleSubmit}>
 			<Stack
-				flexDir="column"
-				mb="2"
-				justifyContent="center"
-				alignItems="center"
-			>
-
-				<Box minW={{ base: "90%", md: "468px" }}>
-					{error && <h3 className="error">{error.message}</h3>}
-					<form onSubmit={handleSubmit}>
-						<Stack
-							spacing={4}
-							p="1rem"
-							backgroundColor={useColorModeValue("whiteAlpha.900", 'gray.900')}
-							boxShadow="md"
-						>
-							<Center>
-								<Avatar bg={useColorModeValue("teal.900", "gray.300")} />
-							</Center>
-							<Center>
-								<Heading color={useColorModeValue("teal.900", "gray.300")}>Log in </Heading>
-							</Center>
-							<InputGroup>
-								<InputLeftElement pointerEvents="none"
-									children={<CFaUserAlt color="gray.300" />}
-								/>
-								<Input
-									type="email"
-									id="email"
-									name="email"
-									placeholder="email address"
-									onChange={(e) =>
-										setUser({ ...user, [e.target.name]: e.target.value })
-									}
-									value={user.email}
-								/>
-							</InputGroup>
-							<InputGroup>
-								<InputLeftElement pointerEvents="none"
-									children={<CFaLock color="gray.300" />}
-								/>
-
-								<Input
-									type={showPassword ? "text" : "password"}
-									id="password"
-									name="password"
-									placeholder="password"
-									onChange={(e) =>
-										setUser({ ...user, [e.target.name]: e.target.value })
-									}
-									value={user.password}
-								/>
-								<InputRightElement width="4.5rem">
-									<Button h="1.75rem" size="sm" onClick={handleShowClick}>
-										{showPassword ? "Hide" : "Show"}
-									</Button>
-								</InputRightElement>
-							</InputGroup>
-
-							<Button
-								borderRadius={10}
-								type="submit"
-								colorScheme='teal'
-								variant="outline"
-								width="full"
-							>Submit</Button>
-						</Stack>
-					</form>
-				</Box>
-			</Stack>
+              spacing={4}
+              p="1rem"
+              backgroundColor={useColorModeValue("whiteAlpha.900",'gray.900')}
+              boxShadow="md"
+            >
+			<Center>
+				<Avatar bg={useColorModeValue("teal.900","gray.300")} />
+			</Center>
+			<Center>
+				<Heading color={useColorModeValue("teal.900", "gray.300")}>Log in </Heading>
+			</Center>
+				<InputGroup>
+				<InputLeftElement pointerEvents="none"
+				children={<CFaUserAlt color="gray.300"/> }
+				/>
+				<Input
+					type="email"
+					id="email"
+					name="email"
+					placeholder="email address"
+					onChange={(e) =>
+						setUser({ ...user, [e.target.name]: e.target.value })
+					}
+					value={user.email}
+				/>
+				</InputGroup>
+				<InputGroup>
+				 <InputLeftElement pointerEvents="none"
+				 children={<CFaLock color="gray.300"/>}
+				 />
+				
+				<Input
+					type={showPassword ? "text" : "password"}
+					id="password"
+					name="password"
+					placeholder="password"
+					onChange={(e) =>
+						setUser({ ...user, [e.target.name]: e.target.value })
+					}
+					value={user.password}
+				/>
+				<InputRightElement width="4.5rem">
+					<Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                      {showPassword ? "Hide" : "Show"}
+					  </Button>
+				</InputRightElement>
+				</InputGroup>
+				{error && <h3 className="error"> ⚠️{error}</h3>}
+				<Button
+					borderRadius={10}
+					type="submit"
+					colorScheme='teal'
+					variant="outline"
+					width="full"
+					>Submit</Button>
+				</Stack>
+			</form>
+			</Box>
+		</Stack>
 		</Flex>
 	)
 }

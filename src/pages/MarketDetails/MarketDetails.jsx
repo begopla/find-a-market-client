@@ -16,7 +16,9 @@ import {
   Icon,
   SimpleGrid,
   useColorModeValue,
-  Button
+  Button,
+  Hide,
+  Show
 } from "@chakra-ui/react";
 
 import { StarIcon } from "@chakra-ui/icons";
@@ -87,7 +89,7 @@ const MarketDetails = () => {
 
   const checkIfMarketisFav = async () => {
     if (currentUser) {
-
+      
       const favMarkets = await service.get(`/profile/favourites`)
       const favMarketArray = favMarkets.data.savedList;
       if (!favMarketArray.lenght) {
@@ -105,15 +107,21 @@ const MarketDetails = () => {
 
 
   const updateFollowUsers = async (e) => {
-    toggleFollowUsers()
     const toFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
-    await service.post(`/profile/${toFollowId}/addfollower`)
+
+    if(currentUser._id!==toFollowId){
+      toggleFollowUsers()
+      await service.post(`/profile/${toFollowId}/addfollower`)
+    }
+    
   }
 
   const removeFollowedUser = async (e) => {
-    const toUnFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
-    toggleFollowUsers()
+    const toUnFollowId =  e.currentTarget.children[0].childNodes[1].innerHTML;
+    if(currentUser._id!==toUnFollowId){
+      toggleFollowUsers()
     await service.post(`/profile/${toUnFollowId}/removefollower`)
+    }
   }
 
   return (
@@ -158,11 +166,9 @@ const MarketDetails = () => {
                 {marketIsFav && <Icon as={FaRegHeart} onClick={removeAsFav} style={{ color: "red" }} w={6} h={6} ml="2vw" mt="1vh" />}
               </Flex>
             </Flex>
-            <Flex alignItems="baseline" justifyContent="space-between">
               <Box as="span" color="gray.600" fontSize="sm">
-                {detailMarket.address}
-              </Box>
-            </Flex>
+                {detailMarket?.address}
+              </Box>   
             <Flex>
               <Flex gap="10px" alignItems="center">
                 <Avatar
@@ -171,33 +177,60 @@ const MarketDetails = () => {
                   src={detailMarket.author?.profilePicture}
                 />
                 <Flex flexDirection="column">
-                  <Text>{detailMarket.author?.name}</Text>
-                  {!userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
-                    height='2vh'
-                    paddingTop='0.4vh'
+
+                  <Text>{detailMarket?.author?.name}</Text>
+                  { !userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
+                    height='3vh'
+                    paddingTop='0.5vh'
+                    paddingBottom='0.2vh'
                     borderRadius="full"
-                    px="2"
+                    px="3"
                     colorScheme="teal"
                     textAlign="center"
                   >
-                    Follow <span class="authorId hide">{detailMarket?.author._id}</span>
+                    Follow <span class="authorId hide">{detailMarket?.author?._id}</span>
                   </Badge></Button>}
-                  {userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
-                    height='2vh'
-                    paddingTop='0.4vh'
+
+                  {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
+                    height='3vh'
+                    paddingTop='0.5vh'
+                    paddingBottom='0.2vh'
                     borderRadius="full"
-                    px="2"
+                    px="3"
                     colorScheme="teal"
                     textAlign="center"
                   >
                     Followed  <span class="authorId hide">{detailMarket?.author._id}</span>
                   </Badge></Button>}
                 </Flex>
-                <Box display="flex" alignItems="center" gap="3px">
-                  <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
+                <Hide above="600px" >
+                <Box display="flex"  gap="3px">
+                  <Box as="span" ml="30vw" color="gray.600" fontSize="m" >
                     {detailMarket.stars.length}</Box>
                   <StarIcon color='teal' />
                 </Box>
+                </Hide>
+
+                <Show above="600px">
+                <Hide above="800px" >
+
+                <Flex  gap="3px">
+                  <Box as="span" ml="60vw" color="gray.600" fontSize="m" >
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
+                </Flex>
+                </Hide>
+    
+                </Show>
+                <Show above="800px">
+                <Flex  gap="3px">
+                  <Box as="span" ml="75vw" color="gray.600" fontSize="m" >
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
+                </Flex>
+    
+                </Show>
+              
               </Flex>
             </Flex>
             <Text fontSize="md">{detailMarket?.description}</Text>
