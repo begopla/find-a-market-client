@@ -89,7 +89,7 @@ const MarketDetails = () => {
  
   const checkIfMarketisFav = async () => {
     if (currentUser) {
-
+      
       const favMarkets = await service.get(`/profile/favourites`)
       const favMarketArray = favMarkets.data.savedList;
       if (!favMarketArray.lenght) {
@@ -108,7 +108,7 @@ const MarketDetails = () => {
   
   const updateFollowUsers = async (e) => {
     const toFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
-    if(!currentUser._id===toFollowId){
+    if(currentUser._id!==toFollowId){
       toggleFollowUsers()
       await service.post(`/profile/${toFollowId}/addfollower`)
     }
@@ -117,8 +117,8 @@ const MarketDetails = () => {
 
   const removeFollowedUser = async (e) => {
     const toUnFollowId =  e.currentTarget.children[0].childNodes[1].innerHTML;
-    if(!currentUser._id===toUnFollowId){
-    toggleFollowUsers()
+    if(currentUser._id!==toUnFollowId){
+      toggleFollowUsers()
     await service.post(`/profile/${toUnFollowId}/removefollower`)
     }
   }
