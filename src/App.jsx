@@ -22,17 +22,17 @@ function App() {
 					<Route path="/signin" element={<Signin />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/markets" element={<Markets />} />
-          <Route path="/markets/:marketId" element={<MarketDetails />} />
+         			<Route path="/markets/:marketId" element={<MarketDetails />} />
 				 	<Route path="/markets/discover" element={<DiscoverPage />} />
 					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
+						<Route path="/profile/user" element={<UserData />} />
+						<Route path="/profile/favourites" element={<Favourites />} />
 					</Route> 
-					<Route path="/profile/favourites" element={<Favourites />} />
 					<Route path="*" element={<Oops />} />
 				</Route>
 				<Route element={<PrivateRoute />}>	
 						
-						<Route path="/profile/user" element={<UserData />} />
 				</Route>
 				</Routes>
         		<IconFooter />

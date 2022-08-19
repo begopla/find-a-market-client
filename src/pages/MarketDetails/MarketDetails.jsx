@@ -107,19 +107,20 @@ const MarketDetails = () => {
 
   
   const updateFollowUsers = async (e) => {
-    toggleFollowUsers()
     const toFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
-    
-    await service.post(`/profile/${toFollowId}/addfollower`)
+    if(!currentUser._id===toFollowId){
+      toggleFollowUsers()
+      await service.post(`/profile/${toFollowId}/addfollower`)
+    }
     
   }
 
   const removeFollowedUser = async (e) => {
     const toUnFollowId =  e.currentTarget.children[0].childNodes[1].innerHTML;
+    if(!currentUser._id===toUnFollowId){
     toggleFollowUsers()
-    
     await service.post(`/profile/${toUnFollowId}/removefollower`)
-    
+    }
   }
 
   return (
@@ -165,7 +166,7 @@ const MarketDetails = () => {
               </Flex>
             </Flex>
               <Box as="span" color="gray.600" fontSize="sm">
-                {detailMarket.address}
+                {detailMarket?.address}
               </Box>   
             <Flex>
               <Flex gap="10px" alignItems="center">
@@ -175,7 +176,7 @@ const MarketDetails = () => {
                   src={detailMarket.author?.profilePicture}
                 />
                 <Flex flexDirection="column">
-                  <Text>{detailMarket.author?.name}</Text>
+                  <Text>{detailMarket?.author?.name}</Text>
                   { !userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
                     height='3vh'
                     paddingTop='0.5vh'
@@ -185,7 +186,7 @@ const MarketDetails = () => {
                     colorScheme="teal"
                     textAlign="center"               
                   >
-                    Follow <span class="authorId hide">{detailMarket?.author._id}</span>
+                    Follow <span class="authorId hide">{detailMarket?.author?._id}</span>
                   </Badge></Button>}
                   {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
                     height='3vh'
