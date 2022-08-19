@@ -2,9 +2,9 @@ import React, { useState } from "react"
 import service from "../../services/apiHandler"
 import useAuth from "../../context/auth/useAuth"
 import { useNavigate } from "react-router-dom"
-import './Form.css'
-import { Flex, Center,Stack, Avatar, Heading, Box, InputGroup, InputLeftElement, Input, chakra, InputRightElement, Button, useColorModeValue} from '@chakra-ui/react'
+import { Flex, Center, Stack, Avatar, Heading, Box, InputGroup, InputLeftElement, Input, chakra, InputRightElement, Button, useColorModeValue } from '@chakra-ui/react'
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import "./Form.css"
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -22,12 +22,10 @@ const FormSignIn = () => {
 		e.preventDefault()
 		try {
 			const res = await service.signin(user)
-			console.log(res)
 			storeToken(res.authToken)
 			await authenticateUser()
 			navigate("/")
 		} catch (error) {
-			console.log(error)
 			setError(error.response.data.message)
 		}
 	}
@@ -35,11 +33,11 @@ const FormSignIn = () => {
 
 	return (
 		<Flex flexDirection="column"
-		width="100wh"
-		height="95vh"
-		backgroundColor={useColorModeValue("gray.200",'gray.700')}
-		justifyContent="center"
-		alignItems="center"
+			width="100wh"
+			height="95vh"
+			backgroundColor={useColorModeValue("gray.200", 'gray.700')}
+			justifyContent="center"
+			alignItems="center"
 		>
 		<Stack
         flexDir="column"

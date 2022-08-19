@@ -26,30 +26,30 @@ service.signup = async (user) => {
 	}
 }
 
-service.fileUpload =async (picture)=>{
-   try {
-	const {data} = await service.put('/profile',picture)
-	return data
-   } catch (error) {
-	errorHandler(error)
-   }
+service.fileUpload = async (picture) => {
+	try {
+		const { data } = await service.put('/profile', picture)
+		return data
+	} catch (error) {
+		errorHandler(error)
+	}
 }
-service.marketPhotoUpload =async (picture, marketId)=>{
+service.marketPhotoUpload = async (picture, marketId) => {
 	try {
-	 const {data} = await service.put(`/markets/${marketId}`,picture)
-	 return data
+		const { data } = await service.put(`/markets/${marketId}`, picture)
+		return data
 	} catch (error) {
-	 errorHandler(error)
+		errorHandler(error)
 	}
- }
- service.marketPhotoUpload =async (picture, marketId)=>{
+}
+service.marketPhotoUpload = async (picture, marketId) => {
 	try {
-	 const {data} = await service.put(`/markets/${marketId}`,picture)
-	 return data
+		const { data } = await service.put(`/markets/${marketId}`, picture)
+		return data
 	} catch (error) {
-	 errorHandler(error)
+		errorHandler(error)
 	}
- }
+}
 
 service.signin = async (user) => {
 	try {
@@ -70,7 +70,7 @@ service.isLoggedIn = async () => {
 	}
 }
 
-service.myMarkets = async () =>{
+service.myMarkets = async () => {
 	try {
 		const { data } = await service.get("/markets/my-markets")
 		return data

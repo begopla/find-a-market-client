@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { Center, Box, Image, Badge, Text } from '@chakra-ui/react';
 
 
+
 function OneMarketSmall({ name, _id, type, imageUrl, address }) {
 
     return (
@@ -20,7 +21,7 @@ function OneMarketSmall({ name, _id, type, imageUrl, address }) {
                        
                             <Badge borderRadius='full' px='2' colorScheme='teal'>
                                 {type}
-                            </Badge>   
+                       </Badge>   
                             <Text
                             mt='0.5vh'
                             fontWeight='bold'
@@ -29,6 +30,7 @@ function OneMarketSmall({ name, _id, type, imageUrl, address }) {
                             lineHeight='tight'
                             noOfLines={1}
                         >
+
                             {name} 
                         </Text>
                     </Box>

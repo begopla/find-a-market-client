@@ -30,7 +30,6 @@ export default function ReviewInput({
     const { currentUser } = useAuth();
 
     const handleSubmit = async (e) => {
-        console.log(review)
         e.preventDefault()
         try {
             const token = localStorage.getItem("authToken")
@@ -40,7 +39,6 @@ export default function ReviewInput({
                     Authorization: `Bearer ${token}`,
                 },
             })
-            console.log(res);
             if (res.status === 200) {
                 toggleReviewCreated()
                 setThisMarketReviews(res.data.reviews)
@@ -56,8 +54,9 @@ export default function ReviewInput({
                 toggleReviewCreated()
                 onOpen();
             } else onOpen();
+        } else {
+            navigate('/signin');
         }
-        navigate('/signin');
     };
 
     return (

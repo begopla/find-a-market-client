@@ -21,7 +21,6 @@ const Profile = () => {
   const getMyMarkets = async () => {
     const response = await service.myMarkets();
     const res = await service.get("/profile/followed");
-    console.log(res.data.savedList);
     setMyMarkets(response);
     setFollowedUsers(res.data.savedList);
   };
@@ -29,7 +28,6 @@ const Profile = () => {
   useEffect(() => {
     getMyMarkets();
   }, []);
-
   return (
     <>
       <Box height="95vh">
@@ -53,13 +51,10 @@ const Profile = () => {
             My Markets 
           </Text>
         </Center>
-          <Box height="95vh">
-            
+          <Box height="95vh">     
             {myMarkets?.map((market) => {
               return <DisplayMyMarket {...market} id={market._id} />;
             })}
-
-			
           </Box>
         </Hide>
         <Show above="650px">
@@ -90,7 +85,6 @@ const Profile = () => {
             </SimpleGrid>
 			</>
           }
-
 		  <Center height='22vh' flexDirection="column">
         <Text fontSize="2xl">Users following</Text>
         <AvatarGroup
@@ -104,8 +98,6 @@ const Profile = () => {
 
 	  </Stack>
       </Box>
-
-     
     </>
   );
 };

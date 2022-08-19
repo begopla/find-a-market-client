@@ -1,17 +1,17 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import useAuth from "../context/auth/useAuth";
-import {EditIcon} from '@chakra-ui/icons';
+import { EditIcon } from '@chakra-ui/icons';
 import service from '../services/apiHandler';
 import {Flex, Image, Input, Button, Text, Center, Box,  Stack, Tag, Show, Hide} from '@chakra-ui/react';
 import Select from 'react-select';
 import axios from 'axios';
-import {API_URL} from '../constants';
+import { API_URL } from '../constants';
 import { useNavigate } from "react-router-dom"
 
 const UserData = () => {
   const navigate = useNavigate();
-  const {currentUser,  authenticateUser, storeToken } = useAuth();
-	const [editPhoto, setEditPhoto] = useState(false);
+  const { currentUser, authenticateUser, storeToken } = useAuth();
+  const [editPhoto, setEditPhoto] = useState(false);
   const [editInfo, setEditInfo] = useState(false)
   const [error, setError] = useState(null);
 	const [profilePicture, setProfilePicture] = useState([]);
@@ -28,49 +28,45 @@ const UserData = () => {
     {value: 'American ', label: 'American'},
     {value: 'Others ', label: 'Others'}
   ];
-  
-  const dietaryRequirement =[
-    {value: 'Fast Food', label: 'Fast Food'},
-    {value: 'Vegetarian ', label: 'Vegetarian'},
-    {value: 'Vegan ', label: 'Vegan'},
-    {value: 'Low Carbs ', label: 'Low Carbs'},
-    {value: 'Healthy ', label: 'Healthy'},
-    {value: 'WholeFood ', label: 'WholeFood'},
-    {value: 'Ecological ', label: 'Ecological'},
-    {value: 'Others ', label: 'Others'}
+
+  const dietaryRequirement = [
+    { value: 'Fast Food', label: 'Fast Food' },
+    { value: 'Vegetarian ', label: 'Vegetarian' },
+    { value: 'Vegan ', label: 'Vegan' },
+    { value: 'Low Carbs ', label: 'Low Carbs' },
+    { value: 'Healthy ', label: 'Healthy' },
+    { value: 'WholeFood ', label: 'WholeFood' },
+    { value: 'Ecological ', label: 'Ecological' },
+    { value: 'Others ', label: 'Others' }
   ];
-  
-  const eatingHab =[
-    {value: 'Cooking ', label: 'Cooking'},
-    {value: 'EatIn ', label: 'EatIn'},
-    {value: 'Delivery ', label: 'Delivery'},
-    {value: 'StreetFood ', label: 'StreetFood'},
-    {value: 'Others ', label: 'Others'},
-    
+
+  const eatingHab = [
+    { value: 'Cooking ', label: 'Cooking' },
+    { value: 'EatIn ', label: 'EatIn' },
+    { value: 'Delivery ', label: 'Delivery' },
+    { value: 'StreetFood ', label: 'StreetFood' },
+    { value: 'Others ', label: 'Others' },
+
   ]
-  
-	const toggleEditPhoto = () => setEditPhoto(!editPhoto);
+
+  const toggleEditPhoto = () => setEditPhoto(!editPhoto);
   const toggleEditInfo = () => setEditInfo(!editInfo)
-  
+
   const [name, setName] = useState('');
   const [location, setLocation] = useState('')
   const [typeOfCuisine, setTypeOfCuisine] = useState([]);
   const [dietaryReq, setDietaryReq] = useState([]);
   const [eatingHabits, setEatingHabits] = useState([]);
-  const handleNewName = (e) =>{setName(e.target.value)
-  console.log(`New name changed`, name)}
-  const handleNewLocation = (e) =>{setLocation(e.target.value)
-    console.log(`New name changed`, location)}
-  const handleCuisine = typeOfCuisine =>{setTypeOfCuisine(typeOfCuisine)
-    console.log(`Option selected:`, typeOfCuisine);}  
-  const handleDiet = dietaryReq =>{setDietaryReq(dietaryReq)
-     console.log(`Option selected:`, dietaryReq)};
-  const handleHabits = eatingHabits =>{setEatingHabits(eatingHabits)
-      console.log(`Option selected:`, eatingHabits)};
-    const submitPhoto = async (e) => {
+
+  const handleNewName = (e) => setName(e.target.value)  
+  const handleNewLocation = (e) =>setLocation(e.target.value)
+  const handleCuisine = typeOfCuisine =>setTypeOfCuisine(typeOfCuisine)
+  const handleDiet = dietaryReq =>setDietaryReq(dietaryReq)
+  const handleHabits = eatingHabits =>setEatingHabits(eatingHabits)
+      
+  const submitPhoto = async (e) => {
 		e.preventDefault();
 		const fd = new FormData()
-		console.log(profilePicture)
 		if (profilePicture) {
 		  fd.append("profilePicture", profilePicture)
 		  try {
@@ -82,7 +78,7 @@ const UserData = () => {
         setError(error.response.data.message)
 		  }
 		}
-	  }
+	 }
     const handleSubmit = async (e) => {
       e.preventDefault()
       const token = localStorage.getItem("authToken")
@@ -93,15 +89,16 @@ const UserData = () => {
             Authorization: `Bearer ${token}`,
           },
         })
-        console.log(data)
         storeToken(data.token)
 			  await authenticateUser()
       navigate("/profile")
-        
+
       } catch (error) {
         setError(error.response.data.message)
       }
     }
+  }
+  
   let dietaryReqValues = [];
   let eatingHabValues = [];
   let typeOfCuisineValues = [];
@@ -122,8 +119,7 @@ const UserData = () => {
   });
 
   return (
-    <>
-    
+    <>   
     <Flex  >
       <Hide above='600px'>
 
@@ -237,14 +233,11 @@ const UserData = () => {
               />
     <Button type="submit" colorScheme='teal' mt='5vh' onClick={handleSubmit}>Submit</Button>
     </Flex>
-    
-   
     </Center>
     
     }
     </Stack>
     </Box>
-
     </>
   )
 }
