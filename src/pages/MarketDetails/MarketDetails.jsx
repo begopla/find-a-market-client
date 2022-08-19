@@ -188,11 +188,11 @@ const MarketDetails = () => {
                     Follow <span class="authorId hide">{detailMarket?.author._id}</span>
                   </Badge></Button>}
                   {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
-                    height='4vh'
-                    paddingTop='0.3vh'
+                    height='3vh'
+                    paddingTop='0.5vh'
                     paddingBottom='0.2vh'
                     borderRadius="full"
-                    px="2"
+                    px="3"
                     colorScheme="teal"
                     textAlign="center"
                   >
@@ -201,15 +201,32 @@ const MarketDetails = () => {
                 </Flex>
                 <Hide above="600px" >
                 <Box display="flex"  gap="3px">
-                  <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
+                  <Box as="span" ml="30vw" color="gray.600" fontSize="m" >
                     {detailMarket.stars.length}</Box>
                   <StarIcon color='teal'/>
                 </Box>
-                <Show above="600px">
-
-                  
-                </Show>
                 </Hide>
+
+                <Show above="600px">
+                <Hide above="800px" >
+
+                <Flex  gap="3px">
+                  <Box as="span" ml="60vw" color="gray.600" fontSize="m" >
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
+                </Flex>
+                </Hide>
+    
+                </Show>
+                <Show above="800px">
+                <Flex  gap="3px">
+                  <Box as="span" ml="75vw" color="gray.600" fontSize="m" >
+                    {detailMarket.stars.length}</Box>
+                  <StarIcon color='teal'/>
+                </Flex>
+    
+                </Show>
+              
               </Flex>
             </Flex>
             <Text fontSize="md">{detailMarket?.description}</Text>
