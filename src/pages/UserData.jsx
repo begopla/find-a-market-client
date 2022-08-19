@@ -105,22 +105,19 @@ const UserData = () => {
 
   currentUser.dietaryReq.forEach(element => {
     dietaryReqValues.push(element.value)
-    console.log(dietaryReqValues)
   });
 
   currentUser.eatingHabits.forEach(element => {
     eatingHabValues.push(element.value)
-    console.log(eatingHabValues)
   });
 
   currentUser.typeOfCuisine.forEach(element => {
     typeOfCuisineValues.push(element.value)
-    console.log(typeOfCuisineValues)
   });
 
   return (
     <>   
-    <Flex  >
+    <Flex >
       <Hide above='600px'>
 
         <Box height='25vh'>
@@ -241,5 +238,6 @@ const UserData = () => {
     </>
   )
 }
+
 
 export default UserData
