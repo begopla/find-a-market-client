@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import useAuth from "../../context/auth/useAuth"
 import service from "../../services/apiHandler"
 import { Flex, Stack, Center, Heading, Box, InputGroup, Input, InputRightElement, Button, useColorModeValue} from '@chakra-ui/react'
+import "./Form.css"
 
 const FormSignUp = () => {
 	const [user, setUser] = useState({ name: "", email: "", password: "" })

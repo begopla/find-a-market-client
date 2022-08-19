@@ -18,7 +18,7 @@ const UserWrapper = ({ children }) => {
 				console.log(
 					`%c${user.email} is logged in`,
 					"display: inline-block ; border: 3px solid red ; border-radius: 7px ; " +
-						"padding: 10px ; margin: 20px ;"
+					"padding: 10px ; margin: 20px ;"
 				)
 				setAuth({ currentUser: user, isLoading: false, isLoggedIn: true })
 			} catch (error) {

@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import "./Markets.css"
 import OneMarket from "../../components/OneMarket/OneMarket"
-import { SimpleGrid,Spinner, useColorModeValue } from '@chakra-ui/react'
-
+import { SimpleGrid, Spinner, useColorModeValue } from '@chakra-ui/react'
 const API_URL = process.env.REACT_APP_API_URL
 
-const Markets = ({props: { markets, setMarkets }}) => {
-	//const [markets, setMarkets] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  
+const Markets = ({ props: { markets, setMarkets } }) => {
+	const [isLoading, setIsLoading] = useState(true)
+
 	const getAllMarkets = async () => {
 		const response = await axios.get(`${API_URL}/`)
-		 //console.log(response)
-     	setMarkets(response.data)
-		 setIsLoading(false)	
+		setMarkets(response.data)
+		setIsLoading(false)
 	}
-  
+
 	useEffect(() => {
 		getAllMarkets()
 	}, []);
@@ -49,7 +45,7 @@ const Markets = ({props: { markets, setMarkets }}) => {
 								key={market._id}
 								id={market._id}
 								name={market.name}
-								stars = {market.stars}
+								stars={market.stars}
 							/>
 						)
 					})}

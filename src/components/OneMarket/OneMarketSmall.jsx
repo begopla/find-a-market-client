@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Center, Box, Image, Badge, Skeleton } from '@chakra-ui/react';
+import { Center, Box, Image, Badge } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
 function OneMarket({ name, _id, type, imageUrl, address }) {
@@ -20,7 +20,7 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                         <Box display='flex' alignItems='baseline' justifyContent='space-between'>
                             <Badge borderRadius='full' px='2' colorScheme='teal'>
                                 {type}
-                            </Badge>   
+                            </Badge>
                         </Box>
                         <Box
                             mt='2'
@@ -30,7 +30,7 @@ function OneMarket({ name, _id, type, imageUrl, address }) {
                             lineHeight='tight'
                             noOfLines={1}
                         >
-                            {name} 
+                            {name}
                         </Box>
                     </Box>
                 </Box>

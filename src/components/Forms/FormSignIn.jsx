@@ -4,6 +4,7 @@ import useAuth from "../../context/auth/useAuth"
 import { useNavigate } from "react-router-dom"
 import { Flex, Center, Stack, Avatar, Heading, Box, InputGroup, InputLeftElement, Input, chakra, InputRightElement, Button, useColorModeValue } from '@chakra-ui/react'
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import "./Form.css"
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);

@@ -41,12 +41,12 @@ const MarketDetails = () => {
   const [userWantsFollow, setUserWantsFollow] = useState(false)
   const { marketId } = useParams();
   const navigate = useNavigate();
+
   const getOneMarket = async () => {
     const { data } = await axios.get(`${API_URL}/markets/${marketId}`);
     setDetailMarket(data.market);
     setThisMarketReviews(data.allReviews)
     setIsLoading(false);
-
   };
   useEffect(() => {
     getOneMarket();
@@ -84,7 +84,7 @@ const MarketDetails = () => {
 
   }
 
- 
+
   const checkIfMarketisFav = async () => {
     if (currentUser) {
 
@@ -103,21 +103,17 @@ const MarketDetails = () => {
     checkIfMarketisFav();
   }, [savedAsFav]);
 
-  
+
   const updateFollowUsers = async (e) => {
     toggleFollowUsers()
     const toFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
-    
     await service.post(`/profile/${toFollowId}/addfollower`)
-    
   }
 
   const removeFollowedUser = async (e) => {
-    const toUnFollowId =  e.currentTarget.children[0].childNodes[1].innerHTML;
+    const toUnFollowId = e.currentTarget.children[0].childNodes[1].innerHTML;
     toggleFollowUsers()
-    
     await service.post(`/profile/${toUnFollowId}/removefollower`)
-    
   }
 
   return (
@@ -176,17 +172,7 @@ const MarketDetails = () => {
                 />
                 <Flex flexDirection="column">
                   <Text>{detailMarket.author?.name}</Text>
-                  { !userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
-                    height='2vh'
-                    paddingTop='0.4vh'
-                    borderRadius="full"
-                    px="2"
-                    colorScheme="teal"
-                    textAlign="center"               
-                  >
-                    Follow <span class="authorId hide">{detailMarket?.author._id}</span>
-                  </Badge></Button>}
-                  {userWantsFollow &&<Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
+                  {!userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={updateFollowUsers}><Badge
                     height='2vh'
                     paddingTop='0.4vh'
                     borderRadius="full"
@@ -194,13 +180,23 @@ const MarketDetails = () => {
                     colorScheme="teal"
                     textAlign="center"
                   >
-                    Followed  <span class="authorId hide">{detailMarket?.author._id}</span> 
+                    Follow <span class="authorId hide">{detailMarket?.author._id}</span>
+                  </Badge></Button>}
+                  {userWantsFollow && <Button variant='ghost' padding={0} borderTop={0} onClick={removeFollowedUser}><Badge
+                    height='2vh'
+                    paddingTop='0.4vh'
+                    borderRadius="full"
+                    px="2"
+                    colorScheme="teal"
+                    textAlign="center"
+                  >
+                    Followed  <span class="authorId hide">{detailMarket?.author._id}</span>
                   </Badge></Button>}
                 </Flex>
                 <Box display="flex" alignItems="center" gap="3px">
                   <Box as="span" ml="41vw" color="gray.600" fontSize="m" >
                     {detailMarket.stars.length}</Box>
-                  <StarIcon color='teal'/>
+                  <StarIcon color='teal' />
                 </Box>
               </Flex>
             </Flex>
