@@ -57,20 +57,14 @@ const UserData = () => {
   const [typeOfCuisine, setTypeOfCuisine] = useState([]);
   const [dietaryReq, setDietaryReq] = useState([]);
   const [eatingHabits, setEatingHabits] = useState([]);
-  const handleNewName = (e) =>{setName(e.target.value)
-  console.log(`New name changed`, name)}
-  const handleNewLocation = (e) =>{setLocation(e.target.value)
-    console.log(`New name changed`, location)}
-  const handleCuisine = typeOfCuisine =>{setTypeOfCuisine(typeOfCuisine)
-    console.log(`Option selected:`, typeOfCuisine);}  
-  const handleDiet = dietaryReq =>{setDietaryReq(dietaryReq)
-     console.log(`Option selected:`, dietaryReq)};
-  const handleHabits = eatingHabits =>{setEatingHabits(eatingHabits)
-      console.log(`Option selected:`, eatingHabits)};
+  const handleNewName = (e) =>{setName(e.target.value)}
+  const handleNewLocation = (e) =>{setLocation(e.target.value)}
+  const handleCuisine = typeOfCuisine =>{setTypeOfCuisine(typeOfCuisine)}  
+  const handleDiet = dietaryReq =>{setDietaryReq(dietaryReq)};
+  const handleHabits = eatingHabits =>{setEatingHabits(eatingHabits)};
     const submitPhoto = async (e) => {
 		e.preventDefault();
 		const fd = new FormData()
-		console.log(profilePicture)
 		if (profilePicture) {
 		  fd.append("profilePicture", profilePicture)
 		  try {
@@ -93,7 +87,6 @@ const UserData = () => {
             Authorization: `Bearer ${token}`,
           },
         })
-        console.log(data)
         storeToken(data.token)
 			  await authenticateUser()
       navigate("/profile")
@@ -108,17 +101,14 @@ const UserData = () => {
 
   currentUser.dietaryReq.forEach(element => {
     dietaryReqValues.push(element.value)
-    console.log(dietaryReqValues)
   });
 
   currentUser.eatingHabits.forEach(element => {
     eatingHabValues.push(element.value)
-    console.log(eatingHabValues)
   });
 
   currentUser.typeOfCuisine.forEach(element => {
     typeOfCuisineValues.push(element.value)
-    console.log(typeOfCuisineValues)
   });
 
   return (
