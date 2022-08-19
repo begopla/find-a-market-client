@@ -11,7 +11,6 @@ const Autocomplete = ({ props: { coordinates, setCoordinates, address, setAddres
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
     setAddress(value);
-    console.log(latLng);
     setCoordinates(latLng);
   };
   return (

@@ -2,10 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useAuth from "../../context/auth/useAuth"
 import service from "../../services/apiHandler"
-import './Form.css' 
 import { Flex, Stack, Center, Heading, Box, InputGroup, Input, InputRightElement, Button, useColorModeValue} from '@chakra-ui/react'
-
-
 
 const FormSignUp = () => {
 	const [user, setUser] = useState({ name: "", email: "", password: "" })
@@ -19,7 +16,6 @@ const FormSignUp = () => {
 		try {
 			const res = await service.signup(user)
 			const resSignIn = await service.signin(user)
-			console.log(res)
 			storeToken(resSignIn.authToken)
 			await authenticateUser()
 			navigate("/profile")

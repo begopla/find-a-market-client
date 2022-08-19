@@ -24,10 +24,8 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-
 import DeleteMarketAlert from "../DeleteMarketAlert/DeleteMarketAlert";
 import Select from "react-select";
-
 
 export default function FormEditMarket({
   props: { detailMarket, setDetailMarket, marketId, imageUrl, setImageUrl },
@@ -35,10 +33,8 @@ export default function FormEditMarket({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
   const [editMarket, setEditMarket] = useState({ ...detailMarket });
-
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  //const { marketId } = useParams();
   const [toggleEditMarket, setToggleEditMarket] = useState(false);
   const [addressEdited, setAddressEdited] = useState("");
   const [type, setType] = useState([]);
@@ -87,7 +83,6 @@ export default function FormEditMarket({
 
   const handleDays = (openingDaysValues) => {
     const openingDaysValuesArray = [];
-    console.log(openingDaysValues)
     openingDaysValues.forEach(entrie => {
       openingDaysValuesArray.push(entrie.value)
     });
@@ -97,19 +92,19 @@ export default function FormEditMarket({
       openingDays: openingDaysValuesArray
     });
   };
+
   const handleMonths = (openingMonthsValues) => {
     setOpeningMonthsValues(openingMonthsValues);
     const openingMonthsValuesArray = [];
     openingMonthsValues.forEach(entrie => {
       openingMonthsValuesArray.push(entrie.value)
     });
-    console.log('Opening Months', openingMonthsValues);
     setEditMarket({
       ...detailMarket,
       openingMonths: openingMonthsValuesArray
     });
-
   };
+
   const handleDeleteMarket = async () => {
     await service.delete(`/markets/${marketId}`);
     setTimeout(() => navigate("/"), 500);
@@ -119,9 +114,7 @@ export default function FormEditMarket({
     e.preventDefault();
     const fd = new FormData();
     try {
-      console.log(editMarket)
       fd.append("imageUrl", imageUrl);
-
       for (let [key, value] of Object.entries(editMarket)) {
         if (typeof value === "object") {
           value = JSON.stringify(value);
@@ -199,7 +192,6 @@ export default function FormEditMarket({
                         name: e.target.value,
 
                       })
-                      console.log(e.target.value)
                     }
                     }
                   />
@@ -215,7 +207,7 @@ export default function FormEditMarket({
                     onChange={setType}
                   />
                 </FormControl>
-                {/* //For photo upload */}
+             
                 <FormControl>
                   <FormLabel htmlFor="imageUrl">Market photo</FormLabel>
                   <Input

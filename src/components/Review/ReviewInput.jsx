@@ -56,8 +56,9 @@ export default function ReviewInput({
                 toggleReviewCreated()
                 onOpen();
             } else onOpen();
+        } else {
+            navigate('/signin');
         }
-        navigate('/signin');
     };
 
     return (
