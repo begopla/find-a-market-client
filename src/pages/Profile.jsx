@@ -11,7 +11,6 @@ import {
   Show,
   Stack
 } from "@chakra-ui/react";
-import "../styles/profile.css";
 import DisplayMyMarket from "../components/DisplayMyMarket/DisplayMyMarket";
 import service from "../services/apiHandler";
 import OneMarketSmall from "../components/OneMarket/OneMarketSmall";

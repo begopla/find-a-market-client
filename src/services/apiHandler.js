@@ -54,7 +54,6 @@ service.marketPhotoUpload = async (picture, marketId) => {
 service.signin = async (user) => {
 	try {
 		const { data } = await service.post("/auth/signin", user)
-		console.log(data)
 		return data
 	} catch (error) {
 		errorHandler(error)

@@ -1,4 +1,4 @@
-import {BrowserRouter, Switch, Routes, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
 import Home from "./pages/Home"
 import Signin from "./pages/Signin"
@@ -32,7 +32,7 @@ function App() {
 					<Route path="*" element={<Oops />} />
 				</Route>
 				<Route element={<PrivateRoute />}>	
-						
+					{/* here a route will have no navbar	 */}
 				</Route>
 				</Routes>
         		<IconFooter />

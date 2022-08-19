@@ -12,7 +12,6 @@ const Favourites = () => {
 	const getFavMarkets = async () => {
 		if (currentUser) {
 			const response = await service.get("/profile/favourites");
-			console.log(response);
 			setFavMarkets(response.data.savedList)
 			setIsLoading(false)
 		}

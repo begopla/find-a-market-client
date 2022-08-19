@@ -9,9 +9,10 @@ Developed with a mobile first approach, the back end uses Node and Express and t
 Developed for market lovers and those who want support the local businesses by creating awarness of the small little markets every visitor should know of your city.
 
 <div style="display: flex; justify-content:space-between; width=100%">
-<img scr='https://res.cloudinary.com/dhdkj4oxv/image/upload/v1660909877/find-a-market/fgenxb40panltnyisnwf.jpg' alt='homepage'>
-<img scr='https://res.cloudinary.com/dhdkj4oxv/image/upload/v1660910130/find-a-market/w7weyyxl8vr0xsxp0r9t.jpg' alt='homepage'>
+<img style="width=40vw "  scr='https://res.cloudinary.com/dhdkj4oxv/image/upload/v1660909877/find-a-market/fgenxb40panltnyisnwf.jpg' alt='homepage'>
+<img style= "width=40vw " scr='https://res.cloudinary.com/dhdkj4oxv/image/upload/v1660910130/find-a-market/w7weyyxl8vr0xsxp0r9t.jpg' alt='homepage'>
 </div>
+
 
 ## User Stories
 
