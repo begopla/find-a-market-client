@@ -122,7 +122,7 @@ export default function FormCreateMarket() {
             navigate("/")
 
         } catch (error) {
-            setError(e.message)
+            setError(error.response.data.message)
         }
     };
     const toggleMarketCreated = () => setMarketCreated(!marketCreated);
@@ -155,6 +155,7 @@ export default function FormCreateMarket() {
                     <DrawerBody >
 
                         <Stack spacing='24px'>
+                        {error && <h3 className="error"> {error}</h3>}
                             <FormControl isRequired>
                                 <FormLabel htmlFor='name'>Name</FormLabel>
                                 <Input
@@ -248,6 +249,8 @@ export default function FormCreateMarket() {
                             </FormControl>
 
                         </Stack>
+ 
+                   
                     </DrawerBody>
 
                     <DrawerFooter borderTopWidth='1px'>

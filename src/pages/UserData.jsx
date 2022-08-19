@@ -13,6 +13,7 @@ const UserData = () => {
   const {currentUser,  authenticateUser, storeToken } = useAuth();
 	const [editPhoto, setEditPhoto] = useState(false);
   const [editInfo, setEditInfo] = useState(false)
+  const [error, setError] = useState(null);
 	const [profilePicture, setProfilePicture] = useState([]);
   const cuisineOp =[
     {value: 'Asian food', label: 'Asian'},
@@ -78,7 +79,7 @@ const UserData = () => {
 			await authenticateUser()
       navigate("/profile")
 		  } catch (error) {
-			console.error(error)
+        setError(error.response.data.message)
 		  }
 		}
 	  }
@@ -98,7 +99,7 @@ const UserData = () => {
       navigate("/profile")
         
       } catch (error) {
-        console.error(error)
+        setError(error.response.data.message)
       }
     }
   let dietaryReqValues = [];
@@ -190,7 +191,7 @@ const UserData = () => {
 
     <Stack>
     
-
+    {error && <h3 className="error"> {error}</h3>}
       <Center><Text >Cuisine type preferences: <Tag  size='md'  borderRadius='full'> {dietaryReqValues.join(', ')}</Tag></Text></Center>
       <Center><Text>Eating habits :<Tag  size='md'  borderRadius='full'> {eatingHabValues.join(', ')}</Tag></Text></Center>
       <Center><Text>Types of cuisine:<Tag  size='md'  borderRadius='full'> {typeOfCuisineValues.join(', ')}</Tag></Text></Center>
